@@ -4,15 +4,25 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import '../../models/customer_detail_model.dart';
+import '../../models/product_listing_model.dart';
+import '../../utils/my_theme.dart';
 import '../../utils/my_utils.dart';
 import '../../utils/routes.dart';
 import 'add_order_controller.dart';
 
 class AddOrderView extends GetView<AddOrderController> {
-  const AddOrderView({Key? key}) : super(key: key);
+  final String productName;
+  final double finalAmount;
+
+  const AddOrderView({
+    Key? key,
+    required this.productName,
+    required this.finalAmount,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final List<ProductListing> addedProducts = <ProductListing>[].obs;
     return GestureDetector(
       onTap: () {
         MyUtils.hideKeyboard();
@@ -37,7 +47,8 @@ class AddOrderView extends GetView<AddOrderController> {
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.notification_add_outlined, color: Colors.black),
+              icon: const Icon(Icons.notification_add_outlined,
+                  color: Colors.black),
               onPressed: () {
                 Get.toNamed(Routes.dashBoard);
               },
@@ -49,7 +60,7 @@ class AddOrderView extends GetView<AddOrderController> {
         body: Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: Column(
-           crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 height: 0.3,
@@ -84,7 +95,8 @@ class AddOrderView extends GetView<AddOrderController> {
                           IconButton(
                             onPressed: () {
                               // Show the dropdown by fetching customer data
-                              controller.showDropdown.toggle(); // Toggle dropdown visibility
+                              controller.showDropdown
+                                  .toggle(); // Toggle dropdown visibility
                               controller.initialCustomersList();
                             },
                             icon: const Icon(Icons.add),
@@ -98,22 +110,23 @@ class AddOrderView extends GetView<AddOrderController> {
                             ),
                           ),
                           const SizedBox(width: 10),
-
                         ],
                       ),
                       Obx(() {
                         // Show the selected shop name if any shop is selected
                         if (controller.selectedShop.isNotEmpty) {
-                          final selectedShop = controller.customerData.firstWhere(
-                                (shop) => shop.intShopId.toString() == controller.selectedShop.value,
+                          final selectedShop =
+                              controller.customerData.firstWhere(
+                            (shop) =>
+                                shop.intShopId.toString() ==
+                                controller.selectedShop.value,
                           );
                           return Text(
                             selectedShop.shopName ?? 'Unnamed Shop',
                             style: TextStyle(
-                              color: Colors.grey[800],
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600
-                            ),
+                                color: Colors.grey[800],
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
                           );
                         }
                         return const SizedBox();
@@ -136,7 +149,8 @@ class AddOrderView extends GetView<AddOrderController> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.deepPurpleAccent, width: 2),
+                        border: Border.all(
+                            color: Colors.deepPurpleAccent, width: 2),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: DropdownButton<String>(
@@ -144,7 +158,8 @@ class AddOrderView extends GetView<AddOrderController> {
                         hint: const Text('Select Shop'),
                         value: controller.selectedShop.isNotEmpty
                             ? controller.selectedShop.value
-                            : null, // Selected value from the dropdown
+                            : null,
+                        // Selected value from the dropdown
                         items: controller.customerData.map((shop) {
                           return DropdownMenuItem<String>(
                             value: shop.intShopId.toString(),
@@ -154,7 +169,8 @@ class AddOrderView extends GetView<AddOrderController> {
                         onChanged: (selectedValue) {
                           // Handle shop selection and hide dropdown
                           controller.selectShop(selectedValue!);
-                          controller.showDropdown.value = false; // Hide the dropdown
+                          controller.showDropdown.value =
+                              false; // Hide the dropdown
                           print('Selected shop: $selectedValue');
                         },
                       ),
@@ -166,10 +182,13 @@ class AddOrderView extends GetView<AddOrderController> {
               }),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text("Products",style: TextStyle(
-                  fontWeight: FontWeight.w600,color: Colors.grey[700],
-                  fontSize: 18
-                ),),
+                child: Text(
+                  "Products",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[700],
+                      fontSize: 18),
+                ),
               ),
               Container(
                 height: 300,
@@ -188,12 +207,14 @@ class AddOrderView extends GetView<AddOrderController> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Add Product", style: TextStyle(
-                                  fontSize: 16
-                              ),),
-                              Text("Price", style: TextStyle(
-                                  fontSize: 16
-                              ),),
+                              Text(
+                                productName,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                "\$${finalAmount.toStringAsFixed(2)}",
+                                style: TextStyle(fontSize: 16),
+                              ),
                             ],
                           ),
                         ),
@@ -203,29 +224,62 @@ class AddOrderView extends GetView<AddOrderController> {
                 ),
               ),
               Padding(
-                padding:  EdgeInsets.only(top: 15.0),
+                padding: EdgeInsets.only(top: 15.0),
                 child: GestureDetector(
                   onTap: () {
-                    Get.toNamed(Routes.productListing);
+                    // Navigate to product listing to add a product
+                    Get.toNamed(Routes.productListing)?.then((result) {
+                      if (result != null && result is ProductListing) {
+                        // Assuming `result` contains the selected product
+                        addedProducts.add(result); // Add the product to the list
+                      }
+                    });
                   },
                   child: Container(
                     height: 50,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.deepPurpleAccent
-                    ),
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.deepPurpleAccent),
                     child: Row(
                       children: [
-                        IconButton(onPressed: () {}, icon: Icon(Icons.add), color: Colors.white,),
-                        SizedBox(width: 100,),
-                        Text("Add Product", style: TextStyle(
-                          color: Colors.white, fontSize: 16
-                        ),)
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.add),
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 100,
+                        ),
+                        Text(
+                          "Add Product",
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        )
                       ],
                     ),
                   ),
                 ),
-              )
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Final Amount",
+                    style: MyTheme.regularTextStyle(
+                      fontSize: Get.height * .016,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Text(
+                    "",
+                    style: MyTheme.regularTextStyle(
+                      fontSize: Get.height * .016,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

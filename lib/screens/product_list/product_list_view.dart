@@ -11,6 +11,7 @@ import '../../components/rounded_loader.dart';
 import '../../utils/my_theme.dart';
 import '../../utils/my_utils.dart';
 import '../../utils/routes.dart';
+import '../add_order/add_order_view.dart';
 
 class ProductListingView extends GetView<ProductListingController> {
   const ProductListingView({Key? key}) : super(key: key);
@@ -140,12 +141,13 @@ class ProductListingView extends GetView<ProductListingController> {
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(left: 10.0),
-                                        child:  Container(
+                                        child: Container(
                                           height: 110,
                                           width: 110,
                                           decoration: BoxDecoration(
                                             shape: BoxShape.rectangle,
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             border: Border.all(
                                                 color: Colors
                                                     .black12), // Grey border
@@ -155,13 +157,15 @@ class ProductListingView extends GetView<ProductListingController> {
                                               height: 110,
                                               width: 110,
                                               decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                                 shape: BoxShape.rectangle,
                                                 image: DecorationImage(
                                                   image: NetworkImage(
                                                     controller
                                                         .proData[index].imageurl
-                                                        .toString(),),
+                                                        .toString(),
+                                                  ),
                                                   fit: BoxFit
                                                       .cover, // Ensures the image covers the circle area
                                                 ),
@@ -179,7 +183,10 @@ class ProductListingView extends GetView<ProductListingController> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              (controller.proData[index].productName ?? "----").toString(),
+                                              (controller.proData[index]
+                                                          .productName ??
+                                                      "----")
+                                                  .toString(),
                                               style: MyTheme.regularTextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 color: MyTheme.myBlueDark,
@@ -194,7 +201,10 @@ class ProductListingView extends GetView<ProductListingController> {
                                               width: 200,
                                               height: 50,
                                               child: Text(
-                                                (controller.proData[index].productDescription ?? "----").toString(),
+                                                (controller.proData[index]
+                                                            .productDescription ??
+                                                        "----")
+                                                    .toString(),
                                                 style: MyTheme.regularTextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   color: Colors.grey,
@@ -204,8 +214,7 @@ class ProductListingView extends GetView<ProductListingController> {
                                             )),
                                             SizedBox(height: Get.height * .01),
                                             Text(
-                                              controller
-                                                  .proData[index].price
+                                              controller.proData[index].price
                                                   .toString(),
                                               style: MyTheme.regularTextStyle(
                                                 fontWeight: FontWeight.w600,
@@ -226,15 +235,22 @@ class ProductListingView extends GetView<ProductListingController> {
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            ProductShow(context);
+                                            ProductShow(
+                                              context,
+                                              customers.productName ?? "----",
+                                              customers.imageurl ?? "", // Ensure this is the correct property for the image URL
+                                              customers.price.toString(),
+                                              Get.find<ProductListingController>(), // Assuming you're using GetX for dependency management
+
+                                            );
                                           },
                                           child: Container(
                                             height: Get.height * 0.05,
                                             width: Get.width * 0.2,
                                             decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                                color: MyTheme.myBlueDark),
+                                              borderRadius: BorderRadius.circular(15),
+                                              color: MyTheme.myBlueDark,
+                                            ),
                                             child: Center(
                                               child: Text(
                                                 "ADD",
@@ -247,6 +263,7 @@ class ProductListingView extends GetView<ProductListingController> {
                                             ),
                                           ),
                                         )
+
                                       ],
                                     ),
                                   )
@@ -264,176 +281,162 @@ class ProductListingView extends GetView<ProductListingController> {
   }
 }
 
-void AddToList(BuildContext context) {
+
+void ProductShow(BuildContext context, String productName, String imageUrl, String price, ProductListingController controller) {
+  controller.quantityCntrl.text = ""; // Set default quantity or pass current quantity as needed
+  double rate = double.tryParse(price) ?? 0.0; // Parse price to double
+
+  // Listen to changes in the quantity controller
+  controller.quantityCntrl.addListener(() {
+    controller.updateFinalAmount(controller.quantityCntrl.text, rate);
+  });
+
   showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: Container(
-            width: Get.width * .9,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: Icon(Icons.close,
-                            color: MyTheme.myBlueDark, size: 15))
-                  ],
+    context: context,
+    barrierDismissible: false,
+    builder: (ctx) {
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Container(
+          width: Get.width * .9,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: Icon(Icons.close, color: MyTheme.myBlueDark, size: 15),
+                  )
+                ],
+              ),
+              Text(
+                productName,
+                style: MyTheme.regularTextStyle(
+                  color: Colors.black,
+                  fontSize: Get.height * .017,
+                  fontWeight: FontWeight.w600,
                 ),
-                ProfileRows("Rate  :   ", "10000.00"),
-                Divider(thickness: 1),
-                ProfileRows("Rate  :   ", "10000.00"),
-                Divider(thickness: 1),
-                ProfileRows("Quantity  :   ", "1"),
-                SizedBox(height: Get.height * .01),
-                Divider(thickness: 1),
-                SizedBox(height: Get.height * .01),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        ProductShow(context);
-                      },
-                      child: Container(
-                        height: Get.height * 0.05,
-                        width: Get.width * 0.2,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: MyTheme.myBlueDark),
-                        child: Center(
-                          child: Text(
-                            "ADD",
-                            style: MyTheme.regularTextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: MyTheme.whiteColor,
-                              fontSize: Get.height * .018,
-                            ),
+              ),
+              Container(
+                width: Get.width * .20,
+                height: Get.height * .20,
+                child: Image.network(imageUrl),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Rate",
+                    style: MyTheme.regularTextStyle(
+                      fontSize: Get.height * .016,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Text(
+                    price,
+                    style: MyTheme.regularTextStyle(
+                      fontSize: Get.height * .016,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Quantity",
+                    style: MyTheme.regularTextStyle(
+                      fontSize: Get.height * .016,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Container(
+                    width: Get.width * 0.2,
+                    child: TextFormField(
+                      controller: controller.quantityCntrl,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: UnderlineInputBorder(),
+                        hintText: "Enter quantity",
+                      ),
+                      style: MyTheme.regularTextStyle(
+                        fontSize: Get.height * .016,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Final Amount",
+                    style: MyTheme.regularTextStyle(
+                      fontSize: Get.height * .016,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Obx(() => Text(
+                    "${controller.finalAmount.value.toStringAsFixed(2)}", // Display the final amount
+                    style: MyTheme.regularTextStyle(
+                      fontSize: Get.height * .016,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )),
+                ],
+              ),
+              //
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      // Navigate to the AddOrderView with product name and final amount
+                      Get.to(() => AddOrderView(productName: productName, finalAmount: controller.finalAmount.value));
+                    },
+                    child: Container(
+                      height: Get.height * 0.05,
+                      width: Get.width * 0.2,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: MyTheme.myBlueDark,
+                      ),
+                      child: Center(
+                        child: Text(
+                          "ADD",
+                          style: MyTheme.regularTextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: MyTheme.whiteColor,
+                            fontSize: Get.height * .018,
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      });
-}
+                    ),
+                  ),
 
-Padding ProfileRows(String text, text1) {
-  return Padding(
-    padding: EdgeInsets.only(left: 10, right: 10, bottom: 5),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          text,
-          style: MyTheme.regularTextStyle(
-              fontSize: Get.height * .016,
-              color: Colors.black,
-              fontWeight: FontWeight.w400),
+
+                ],
+              ),
+            ],
+          ),
         ),
-        Text(
-          text1,
-          style: MyTheme.regularTextStyle(
-              fontSize: Get.height * .016,
-              color: Colors.black,
-              fontWeight: FontWeight.w400),
-        ),
-      ],
-    ),
+      );
+    },
   );
 }
-
-void ProductShow(BuildContext context) {
-  showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          title: Container(
-            width: Get.width * .9,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: Icon(Icons.close,
-                            color: MyTheme.myBlueDark, size: 15))
-                  ],
-                ),
-                Text(
-                  "Product Name",
-                  style: MyTheme.regularTextStyle(
-                      color: Colors.black,
-                      fontSize: Get.height * .017,
-                      fontWeight: FontWeight.w600),
-                ),
-                Container(
-                    width: Get.width * .20,
-                    height: Get.height * .20,
-                    decoration: BoxDecoration(),
-                    child: Image.asset("assets/images/img_2.png")),
-                ProfileRows("Rate  :   ", "10000.00"),
-                ProfileRows("Quantity  :   ", "1"),
-                SizedBox(height: Get.height * .01),
-                Divider(thickness: 1),
-                SizedBox(height: Get.height * .01),
-                ProfileRows("Final Amount  :   ", "10000.00"),
-                SizedBox(height: Get.height * .02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        ProductShow(context);
-                      },
-                      child: Container(
-                        height: Get.height * 0.05,
-                        width: Get.width * 0.2,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: MyTheme.myBlueDark),
-                        child: Center(
-                          child: Text(
-                            "ADD",
-                            style: MyTheme.regularTextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: MyTheme.whiteColor,
-                              fontSize: Get.height * .018,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      });
-}
-
 InputDecoration textBoxDecoration(hintText) {
   return InputDecoration(
     hintText: hintText,

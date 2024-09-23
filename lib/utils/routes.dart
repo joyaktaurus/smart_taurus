@@ -98,8 +98,12 @@ class Routes {
     GetPage(
       binding: AddOrderBindings(),
       name: addOrder,
-      page: () =>  AddOrderView(),
+      page: () => AddOrderView(
+        productName: Get.arguments['productName'],
+        finalAmount: Get.arguments['finalAmount'],
+      ),
     ),
+
   ];
 
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
@@ -6,18 +8,32 @@ import '../../app.dart';
 import '../../models/api_resp.dart';
 import '../../models/product_listing_model.dart';
 import '../../services/product_listing_services.dart';
+import '../../utils/routes.dart';
 
 class ProductListingController extends GetxController {
   final TextEditingController searchCntrl = TextEditingController(text: '');
+  final TextEditingController quantityCntrl = TextEditingController(text: '');
 
   RxList<ProductListing> proData = <ProductListing>[].obs;
   RxBool isScreenProgress = true.obs;
-
+  RxDouble finalAmount = 0.0.obs; // Add this line for final amount
+  void updateFinalAmount(String quantity, double rate) {
+    int qty = int.tryParse(quantity) ?? 0;
+    finalAmount.value = qty * rate; // Use the reactive variable
+  }
   @override
   void onInit() {
     initialCustomersList();
     super.onInit();
   }
+  void addProductToOrder(String productName, double amount) {
+    // Logic for adding the product to the order
+    Get.toNamed(Routes.addOrder, arguments: {
+      'productName': productName,
+      'finalAmount': amount,
+    });
+  }
+
 
   Future<void> initialCustomersList() async {
     try {

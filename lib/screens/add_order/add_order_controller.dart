@@ -5,13 +5,28 @@ import '../../models/customer_list_model.dart';
 import '../../app.dart';
 import '../../models/api_resp.dart';
 
+import '../../models/product_listing_model.dart';
 import '../../services/customerlist_services.dart';
 
 class AddOrderController extends GetxController {
+  var products = <ProductListing>[].obs; // Observable list to hold products
+
+  final String productName;
+  final double finalAmount;
+
   RxList<Shop> customerData = <Shop>[].obs;
   RxBool isScreenProgress = true.obs;
   RxString selectedShop = ''.obs; // To hold the selected shop ID
   RxBool showDropdown = false.obs; // To control the visibility of the dropdown
+  AddOrderController({required this.productName, required this.finalAmount});
+
+  void addProduct(String name, String price) {
+    products.add(ProductListing(productName: name, price: price)); // Add product
+   // updateFinalAmount();
+  }
+  // void updateFinalAmount() {
+  //   finalAmount.value = products.fold(0, (sum, item) => sum + item.amount);
+  // }
 
   @override
   void onInit() {

@@ -306,7 +306,10 @@ class DashboardView extends GetView<DashboardController> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(Routes.addOrder);
+                                Get.toNamed(Routes.addOrder, arguments: {
+                                  'productName': '', // Default or placeholder value
+                                  'finalAmount': 0.0, // Default value
+                                });
                               },
                               child: Column(
                                 children: [
@@ -317,12 +320,12 @@ class DashboardView extends GetView<DashboardController> {
                                   ),
                                   Text(
                                     "Orders",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
+                                    style: TextStyle(fontSize: 16, color: Colors.grey[700]),
                                   ),
                                 ],
                               ),
                             ),
+
                             GestureDetector(
                               onTap: () {
                                 Get.toNamed(Routes.productListing);
