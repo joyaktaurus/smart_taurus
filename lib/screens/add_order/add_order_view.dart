@@ -190,40 +190,42 @@ class AddOrderView extends GetView<AddOrderController> {
                       fontSize: 18),
                 ),
               ),
-              Container(
-                height: 300,
-                width: 800,
-                color: Colors.grey[200],
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+            Container(
+              height: 300,
+              width: 800,
+              color: Colors.grey[200],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      Container(
-                        height: 50,
-                        width: 800,
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
+                        Container(
+                          color: Colors.white, // Background color for the list tile
+                          margin: const EdgeInsets.symmetric(vertical: 4.0), // Add margin for spacing between tiles
+                          child: Padding(
+                            padding: const EdgeInsets.all(4.0), // Padding inside each tile
+                            child: ListTile(
+                              title: Text(
                                 productName,
                                 style: TextStyle(fontSize: 16),
                               ),
-                              Text(
+
+                              trailing: Text(
                                 "\$${finalAmount.toStringAsFixed(2)}",
                                 style: TextStyle(fontSize: 16),
                               ),
-                            ],
+                              tileColor: Colors.white, // Background color inside the ListTile
+                              dense: true, // Makes the ListTile more compact
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),
               ),
-              Padding(
+            ),
+
+            Padding(
                 padding: EdgeInsets.only(top: 15.0),
                 child: GestureDetector(
                   onTap: () {

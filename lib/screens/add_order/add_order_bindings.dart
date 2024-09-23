@@ -10,8 +10,8 @@ class AddOrderBindings extends Bindings {
     final args = Get.arguments; // Get the arguments passed
     Get.lazyPut<AddOrderController>(
           () => AddOrderController(
-        productName: args['productName'] ?? '',
-        finalAmount: args['finalAmount'] ?? 0.0,
+        // productName: args['productName'] ?? '',
+        // finalAmount: args['finalAmount'] ?? 0.0,
       ),
     );
   }
