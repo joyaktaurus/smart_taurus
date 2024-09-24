@@ -15,13 +15,24 @@ class AddOrderController extends GetxController {
   RxBool isScreenProgress = true.obs;
   RxString selectedShop = ''.obs; // To hold the selected shop ID
   RxBool showDropdown = false.obs; // To control the visibility of the dropdown
-  final String productName;
-  final double finalAmount;
+  final String productName; // Declare productName as final
+  RxDouble finalAmount = 0.0.obs; // Observable for final amount
 
-  AddOrderController({required this.productName, required this.finalAmount});
+  // Initialize productName and finalAmount in the constructor
+  AddOrderController({required this.productName, required double finalAmount}) {
+    this.finalAmount.value = finalAmount; // Assign the initial value to RxDouble
+  }
 
   void addProduct(ProductListing product) {
     products.add(product); // Add the product to the list
+    updateFinalAmount(); // Update final amount when a new product is added
+  }
+
+  void updateFinalAmount() {
+    finalAmount.value = products.fold(0.0, (sum, item) {
+      double price = double.tryParse(item.price.toString()) ?? 0.0; // Ensure price is parsed as double
+      return sum + (price * item.quantity); // Calculate total based on price and quantity
+    });
   }
 
   @override
@@ -38,17 +49,12 @@ class AddOrderController extends GetxController {
       if (resp.ok) {
         final profileDetails = CustomerList.fromJson(resp.rdata);
         customerData.assignAll(profileDetails.shop ?? []);
-        isScreenProgress.value = false;
-      } else {
-        isScreenProgress.value = false;
       }
     } catch (e) {
+      // Handle error
+    } finally {
       isScreenProgress.value = false;
     }
   }
-
-  void selectShop(String shopId) {
-    selectedShop.value = shopId;
-    showDropdown.value = false;
-  }
 }
+

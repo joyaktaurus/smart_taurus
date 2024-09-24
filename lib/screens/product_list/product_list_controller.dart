@@ -13,8 +13,12 @@ import '../../utils/routes.dart';
 class ProductListingController extends GetxController {
   final TextEditingController searchCntrl = TextEditingController(text: '');
   final TextEditingController quantityCntrl = TextEditingController(text: '');
+  void addProduct(ProductListing product) {
+    proData.add(product); // Add the product to the list
+  }
+  var proData = <ProductListing>[].obs; // Observable list of products
 
-  RxList<ProductListing> proData = <ProductListing>[].obs;
+ // RxList<ProductListing> proData = <ProductListing>[].obs;
   RxBool isScreenProgress = true.obs;
   RxDouble finalAmount = 0.0.obs; // Add this line for final amount
   void updateFinalAmount(String quantity, double rate) {

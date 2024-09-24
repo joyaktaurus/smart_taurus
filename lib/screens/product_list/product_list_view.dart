@@ -8,6 +8,7 @@ import 'package:smart_taurus/screens/product_list/product_list_controller.dart';
 import '../../components/app_empty.dart';
 import '../../components/app_searchbar.dart';
 import '../../components/rounded_loader.dart';
+import '../../models/product_listing_model.dart';
 import '../../utils/my_theme.dart';
 import '../../utils/my_utils.dart';
 import '../../utils/routes.dart';
@@ -235,14 +236,14 @@ class ProductListingView extends GetView<ProductListingController> {
                                       children: [
                                         GestureDetector(
                                           onTap: () {
-                                            ProductShow(
-                                              context,
-                                              customers.productName ?? "----",
-                                              customers.imageurl ?? "", // Ensure this is the correct property for the image URL
-                                              customers.price.toString(),
-                                              Get.find<ProductListingController>(), // Assuming you're using GetX for dependency management
+                                            // Pass the selected product details back to AddOrderView using Get.back()
+                                            final selectedProduct = ProductListing(
+                                              productName: customers.productName ?? "Unknown Product",
+                                              price: customers.price != null ? customers.price : '0.0',
 
+                                              // Add more fields if needed from the ProductListing class
                                             );
+                                            Get.back(result: selectedProduct);  // Return the selected product
                                           },
                                           child: Container(
                                             height: Get.height * 0.05,

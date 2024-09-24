@@ -40,6 +40,7 @@ class ProductListing {
   String? image;
   String? status;
   String? imageurl;
+  int quantity;
 
   ProductListing({
     this.productId,
@@ -49,6 +50,7 @@ class ProductListing {
     this.image,
     this.status,
     this.imageurl,
+    this.quantity = 0, // Initialize with 0
   });
 
   factory ProductListing.fromJson(Map<String, dynamic> json) => ProductListing(
@@ -59,6 +61,7 @@ class ProductListing {
         image: json["image"],
         status: json["status"],
         imageurl: json["imageurl"],
+
       );
 
   Map<String, dynamic> toJson() => {
