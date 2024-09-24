@@ -9,5 +9,6 @@ abstract class ApiPaths {
   static const taskUpdate = '/update-task';
   static const shopSearch = '/shop-search';
   static const Expenses = '/add-expenses';
+  static const NewLead = '/add-lead';
 
 }

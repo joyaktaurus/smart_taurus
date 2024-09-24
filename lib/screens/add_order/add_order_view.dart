@@ -22,6 +22,7 @@ class AddOrderView extends GetView<AddOrderController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(AddOrderController(productName: productName, finalAmount: finalAmount));
     final List<ProductListing> addedProducts = <ProductListing>[].obs;
     return GestureDetector(
       onTap: () {
@@ -229,11 +230,10 @@ class AddOrderView extends GetView<AddOrderController> {
                 padding: EdgeInsets.only(top: 15.0),
                 child: GestureDetector(
                   onTap: () {
-                    // Navigate to product listing to add a product
                     Get.toNamed(Routes.productListing)?.then((result) {
                       if (result != null && result is ProductListing) {
-                        // Assuming `result` contains the selected product
-                        addedProducts.add(result); // Add the product to the list
+                        // Add selected product to the controller's product list
+                        controller.addProduct(result);
                       }
                     });
                   },

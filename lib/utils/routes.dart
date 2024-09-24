@@ -17,6 +17,8 @@ import '../screens/leads_listing/lead_listing_bindings.dart';
 import '../screens/leads_listing/lead_listing_view.dart';
 import '../screens/login/login_bindings.dart';
 import '../screens/login/login_view.dart';
+import '../screens/new_lead/new_lead_binding.dart';
+import '../screens/new_lead/new_lead_view.dart';
 import '../screens/onboarding_screen.dart';
 import '../screens/product_list/product_list_bindings.dart';
 import '../screens/product_list/product_list_view.dart';
@@ -38,6 +40,7 @@ class Routes {
   static const taskListing = '/taskListing';
   static const expenses = '/expenses';
   static const addOrder = '/addOrder';
+  static const newLead = '/newLead';
 
 
   static final routes = [
@@ -102,6 +105,11 @@ class Routes {
         productName: Get.arguments['productName'],
         finalAmount: Get.arguments['finalAmount'],
       ),
+    ),
+    GetPage(
+      binding: NewLeadSubmitBindings(),
+      name: newLead,
+      page: () =>  NewLeadSubmit(),
     ),
 
   ];

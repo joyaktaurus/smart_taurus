@@ -15,8 +15,10 @@ class AddOrderController extends GetxController {
   RxBool isScreenProgress = true.obs;
   RxString selectedShop = ''.obs; // To hold the selected shop ID
   RxBool showDropdown = false.obs; // To control the visibility of the dropdown
+  final String productName;
+  final double finalAmount;
 
-  AddOrderController();
+  AddOrderController({required this.productName, required this.finalAmount});
 
   void addProduct(ProductListing product) {
     products.add(product); // Add the product to the list
