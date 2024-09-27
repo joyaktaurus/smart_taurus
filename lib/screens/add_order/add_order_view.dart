@@ -11,14 +11,17 @@ import '../../utils/routes.dart';
 import 'add_order_controller.dart';
 
 class AddOrderVieww extends GetView<AddOrderController> {
-  const AddOrderVieww({Key? key, required this.productName, required this.finalAmount}) : super(key: key);
+  const AddOrderVieww(
+      {Key? key, required this.productName, required this.finalAmount})
+      : super(key: key);
 
   final String productName;
   final double finalAmount;
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AddOrderController(productName: productName, finalAmount: finalAmount));
+    Get.put(
+        AddOrderController(productName: productName, finalAmount: finalAmount));
 
     return GestureDetector(
       onTap: () {
@@ -54,11 +57,13 @@ class AddOrderVieww extends GetView<AddOrderController> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(product.productName ?? ''),
                                       // Display price based on quantity
-                                      Text("\$${(double.tryParse(product.price ?? '0')! * product.quantity).toStringAsFixed(2)}"),
+                                      Text(
+                                          "\$${(double.tryParse(product.price ?? '0')! * product.quantity).toStringAsFixed(2)}"),
                                     ],
                                   ),
                                 ),
@@ -70,17 +75,20 @@ class AddOrderVieww extends GetView<AddOrderController> {
                                     color: Colors.green,
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
                                         onPressed: () {
                                           // Decrement quantity and update price
                                           controller.countDecrement(product);
                                         },
-                                        icon: Icon(Icons.remove, color: Colors.white, size: 20),
+                                        icon: Icon(Icons.remove,
+                                            color: Colors.white, size: 20),
                                       ),
                                       Text(
-                                        "${product.quantity}", // Display the quantity
+                                        "${product.quantity}",
+                                        // Display the quantity
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       IconButton(
@@ -88,7 +96,8 @@ class AddOrderVieww extends GetView<AddOrderController> {
                                           // Increment quantity and update price
                                           controller.countIncrement(product);
                                         },
-                                        icon: Icon(Icons.add, color: Colors.white, size: 20),
+                                        icon: Icon(Icons.add,
+                                            color: Colors.white, size: 20),
                                       ),
                                     ],
                                   ),
@@ -111,7 +120,8 @@ class AddOrderVieww extends GetView<AddOrderController> {
                     // Navigate to ProductListingView and wait for the result (the selected product)
                     Get.toNamed(Routes.productListing)?.then((result) {
                       if (result != null && result is ProductListing) {
-                        controller.addProduct(result); // Add product and update UI
+                        controller
+                            .addProduct(result); // Add product and update UI
                       }
                     });
                   },
@@ -129,7 +139,8 @@ class AddOrderVieww extends GetView<AddOrderController> {
                           color: Colors.white,
                         ),
                         SizedBox(width: 100),
-                        Text("Add Product", style: TextStyle(color: Colors.white)),
+                        Text("Add Product",
+                            style: TextStyle(color: Colors.white)),
                       ],
                     ),
                   ),
@@ -142,7 +153,8 @@ class AddOrderVieww extends GetView<AddOrderController> {
                 children: [
                   Text("Final Amount"),
                   Obx(() {
-                    return Text("\$${controller.finalAmount.value.toStringAsFixed(2)}");
+                    return Text(
+                        "\$${controller.finalAmount.value.toStringAsFixed(2)}");
                   }),
                 ],
               ),
@@ -153,9 +165,6 @@ class AddOrderVieww extends GetView<AddOrderController> {
     );
   }
 }
-
-
-
 
 class AddOrderView extends GetView<AddOrderController> {
   final String productName;
@@ -169,7 +178,8 @@ class AddOrderView extends GetView<AddOrderController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(AddOrderController(productName: productName, finalAmount: finalAmount));
+    Get.put(
+        AddOrderController(productName: productName, finalAmount: finalAmount));
     final List<ProductListing> addedProducts = <ProductListing>[].obs;
     return GestureDetector(
       onTap: () {
@@ -339,91 +349,100 @@ class AddOrderView extends GetView<AddOrderController> {
                         fontSize: 18),
                   ),
                 ),
-              Container(
-                height: 400,
-                width: 800,
-                color: Colors.grey[200],
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Obx(() {
-                    return ListView.builder(
-                      itemCount: controller.products.length,
-                      itemBuilder: (context, index) {
-                        final product = controller.products[index];
+                Container(
+                  height: 400,
+                  width: 800,
+                  color: Colors.grey[200],
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Obx(() {
+                      return ListView.builder(
+                        itemCount: controller.products.length,
+                        itemBuilder: (context, index) {
+                          final product = controller.products[index];
 
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(product.productName ?? ''),
-                                        // Display price based on quantity
-                                        Text("\$${(double.tryParse(product.price ?? '0')! * product.quantity).toStringAsFixed(2)}"),
-                                      ],
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(product.productName ?? ''),
+                                          // Display price based on quantity
+                                          Text(
+                                              "\$${(double.tryParse(product.price ?? '0')! * product.quantity).toStringAsFixed(2)}"),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    width: 130,
-                                    height: 30,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.green,
+                                    Container(
+                                      width: 130,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        color: Colors.green,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          IconButton(
+                                            onPressed: () {
+                                              // Decrement quantity and update price
+                                              controller
+                                                  .countDecrement(product);
+                                            },
+                                            icon: Icon(Icons.remove,
+                                                color: Colors.white, size: 20),
+                                          ),
+                                          Text(
+                                            "${product.quantity}",
+                                            // Display the quantity
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              // Increment quantity and update price
+                                              controller
+                                                  .countIncrement(product);
+                                            },
+                                            icon: Icon(Icons.add,
+                                                color: Colors.white, size: 20),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            // Decrement quantity and update price
-                                            controller.countDecrement(product);
-                                          },
-                                          icon: Icon(Icons.remove, color: Colors.white, size: 20),
-                                        ),
-                                        Text(
-                                          "${product.quantity}", // Display the quantity
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
-                                            // Increment quantity and update price
-                                            controller.countIncrement(product);
-                                          },
-                                          icon: Icon(Icons.add, color: Colors.white, size: 20),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
-                    );
-                  }),
+                          );
+                        },
+                      );
+                    }),
+                  ),
                 ),
-              ),
-
-              Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 15.0),
                   child: GestureDetector(
                     onTap: () {
                       // Navigate to ProductListingView and wait for the result (the selected product)
                       Get.toNamed(Routes.productListing)?.then((result) {
                         if (result != null && result is ProductListing) {
-                          controller.addProduct(result); // Add product and update UI
+                          controller
+                              .addProduct(result); // Add product and update UI
                         }
                       });
                     },
@@ -465,12 +484,14 @@ class AddOrderView extends GetView<AddOrderController> {
                         ),
                       ),
                       Obx(() {
-                        return Text("\$${controller.finalAmount.value.toStringAsFixed(2)}",
-                        style: MyTheme.regularTextStyle(
-                          fontSize: Get.height * .016,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                        ),);
+                        return Text(
+                          "\$${controller.finalAmount.value.toStringAsFixed(2)}",
+                          style: MyTheme.regularTextStyle(
+                            fontSize: Get.height * .016,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        );
                       }),
                     ],
                   ),
@@ -479,7 +500,7 @@ class AddOrderView extends GetView<AddOrderController> {
                   padding: EdgeInsets.only(top: 40.0),
                   child: GestureDetector(
                     onTap: () {
-
+                      controller.submitOrder();
                     },
                     child: Container(
                       height: 50,
@@ -489,8 +510,11 @@ class AddOrderView extends GetView<AddOrderController> {
                       child: Center(
                         child: Text(
                           "Submit",
-                          style: TextStyle(color: Colors.white, fontSize: 18,
-                            fontWeight: FontWeight.w600,),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),

@@ -100,12 +100,13 @@ class Routes {
     ),
     GetPage(
       binding: AddOrderBindings(),
-      name: addOrder,
+      name: Routes.addOrder,
       page: () => AddOrderView(
         productName: Get.arguments['productName'],
         finalAmount: Get.arguments['finalAmount'],
       ),
     ),
+
     GetPage(
       binding: NewLeadSubmitBindings(),
       name: newLead,

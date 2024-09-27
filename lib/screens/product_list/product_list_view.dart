@@ -197,6 +197,20 @@ class ProductListingView extends GetView<ProductListingController> {
                                             SizedBox(
                                               height: 10,
                                             ),
+                                            Text(
+                                              (controller.proData[index]
+                                                  .productId ??
+                                                  "----")
+                                                  .toString(),
+                                              style: MyTheme.regularTextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: MyTheme.myBlueDark,
+                                                fontSize: Get.height * .018,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
                                             SingleChildScrollView(
                                                 child: Container(
                                               width: 200,
@@ -238,9 +252,9 @@ class ProductListingView extends GetView<ProductListingController> {
                                           onTap: () {
                                             // Pass the selected product details back to AddOrderView using Get.back()
                                             final selectedProduct = ProductListing(
+                                              productId: customers.productId ?? "Unknown ID",
                                               productName: customers.productName ?? "Unknown Product",
                                               price: customers.price != null ? customers.price : '0.0',
-
                                               // Add more fields if needed from the ProductListing class
                                             );
                                             Get.back(result: selectedProduct);  // Return the selected product
@@ -263,7 +277,8 @@ class ProductListingView extends GetView<ProductListingController> {
                                               ),
                                             ),
                                           ),
-                                        )
+                                        ),
+
 
                                       ],
                                     ),
@@ -283,161 +298,158 @@ class ProductListingView extends GetView<ProductListingController> {
 }
 
 
-void ProductShow(BuildContext context, String productName, String imageUrl, String price, ProductListingController controller) {
-  controller.quantityCntrl.text = ""; // Set default quantity or pass current quantity as needed
-  double rate = double.tryParse(price) ?? 0.0; // Parse price to double
-
-  // Listen to changes in the quantity controller
-  controller.quantityCntrl.addListener(() {
-    controller.updateFinalAmount(controller.quantityCntrl.text, rate);
-  });
-
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (ctx) {
-      return AlertDialog(
-        backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Container(
-          width: Get.width * .9,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: Icon(Icons.close, color: MyTheme.myBlueDark, size: 15),
-                  )
-                ],
-              ),
-              Text(
-                productName,
-                style: MyTheme.regularTextStyle(
-                  color: Colors.black,
-                  fontSize: Get.height * .017,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Container(
-                width: Get.width * .20,
-                height: Get.height * .20,
-                child: Image.network(imageUrl),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Rate",
-                    style: MyTheme.regularTextStyle(
-                      fontSize: Get.height * .016,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Text(
-                    price,
-                    style: MyTheme.regularTextStyle(
-                      fontSize: Get.height * .016,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Quantity",
-                    style: MyTheme.regularTextStyle(
-                      fontSize: Get.height * .016,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Container(
-                    width: Get.width * 0.2,
-                    child: TextFormField(
-                      controller: controller.quantityCntrl,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
-                        hintText: "Enter quantity",
-                      ),
-                      style: MyTheme.regularTextStyle(
-                        fontSize: Get.height * .016,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Final Amount",
-                    style: MyTheme.regularTextStyle(
-                      fontSize: Get.height * .016,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Obx(() => Text(
-                    "${controller.finalAmount.value.toStringAsFixed(2)}", // Display the final amount
-                    style: MyTheme.regularTextStyle(
-                      fontSize: Get.height * .016,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  )),
-                ],
-              ),
-              //
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      // Navigate to the AddOrderView with product name and final amount
-                      Get.to(() => AddOrderView(productName: productName, finalAmount: controller.finalAmount.value));
-                    },
-                    child: Container(
-                      height: Get.height * 0.05,
-                      width: Get.width * 0.2,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: MyTheme.myBlueDark,
-                      ),
-                      child: Center(
-                        child: Text(
-                          "ADD",
-                          style: MyTheme.regularTextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: MyTheme.whiteColor,
-                            fontSize: Get.height * .018,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
+// void ProductShow(BuildContext context, String productId, String productName, String imageUrl, String price, ProductListingController controller) {
+//   controller.quantityCntrl.text = "";
+//   double rate = double.tryParse(price) ?? 0.0;
+//
+//   // Listen to quantity changes
+//   controller.quantityCntrl.addListener(() {
+//     controller.updateFinalAmount(controller.quantityCntrl.text, rate);
+//   });
+//
+//   showDialog(
+//     context: context,
+//     barrierDismissible: false,
+//     builder: (ctx) {
+//       return AlertDialog(
+//         backgroundColor: Colors.white,
+//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+//         title: Container(
+//           width: Get.width * .9,
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.end,
+//                 children: [
+//                   IconButton(
+//                     onPressed: () {
+//                       Get.back();
+//                     },
+//                     icon: Icon(Icons.close, color: MyTheme.myBlueDark, size: 15),
+//                   ),
+//                 ],
+//               ),
+//               Text(
+//                 productName,
+//                 style: MyTheme.regularTextStyle(
+//                   color: Colors.black,
+//                   fontSize: Get.height * .017,
+//                   fontWeight: FontWeight.w600,
+//                 ),
+//               ),
+//               Container(
+//                 width: Get.width * .20,
+//                 height: Get.height * .20,
+//                 child: Image.network(imageUrl),
+//               ),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   Text(
+//                     "Rate",
+//                     style: MyTheme.regularTextStyle(
+//                       fontSize: Get.height * .016,
+//                       color: Colors.black,
+//                       fontWeight: FontWeight.w400,
+//                     ),
+//                   ),
+//                   Text(
+//                     price,
+//                     style: MyTheme.regularTextStyle(
+//                       fontSize: Get.height * .016,
+//                       color: Colors.black,
+//                       fontWeight: FontWeight.w400,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   Text(
+//                     "Quantity",
+//                     style: MyTheme.regularTextStyle(
+//                       fontSize: Get.height * .016,
+//                       color: Colors.black,
+//                       fontWeight: FontWeight.w400,
+//                     ),
+//                   ),
+//                   Container(
+//                     width: Get.width * 0.2,
+//                     child: TextFormField(
+//                       controller: controller.quantityCntrl,
+//                       keyboardType: TextInputType.number,
+//                       decoration: InputDecoration(
+//                         border: UnderlineInputBorder(),
+//                         hintText: "Enter quantity",
+//                       ),
+//                       style: MyTheme.regularTextStyle(
+//                         fontSize: Get.height * .016,
+//                         color: Colors.black,
+//                         fontWeight: FontWeight.w400,
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   Text(
+//                     "Final Amount",
+//                     style: MyTheme.regularTextStyle(
+//                       fontSize: Get.height * .016,
+//                       color: Colors.black,
+//                       fontWeight: FontWeight.w400,
+//                     ),
+//                   ),
+//                   Obx(() => Text(
+//                     "${controller.finalAmount.value.toStringAsFixed(2)}",
+//                     style: MyTheme.regularTextStyle(
+//                       fontSize: Get.height * .016,
+//                       color: Colors.black,
+//                       fontWeight: FontWeight.w400,
+//                     ),
+//                   )),
+//                 ],
+//               ),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.end,
+//                 children: [
+//                   GestureDetector(
+//                     onTap: () {
+//                       // Navigate with product ID and final amount
+//                       controller.addProductToOrder(productId, productName, controller.finalAmount.value);
+//                     },
+//                     child: Container(
+//                       height: Get.height * 0.05,
+//                       width: Get.width * 0.2,
+//                       decoration: BoxDecoration(
+//                         borderRadius: BorderRadius.circular(15),
+//                         color: MyTheme.myBlueDark,
+//                       ),
+//                       child: Center(
+//                         child: Text(
+//                           "ADD",
+//                           style: MyTheme.regularTextStyle(
+//                             fontWeight: FontWeight.w600,
+//                             color: MyTheme.whiteColor,
+//                             fontSize: Get.height * .018,
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//         ),
+//       );
+//     },
+//   );
+// }
 InputDecoration textBoxDecoration(hintText) {
   return InputDecoration(
     hintText: hintText,

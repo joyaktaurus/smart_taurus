@@ -13,53 +13,56 @@ import '../../utils/routes.dart';
 class ProductListingController extends GetxController {
   final TextEditingController searchCntrl = TextEditingController(text: '');
   final TextEditingController quantityCntrl = TextEditingController(text: '');
-  void addProduct(ProductListing product) {
-    proData.add(product); // Add the product to the list
-  }
-  var proData = <ProductListing>[].obs; // Observable list of products
 
- // RxList<ProductListing> proData = <ProductListing>[].obs;
+  // Observable list of products
+  var proData = <ProductListing>[].obs;
+
+  // Reactive variables for UI states
   RxBool isScreenProgress = true.obs;
-  RxDouble finalAmount = 0.0.obs; // Add this line for final amount
+  RxDouble finalAmount = 0.0.obs;
+
+  // Updates final amount based on quantity and rate
   void updateFinalAmount(String quantity, double rate) {
     int qty = int.tryParse(quantity) ?? 0;
-    finalAmount.value = qty * rate; // Use the reactive variable
+    finalAmount.value = qty * rate;
   }
+
   @override
   void onInit() {
     initialCustomersList();
     super.onInit();
   }
-  void addProductToOrder(String productName, double amount) {
-    // Logic for adding the product to the order
+
+  // Method to add product to the order, including product ID
+  void addProductToOrder(String productId, String productName, double amount) {
     Get.toNamed(Routes.addOrder, arguments: {
+      'productId': productId,
       'productName': productName,
       'finalAmount': amount,
     });
   }
 
-
+  // Fetch the product list from API
   Future<void> initialCustomersList() async {
     try {
       final ApiResp resp = await ProductServices.getproductList();
       if (resp.ok) {
         final prodDetails = ProductListingModel.fromJson(resp.rdata);
-        // Assign the list or an empty list if shop is null
         proData.assignAll(prodDetails.shop ?? []);
         App.prodDetails = proData;
-        isScreenProgress.value = false; // Hide progress indicator
-        print('Profile data fetched successfully: ${proData.length} items');
-      } else {
-        // Handle the case when the API response is not successful
         isScreenProgress.value = false;
-        print('Error fetching profile data: ${resp.msgs}');
+        print('Product data fetched successfully: ${proData.length} items');
+      } else {
+        isScreenProgress.value = false;
+        print('Error fetching product data: ${resp.msgs}');
       }
     } catch (e) {
-      // Handle errors during data fetching
       isScreenProgress.value = false;
-      print('Error fetching profile data: $e');
+      print('Error fetching product data: $e');
     }
   }
+
+
 
 
   void searchBtn() async {

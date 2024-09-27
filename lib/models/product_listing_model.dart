@@ -54,23 +54,22 @@ class ProductListing {
   });
 
   factory ProductListing.fromJson(Map<String, dynamic> json) => ProductListing(
-        productId: json["product_id"],
-        productName: json["product_name"],
-        productDescription: json["product_description"],
-        price: json["price"],
-        image: json["image"],
-        status: json["status"],
-        imageurl: json["imageurl"],
-
-      );
+    productId: json["product_id"],
+    productName: json["product_name"],
+    productDescription: json["product_description"],
+    price: json["price"],
+    image: json["image"],
+    status: json["status"],
+    imageurl: json["imageurl"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "product_id": productId,
-        "product_name": productName,
-        "product_description": productDescription,
-        "price": price,
-        "image": image,
-        "status": status,
-        "imageurl": imageurl,
-      };
+    "product_id": productId,
+    "product_name": productName,
+    "product_description": productDescription,
+    "price": price,
+    "image": image,
+    "status": status,
+    "imageurl": imageurl,
+  };
 }

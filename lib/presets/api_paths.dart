@@ -10,5 +10,6 @@ abstract class ApiPaths {
   static const shopSearch = '/shop-search';
   static const Expenses = '/add-expenses';
   static const NewLead = '/add-lead';
+  static const AddOrderSubmit = '/add-order';
 
 }
