@@ -40,21 +40,21 @@ class CustomerListView extends GetView<CustomerListController> {
                 style: TextStyle(color: Colors.black),
               ),
             ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.search, color: Colors.black),
-                onPressed: () {
-                  Get.toNamed(Routes.dashBoard);
-                },
-              ),
-              IconButton(
-                icon:
-                    Icon(Icons.notification_add_outlined, color: Colors.black),
-                onPressed: () {
-                  // Add functionality for notifications icon
-                },
-              ),
-            ],
+            // actions: [
+            //   IconButton(
+            //     icon: Icon(Icons.search, color: Colors.black),
+            //     onPressed: () {
+            //       Get.toNamed(Routes.dashBoard);
+            //     },
+            //   ),
+            //   IconButton(
+            //     icon:
+            //         Icon(Icons.notification_add_outlined, color: Colors.black),
+            //     onPressed: () {
+            //       // Add functionality for notifications icon
+            //     },
+            //   ),
+            // ],
             centerTitle: true, // Ensure the title is centered
           ),
           drawer: Drawer(

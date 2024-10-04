@@ -11,7 +11,7 @@ import '../../services/product_listing_services.dart';
 import '../../services/product_search_services.dart';
 import '../../utils/routes.dart';
 
-class ProductListingController extends GetxController {
+class ProductViewController extends GetxController {
   final TextEditingController searchCntrl = TextEditingController(text: '');
   final TextEditingController quantityCntrl = TextEditingController(text: '');
 
@@ -62,9 +62,7 @@ class ProductListingController extends GetxController {
       print('Error fetching product data: $e');
     }
   }
-
-
-
+ // final TextEditingController searchCntrl = TextEditingController(text: '');
 
   void searchBtn() async {
     String productName = searchCntrl.text.trim();
@@ -95,7 +93,6 @@ class ProductListingController extends GetxController {
     searchBtn();
   }
 
-
   Map customersListApiPayload = {};
   final TextEditingController ProductSearchCntrl = TextEditingController(text: '');
   List<ProductListing>originalList=[];
@@ -119,6 +116,7 @@ class ProductListingController extends GetxController {
     // Hide the close button
     isCloseButtonVisible.value = false; // Ensure you have a variable to control visibility
   }
+
   RxString searchTypeChosenValue = 'Name / P/N or SKU'.obs;
 
 }

@@ -52,8 +52,8 @@ class ExpenseView extends GetView<ExpenseController> {
           centerTitle: true, // Ensure the title is centered
         ),
         drawer: Drawer(
-          // Add a drawer if needed
-        ),
+            // Add a drawer if needed
+            ),
         body: Column(
           children: [
             Container(
@@ -81,135 +81,271 @@ class ExpenseView extends GetView<ExpenseController> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          TextFormField(
-                            controller: controller.traFromCtrl,
-                            focusNode: controller.traFromCtrlfNode,
-                            decoration: textBoxDecoration('Travel From'),
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[a-zA-Z]+|\s")),
-                            ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter travel from';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.traFromCtrl,
+                                  focusNode: controller.traFromCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Travel From',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r"[a-zA-Z]+|\s")),
+                                  ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter travel from';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid name. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                )),
                           ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.traToCtrl,
-                            focusNode: controller.traToCtrlNode,
-                            decoration: textBoxDecoration('Travel To'),
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[a-zA-Z]+|\s")),
-                            ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter travel to info';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.traToCtrl,
+                                  focusNode: controller.traToCtrlNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Travel To',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r"[a-zA-Z]+|\s")),
+                                  ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter travel to info';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid name. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                )),
                           ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            keyboardType: TextInputType.phone,
-                            controller: controller.amountCtrl,
-                            focusNode: controller.amountCtrlfNode,
-                            decoration: textBoxDecoration('Amount'),
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter travel amount';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid data.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                // Define the border color here
+                                borderRadius: BorderRadius.circular(
+                                    30), // Rounded corners
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  keyboardType: TextInputType.phone,
+                                  controller: controller.amountCtrl,
+                                  focusNode: controller.amountCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Amount',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter travel amount';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid data.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                ),
+                              )),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.purposeCtrl,
+                                  focusNode: controller.purposeCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Purpose',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter travel purpose';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid data. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                )),
                           ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.purposeCtrl,
-                            focusNode: controller.purposeCtrlfNode,
-                            decoration: textBoxDecoration('Purpose'),
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter travel purpose';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid data. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.traTypeCtrl,
+                                  focusNode: controller.traTypeCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Travel Type',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r"[a-zA-Z]+|\s")),
+                                  ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter travel type';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid name. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                )),
                           ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.traTypeCtrl,
-                            focusNode: controller.traTypeCtrlfNode,
-                            decoration: textBoxDecoration('Travel Type'),
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[a-zA-Z]+|\s")),
-                            ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter travel type';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.otherExCtrl,
+                                  focusNode: controller.otherExCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Other Expenses',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  // inputFormatters: [
+                                  //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
+                                  // ],
+                                  // validator: (value) {
+                                  //   if (value == null || value.isEmpty) {
+                                  //     return 'Please enter GST number';
+                                  //   }
+                                  //   if (value.length < 3) {
+                                  //     return 'Invalid name. Name must be at least 3 characters long.';
+                                  //   }
+                                  //   return null; // Return null if the input is valid
+                                  // },
+                                )),
                           ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.otherExCtrl,
-                            focusNode: controller.otherExCtrlfNode,
-                            decoration: textBoxDecoration('Other Expenses'),
-                            textInputAction: TextInputAction.next,
-                            // inputFormatters: [
-                            //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
-                            // ],
-                            // validator: (value) {
-                            //   if (value == null || value.isEmpty) {
-                            //     return 'Please enter GST number';
-                            //   }
-                            //   if (value.length < 3) {
-                            //     return 'Invalid name. Name must be at least 3 characters long.';
-                            //   }
-                            //   return null; // Return null if the input is valid
-                            // },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.traDateCtrl,
-                            focusNode: controller.traDateCtrlfNode,
-                            decoration: textBoxDecoration('Travel Date'),
-                            textInputAction: TextInputAction.next,
-                            // inputFormatters: [
-                            //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
-                            // ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter travel date';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid date';
-                              }
-                              return null; // Return null if the input is valid
-                            },
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.traDateCtrl,
+                                  focusNode: controller.traDateCtrlfNode,
+                                  decoration: InputDecoration(
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        Icons.calendar_today,
+                                        color: Colors.deepPurpleAccent,
+                                      ),
+                                      onPressed: () {
+                                        controller.selectDate(context); // Call selectDate function here
+                                      },
+                                    ),
+                                    labelText: 'Travel Date',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+
+                                  textInputAction: TextInputAction.next,
+                                  // inputFormatters: [
+                                  //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
+                                  // ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter travel date';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid date';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                )),
                           ),
                           SizedBox(height: Get.height * .01),
                           Center(
@@ -217,7 +353,8 @@ class ExpenseView extends GetView<ExpenseController> {
                               text: 'Submit',
                               buttonPress: () {
                                 MyUtils.hideKeyboard();
-                                if (controller.formKey.currentState!.validate()) {
+                                if (controller.formKey.currentState!
+                                    .validate()) {
                                   // All fields are valid, perform the submit operation
                                   errM(() => controller.shopRegister());
                                 }
@@ -246,7 +383,6 @@ class ExpenseView extends GetView<ExpenseController> {
     );
   }
 }
-
 InputDecoration textBoxDecoration(hintText) {
   return InputDecoration(
     hintText: hintText,
@@ -257,3 +393,5 @@ InputDecoration textBoxDecoration(hintText) {
         fontSize: Get.height * .018, color: Colors.black),
   );
 }
+
+

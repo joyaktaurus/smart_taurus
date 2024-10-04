@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:smart_taurus/components/rounded_loader.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../utils/my_utils.dart';
 import '../../utils/routes.dart';
@@ -10,13 +12,6 @@ import 'package:pie_chart/pie_chart.dart';
 
 class DashboardView extends GetView<DashboardController> {
   DashboardView({Key? key}) : super(key: key);
-  final dataMap = <String, double>{
-    "Flutter": 5,
-  };
-
-  final colorList = <Color>[
-    Colors.greenAccent,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +39,6 @@ class DashboardView extends GetView<DashboardController> {
             ),
             actions: [
               IconButton(
-                icon: Icon(Icons.search, color: Colors.black),
-                onPressed: () {
-                  Get.toNamed(Routes.leadSubmit);
-                },
-              ),
-              IconButton(
                 icon:
                     Icon(Icons.notification_add_outlined, color: Colors.black),
                 onPressed: () {
@@ -75,115 +64,240 @@ class DashboardView extends GetView<DashboardController> {
                   ],
                 ),
               ),
-              Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // Shadow offset
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(6.0),
-                    child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 70,
-                            width: 70,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                  color: Colors.black12), // Grey border
-                            ),
-                            child: Center(
-                              child: Container(
-                                height: 65,
-                                width: 65,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: AssetImage("assets/images/img.png"),
-                                    fit: BoxFit
-                                        .cover, // Ensures the image covers the circle area
-                                  ),
-                                ),
+              Obx(() {
+                // Observe changes in the loading state and employee data
+                if (controller.isLoading.value) {
+                  return Center(
+                      child:
+                          RoundedLoader()); // Show loader while fetching data
+                }
+
+                if (controller.employee.value.name == null) {
+                  return Center(child: Text("No data available"));
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Column(
+                    children: [
+                      Container(
+                          width: double.infinity,
+                          margin: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 1,
+                                blurRadius: 5,
+                                offset: Offset(0, 3), // Shadow offset
                               ),
-                            ),
+                            ],
                           ),
-                          SizedBox(width: Get.width * 0.02),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 15.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "Hey, John",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 17),
-                                ),
-                                Text(
-                                  "Sales Manager",
-                                  style: TextStyle(
-                                      fontSize: 17, color: Colors.grey),
+                                Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 70,
+                                        width: 70,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                              color: Colors
+                                                  .black12), // Grey border
+                                        ),
+                                        child: Center(
+                                          child: Container(
+                                            height: 65,
+                                            width: 65,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                image: controller.employee.value
+                                                            .profilePic !=
+                                                        null
+                                                    ? NetworkImage(
+                                                        '${controller.imagePath.value}/${controller.employee.value.profilePic}')
+                                                    : AssetImage(
+                                                            "assets/images/img.png")
+                                                        as ImageProvider,
+                                                fit: BoxFit
+                                                    .cover, // Ensures the image covers the circle area
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: Get.width * 0.02),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 15.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "Hey, ${controller.employee.value.name}",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 17),
+                                            ),
+                                            Text(
+                                              controller.employee.value.job ??
+                                                  '',
+                                              style: TextStyle(
+                                                  fontSize: 17,
+                                                  color: Colors.grey),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ]),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 20.0),
+                                  child: Text("..."),
                                 ),
                               ],
                             ),
-                          ),
-                          SizedBox(width: Get.width * 0.35),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20.0),
-                            child: Text("..."),
-                          ),
-                        ]),
-                  )),
-              Container(
-                width: double.infinity,
-                height: Get.height * 0.2,
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Color.fromRGBO(77, 82, 225, 1),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // Shadow offset
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: SizedBox(
-                    width: 200, // Adjust the width to decrease chart size
-                    height: 200, // Adjust the height to decrease chart size
-                    child: PieChart(
-                      dataMap: dataMap,
-                      chartType: ChartType.ring,
-                      baseChartColor: Colors.grey[50]!.withOpacity(0.15),
-                      colorList: colorList,
-                      ringStrokeWidth: 7,
-                      // Decrease this value to make the ring thinner
-                      chartValuesOptions: ChartValuesOptions(
-                        showChartValuesInPercentage: false,
+                          )),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 130, // Adjust the container height if needed
+                      width: 800,  // Adjust the width to decrease the overall size
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.deepPurpleAccent,
                       ),
-                      totalValue: 20,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 80,  // Decreased width
+                                  height: 80, // Decreased height
+                                  child: SfRadialGauge(
+                                    axes: [
+                                      RadialAxis(
+                                        pointers: [
+                                          RangePointer(
+                                            value: 50,
+                                            width: 8,
+                                            cornerStyle: CornerStyle.bothCurve,
+                                            gradient: const SweepGradient(
+                                              colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF)],
+                                              stops: [0.1, 0.4],
+                                            ),
+                                          )
+                                        ],
+                                        axisLineStyle: AxisLineStyle(
+                                          thickness: 8,
+                                          color: Colors.grey.shade400,
+                                        ),
+                                        startAngle: 5,
+                                        endAngle: 5,
+                                        showLabels: false,
+                                        showTicks: false,
+                                        annotations: [
+                                          GaugeAnnotation(
+                                            widget: Text(
+                                              "4/7",
+                                              style: TextStyle(
+                                                fontSize: 20,  // Adjusted the font size for the text
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            angle: 270,
+                                            positionFactor: 0.1, // Adjusted to fit inside the smaller gauge
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height:5),
+                                Text("Visits",style: TextStyle(
+                                  fontSize:16,  // Adjusted the font size for the text
+                                  color: Colors.white,
+
+                                ),)
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: 80,  // Decreased width
+                                  height: 80, // Decreased height
+                                  child: SfRadialGauge(
+                                    axes: [
+                                      RadialAxis(
+                                        pointers: [
+                                          RangePointer(
+                                            value: 50,
+                                            width: 8,
+                                            cornerStyle: CornerStyle.bothCurve,
+                                            gradient: const SweepGradient(
+                                              colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF)],
+                                              stops: [0.1, 0.4],
+                                            ),
+                                          )
+                                        ],
+                                        axisLineStyle: AxisLineStyle(
+                                          thickness: 8,
+                                          color: Colors.grey.shade400,
+                                        ),
+                                        startAngle: 5,
+                                        endAngle: 5,
+                                        showLabels: false,
+                                        showTicks: false,
+                                        annotations: [
+                                          GaugeAnnotation(
+                                            widget: Text(
+                                              "2/7",
+                                              style: TextStyle(
+                                                fontSize: 20,  // Adjusted the font size for the text
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            angle: 270,
+                                            positionFactor: 0.1, // Adjusted to fit inside the smaller gauge
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height:5),
+                                Text("Tasks",style: TextStyle(
+                                  fontSize:16,  // Adjusted the font size for the text
+                                  color: Colors.white,
+                                ),)
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
+                  )],
                   ),
-                ),
-              ),
-              SizedBox(height: Get.height * 0.01),
+                );
+              }),
               Container(
                   width: double.infinity,
-                  height: Get.height * 0.2,
+                  height: Get.height * 0.15,
                   margin: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
@@ -200,6 +314,212 @@ class DashboardView extends GetView<DashboardController> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Leads",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(height: Get.height * 0.02),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.leadSubmit);
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/form.png",
+                                    height: 30,
+                                    width: 30,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "Lead Form",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[700]),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.leadListing);
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/list.png",
+                                    height: 30,
+                                    width: 30,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "Lead Listing",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[700]),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.newLead);
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/leads.png",
+                                    height: 30,
+                                    width: 30,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "New Leads",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[700]),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  )),
+              SizedBox(height: Get.height * 0.001),
+              Container(
+                  width: double.infinity,
+                  height: Get.height * 0.15,
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // Shadow offset
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Sales CRM",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(height: Get.height * 0.02),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.addOrder, arguments: {
+                                  'productName': '',
+                                  // Default or placeholder value
+                                  'finalAmount': 0.0,
+                                  // Default value
+                                });
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/order-food.png",
+                                    height: 30,
+                                    width: 30,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "Orders",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[700]),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.productView);
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/checklist.png",
+                                    height: 30,
+                                    width: 30,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "Products",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[700]),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.expenses);
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/expense.png",
+                                    height: 30,
+                                    width: 30,
+                                    color: Colors.deepPurpleAccent,
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "Expenses",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[700]),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  )),
+              SizedBox(height: Get.height * 0.001),
+              Container(
+                  width: double.infinity,
+                  height: Get.height * 0.15,
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 1,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // Shadow offset
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -217,11 +537,10 @@ class DashboardView extends GetView<DashboardController> {
                               },
                               child: Column(
                                 children: [
-                                  Icon(
-                                    Icons.people_alt_outlined,
-                                    color: Colors.purple,
-                                    size: 40,
+                                  Image.asset(
+                                    "assets/images/grommet-icons_task.png",
                                   ),
+                                  SizedBox(height: 5),
                                   Text(
                                     "Tasks",
                                     style: TextStyle(
@@ -236,11 +555,10 @@ class DashboardView extends GetView<DashboardController> {
                               },
                               child: Column(
                                 children: [
-                                  Icon(
-                                    Icons.people_alt_outlined,
-                                    color: Colors.purple,
-                                    size: 40,
+                                  Image.asset(
+                                    "assets/images/cust.png",
                                   ),
+                                  SizedBox(height: 5),
                                   Text(
                                     "Customers",
                                     style: TextStyle(
@@ -249,126 +567,31 @@ class DashboardView extends GetView<DashboardController> {
                                 ],
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.leadListing);
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.people_alt_outlined,
-                                    color: Colors.purple,
-                                    size: 40,
-                                  ),
-                                  Text(
-                                    "Leads",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
-                            )
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Get.toNamed(Routes.leadListing);
+                            //   },
+                            //   child: Column(
+                            //     children: [
+                            //       Icon(
+                            //         Icons.people_alt_outlined,
+                            //         color: Colors.purple,
+                            //         size: 40,
+                            //       ),
+                            //       Text(
+                            //         "Leads",
+                            //         style: TextStyle(
+                            //             fontSize: 16, color: Colors.grey[700]),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // )
                           ],
                         )
                       ],
                     ),
                   )),
               SizedBox(height: Get.height * 0.02),
-              Container(
-                  width: double.infinity,
-                  height: Get.height * 0.2,
-                  margin: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.3),
-                        spreadRadius: 1,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // Shadow offset
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Sales CRM",
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600),
-                        ),
-                        SizedBox(height: Get.height * 0.02),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.addOrder, arguments: {
-                                  'productName': '', // Default or placeholder value
-                                  'finalAmount': 0.0, // Default value
-                                });
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.people_alt_outlined,
-                                    color: Colors.purple,
-                                    size: 40,
-                                  ),
-                                  Text(
-                                    "Orders",
-                                    style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.productListing);
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.people_alt_outlined,
-                                    color: Colors.purple,
-                                    size: 40,
-                                  ),
-                                  Text(
-                                    "Products",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.expenses);
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.people_alt_outlined,
-                                    color: Colors.purple,
-                                    size: 40,
-                                  ),
-                                  Text(
-                                    "Expenses",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ))
             ],
           ),
         ));

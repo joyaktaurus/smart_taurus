@@ -9,29 +9,28 @@ import '../presets/api_paths.dart';
 import '../utils/err_m.dart';
 import '../utils/mydio.dart';
 
-abstract class AddOrderSubmitServices {
+class AddOrderSubmitServices {
   static Future<ApiResp> fetchUser({
     required int shop_id,
     required int total,
-    required List<String> product_names,
-    required List<String> product_qtys,
-    required List<String> product_ids,
-    required List<String> product_amts,
+    required String product_names,
+    required String product_qtys,
+    required String product_ids,
+    required String product_amts,
   }) async {
     try {
       String token = "${App.user.apiToken}"; // Fetch the token
       dynamic resp;
+
+      // Prepare query parameters as part of the URL
+      String url = "${ApiPaths.AddOrderSubmit}?"
+          "shop_id=$shop_id&&total=$total&&"
+          "product_names=$product_names&&product_ids=$product_ids&&"
+          "product_qtys=$product_qtys&&product_amts=$product_amts";
+
       await errMAsync(() async {
         resp = await MyDio().markPost(
-          ApiPaths.AddOrderSubmit,
-          data: {
-            'shop_id': shop_id,
-            'total': total,
-            'product_names': product_names,
-            'product_qtys': product_qtys,
-            'product_ids': product_ids,
-            'product_amts': product_amts,
-          },
+          url,
           options: Options(
             headers: {
               'Authorization': 'Token $token',
@@ -44,7 +43,7 @@ abstract class AddOrderSubmitServices {
       if (resp is DioError) {
         log('Error type >>> ${resp.type}');
         log('Error response >>> ${resp.response?.data}');
-        // Handle errors as before...
+        return ApiResp(ok: false, rdata: "", msgs: [], message: 'Order submission failed');
       } else {
         return resp != null
             ? ApiResp(ok: true, rdata: resp, msgs: [], message: '')
@@ -56,13 +55,9 @@ abstract class AddOrderSubmitServices {
         ok: false,
         rdata: '',
         msgs: [],
-        message: '',
+        message: 'Order submission failed',
       );
     }
-    return ApiResp(ok: false, rdata: '', msgs: [], message: '');
   }
-
-  // static Future<String> getToken() async {
-  //   return '5bg3scJuvl2tsg3JW3MyeOVh5gjBNZuQHsCJF7wxbLeJAvCBxDH95O699UjoW6oc'; // Replace with actual token retrieval logic
-  // }
 }
+

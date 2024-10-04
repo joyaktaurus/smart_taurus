@@ -41,21 +41,21 @@ class ProductListingView extends GetView<ProductListingController> {
                 style: TextStyle(color: Colors.black),
               ),
             ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.search, color: Colors.black),
-                onPressed: () {
-                  Get.toNamed(Routes.dashBoard);
-                },
-              ),
-              IconButton(
-                icon:
-                    Icon(Icons.notification_add_outlined, color: Colors.black),
-                onPressed: () {
-                  // Add functionality for notifications icon
-                },
-              ),
-            ],
+            // actions: [
+            //   IconButton(
+            //     icon: Icon(Icons.search, color: Colors.black),
+            //     onPressed: () {
+            //       Get.toNamed(Routes.dashBoard);
+            //     },
+            //   ),
+            //   IconButton(
+            //     icon:
+            //         Icon(Icons.notification_add_outlined, color: Colors.black),
+            //     onPressed: () {
+            //       // Add functionality for notifications icon
+            //     },
+            //   ),
+            // ],
             centerTitle: true, // Ensure the title is centered
           ),
           drawer: Drawer(
@@ -79,7 +79,7 @@ class ProductListingView extends GetView<ProductListingController> {
             Padding(
               padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 20),
               child: MASearchBar(
-                hintText: 'Search a Shop',
+                hintText: 'Search Products',
                 controller: controller.searchCntrl,
                 searchFn: () => controller.searchBtn(),
                 searchTypeChosenValue: controller.searchTypeChosenValue.value,
@@ -194,27 +194,27 @@ class ProductListingView extends GetView<ProductListingController> {
                                                 fontSize: Get.height * .018,
                                               ),
                                             ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text(
-                                              (controller.proData[index]
-                                                  .productId ??
-                                                  "----")
-                                                  .toString(),
-                                              style: MyTheme.regularTextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: MyTheme.myBlueDark,
-                                                fontSize: Get.height * .018,
-                                              ),
-                                            ),
+                                            // SizedBox(
+                                            //   height: 10,
+                                            // ),
+                                            // Text(
+                                            //   (controller.proData[index]
+                                            //       .productId ??
+                                            //       "----")
+                                            //       .toString(),
+                                            //   style: MyTheme.regularTextStyle(
+                                            //     fontWeight: FontWeight.w600,
+                                            //     color: MyTheme.myBlueDark,
+                                            //     fontSize: Get.height * .018,
+                                            //   ),
+                                            // ),
                                             SizedBox(
                                               height: 10,
                                             ),
                                             SingleChildScrollView(
                                                 child: Container(
                                               width: 200,
-                                              height: 50,
+                                              height: 60,
                                               child: Text(
                                                 (controller.proData[index]
                                                             .productDescription ??
@@ -229,13 +229,27 @@ class ProductListingView extends GetView<ProductListingController> {
                                             )),
                                             SizedBox(height: Get.height * .01),
                                             Text(
-                                              controller.proData[index].price
-                                                  .toString(),
+                                              "Price",
                                               style: MyTheme.regularTextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.deepPurpleAccent,
                                                 fontSize: Get.height * .018,
                                               ),
+                                            ),
+                                            SizedBox(height: Get.height * .01),
+                                            Row(
+                                              children: [
+                                                Icon(Icons.currency_rupee_outlined, size: 14,),
+                                                Text(
+                                                  controller.proData[index].price
+                                                      .toString(),
+                                                  style: MyTheme.regularTextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.black,
+                                                    fontSize: Get.height * .018,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),

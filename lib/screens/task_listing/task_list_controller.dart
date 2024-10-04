@@ -18,6 +18,11 @@ class TaskListingController extends GetxController {
   var newTasks = <TaskList>[].obs;
   var completedTasks = <TaskList>[].obs;
 
+  var expandedTasks = <int, bool>{}.obs; // Track which tasks are expanded
+
+  void toggleExpandedTask(int index) {
+    expandedTasks[index] = !(expandedTasks[index] ?? false);
+  }
   @override
   void onInit() {
     super.onInit();

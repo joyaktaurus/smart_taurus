@@ -37,34 +37,44 @@ class TaskListingView extends GetView<TaskListingController> {
               style: TextStyle(color: Colors.black),
               textAlign: TextAlign.center,
             ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.search, color: Colors.black),
-                onPressed: () {
-                  Get.toNamed(Routes.dashBoard);
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.notification_add_outlined, color: Colors.black),
-                onPressed: () {
-                  // Add functionality for notifications icon
-                },
-              ),
-            ],
             centerTitle: true,
             bottom: TabBar(
-              labelColor: Colors.black,
-              indicatorColor: Colors.blue,
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.white54,
+              indicator: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(40),
+              ),
               tabs: [
-                Tab(text: 'New'),
-                Tab(text: 'Completed'),
+                Tab(
+                  child: Container(
+                    width: 300,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurpleAccent,
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    child: Center(child: Text('New Task')),
+                  ),
+                ),
+                Tab(
+                  child: Container(
+                    width: 300,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Colors.deepPurpleAccent,
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    child: Center(child: Text('Completed Task')),
+                  ),
+                ),
               ],
             ),
           ),
           body: TabBarView(
             children: [
               _buildTaskList(false), // New Tasks
-              _buildTaskList(true),  // Completed Tasks
+              _buildTaskList(true), // Completed Tasks
             ],
           ),
         ),
@@ -108,31 +118,26 @@ class TaskListingView extends GetView<TaskListingController> {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Task Name
-                      Expanded(
-                        child: Text(
-                          task.task.toString(),
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: Get.height * 0.018,
-                            color: Colors.black,
-                          ),
-                          overflow: TextOverflow.ellipsis, // Handles overflow
-                        ),
-                      ),
+                      // Task Name with Read More functionality
+                      _buildTaskTextWithReadMore(task.task.toString(), index),
+
                       // Show Checkbox only for New Tasks
                       if (!isCompleted)
-                        Checkbox(
-                          value: task.status == 'Completed',
-                          onChanged: (bool? newValue) {
-                            if (newValue != null) {
-                              controller.toggleTaskStatus(task, newValue);
-                            }
-                          },
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Checkbox(
+                            value: task.status == 'Completed',
+                            onChanged: (bool? newValue) {
+                              if (newValue != null) {
+                                controller.toggleTaskStatus(task, newValue);
+                              }
+                            },
+                          ),
                         ),
                     ],
                   ),
@@ -145,6 +150,51 @@ class TaskListingView extends GetView<TaskListingController> {
     });
   }
 
+  // Method to build task text with Read More/Read Less functionality
+  Widget _buildTaskTextWithReadMore(String taskText, int index) {
+    final TextStyle textStyle = TextStyle(
+      fontWeight: FontWeight.w400,
+      fontSize: Get.height * 0.020,
+      color: Colors.black,
+    );
+
+    // Measure the number of lines required to display the text
+    TextPainter textPainter = TextPainter(
+      text: TextSpan(text: taskText, style: textStyle),
+      maxLines: 4,
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout(maxWidth: Get.width - 50); // Adjust according to layout
+
+    bool exceedsMaxLines = textPainter.didExceedMaxLines;
+
+    return Obx(() {
+      bool isExpanded = controller.expandedTasks[index] ?? false;
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            taskText,
+            style: textStyle,
+            maxLines: isExpanded ? null : 4,
+            overflow: isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
+          ),
+          if (exceedsMaxLines) // Show Read More/Read Less only if it exceeds 4 lines
+            InkWell(
+              onTap: () {
+                controller.toggleExpandedTask(index);
+              },
+              child: Text(
+                isExpanded ? 'Read Less' : 'Read More',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+        ],
+      );
+    });
+  }
 }
-
-

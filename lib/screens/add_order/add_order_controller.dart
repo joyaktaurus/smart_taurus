@@ -91,6 +91,7 @@ class AddOrderController extends GetxController {
       print('Error fetching profile data: $e');
     }
   }
+
   Future<void> submitOrder() async {
     if (selectedShop.isEmpty || products.isEmpty) {
       Get.snackbar('Error', 'Please select a shop and add products');
@@ -98,36 +99,41 @@ class AddOrderController extends GetxController {
     }
 
     try {
-      // Prepare data
+      // Parse shop ID
       int shopId = int.parse(selectedShop.value);
+
+      // Prepare product data
       List<String> productNames = products.map((p) => p.productName ?? '').toList();
       List<String> productIds = products.map((p) {
         if (p.productId != null && p.productId!.isNotEmpty) {
-          return p.productId!; // Assuming productId is already a string
+          return p.productId!;
         } else {
-          throw Exception('Product ID missing for ${p.productName}');
+          throw Exception('Product ID is missing for ${p.productName}');
         }
       }).toList();
-      List<String> productQtys = products.map((p) => p.quantity.toString()).toList(); // Changed to string
+      List<String> productQtys = products.map((p) => p.quantity.toString()).toList();
       List<String> productAmts = products.map((p) {
         double price = double.tryParse(p.price ?? '0') ?? 0.0;
-        return (price * p.quantity).toString(); // Changed to string
+        return (price * p.quantity).toStringAsFixed(2);
       }).toList();
 
-      // Submit data to API
+      // Calculate total (optional)
+      int total = finalAmount.value.toInt();
+
+      // Submit the order as query parameters
       ApiResp response = await AddOrderSubmitServices.fetchUser(
         shop_id: shopId,
-        total: finalAmount.value.toInt(),
-        product_names: productNames,
-        product_qtys: productQtys,
-        product_ids: productIds,
-        product_amts: productAmts,
+        total: total,
+        product_names: jsonEncode(productNames), // Convert to JSON string
+        product_qtys: jsonEncode(productQtys),   // Convert to JSON string
+        product_ids: jsonEncode(productIds),     // Convert to JSON string
+        product_amts: jsonEncode(productAmts),   // Convert to JSON string
       );
 
+      // Handle the API response
       if (response.ok) {
-        var responseData = jsonDecode(response.rdata);
+        var responseData = response.rdata; // Directly use the response data
         String message = responseData["message"] ?? "Order submitted successfully";
-
         Get.snackbar('Success', message);
       } else {
         Get.snackbar('Error', 'Failed to submit order');
@@ -137,7 +143,6 @@ class AddOrderController extends GetxController {
       Get.snackbar('Error', 'Something went wrong: $e');
     }
   }
-
 
 }
 

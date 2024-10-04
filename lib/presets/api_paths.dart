@@ -1,3 +1,5 @@
+import 'package:smart_taurus/models/empdetails.dart';
+
 abstract class ApiPaths {
   static const baseUrl = "http://seowebsites.in/Smart_Taurus/smart_taurus/api/v1";
   static const login = '/login';
@@ -10,6 +12,8 @@ abstract class ApiPaths {
   static const shopSearch = '/shop-search';
   static const Expenses = '/add-expenses';
   static const NewLead = '/add-lead';
-  static const AddOrderSubmit = '/add-order';
+   static const AddOrderSubmit = '/add-order';
+  static const EmpDetails = '/get-employee';
+  static const productSearch = '/product-search';
 
 }

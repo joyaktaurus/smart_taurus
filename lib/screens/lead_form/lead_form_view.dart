@@ -81,243 +81,496 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          TextFormField(
-                            controller: controller.shopnameCtrl,
-                            focusNode: controller.shopnameCtrlfNode,
-                            decoration: textBoxDecoration('Shop Name'),
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[a-zA-Z]+|\s")),
-                            ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter a shop name';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.cusnameCtrl,
-                            focusNode: controller.cusnameCtrlfNode,
-                            decoration: textBoxDecoration('Customer Name'),
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[a-zA-Z]+|\s")),
-                            ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter customer name';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            keyboardType: TextInputType.phone,
-                            controller: controller.phonenumCtrl,
-                            focusNode: controller.phonenumCtrlfNode,
-                            decoration: textBoxDecoration('Phone Number'),
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              String patttern =
-                                  r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)';
-                              RegExp regExp = new RegExp(patttern);
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter mobile number';
-                              } else if (!regExp.hasMatch(value)) {
-                                return 'Please enter valid mobile number';
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.emailCtrl,
-                            focusNode: controller.emailCtrlfNode,
-                            decoration: textBoxDecoration('E-mail'),
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              String pattern =
-                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                              RegExp regex = RegExp(pattern);
-                              if (!regex.hasMatch(value!))
-                                return 'Enter Valid Email';
-                              else
-                                return null;
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.orgCtrl,
-                            focusNode: controller.orgCtrlfNode,
-                            decoration: textBoxDecoration('Organization'),
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[a-zA-Z]+|\s")),
-                            ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter organization';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.gstCtrl,
-                            focusNode: controller.gstCtrlfNode,
-                            decoration: textBoxDecoration('GST Number'),
-                            textInputAction: TextInputAction.next,
-                            // inputFormatters: [
-                            //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
-                            // ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter GST number';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.pancardCtrl,
-                            focusNode: controller.pancardCtrlfNode,
-                            decoration: textBoxDecoration('Pancard'),
-                            textInputAction: TextInputAction.next,
-                            // inputFormatters: [
-                            //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
-                            // ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter pancard details';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.categoryCtrl,
-                            focusNode: controller.categoryCtrlfNode,
-                            decoration: textBoxDecoration('Category'),
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[a-zA-Z]+|\s")),
-                            ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter category information';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.budgetCtrl,
-                            focusNode: controller.budgetCtrlfNode,
-                            decoration: textBoxDecoration('Budget Informations'),
-                            textInputAction: TextInputAction.next,
-                            // inputFormatters: [
-                            //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
-                            // ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter budget informations';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.brandCtrl,
-                            focusNode: controller.brandCtrlfNode,
-                            decoration: textBoxDecoration('Brand Informations'),
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r"[a-zA-Z]+|\s")),
-                            ],
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter brand informations';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.addressoneCtrl,
-                            focusNode: controller.addressoneCtrlfNode,
-                            decoration: textBoxDecoration('Address Line 1'),
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter address';
-                              }
-                              if (value.length < 3) {
-                                return 'Invalid address. Address must be at least 3 characters long.';
-                              }
-                              return null; // Return null if the input is valid
-                            },
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.addresstwoCtrl,
-                            focusNode: controller.addresstwoCtrlfNode,
-                            decoration: textBoxDecoration('Address Line 2'),
-                            textInputAction: TextInputAction.next,
-                          ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                              keyboardType: TextInputType.phone,
-                              controller: controller.pincodeCtrl,
-                              focusNode: controller.pincodeCtrlfNode,
-                              decoration: textBoxDecoration('Pincode'),
-                              textInputAction: TextInputAction.next,
-                              validator: (value) {
-                                String patttern =
-                                    r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)';
-                                RegExp regExp = new RegExp(patttern);
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter pincode';
-                                } else {
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12.0),
+                              // Padding inside the container
+                              child: TextFormField(
+                                controller: controller.shopnameCtrl,
+                                focusNode: controller.shopnameCtrlfNode,
+                                decoration: InputDecoration(
+                                  labelText: 'Shop Name',
+                                  border: InputBorder.none,
+                                  // Removes the default underline
+                                  labelStyle: TextStyle(
+                                      color: Colors.grey), // Label color
+                                ),
+                                textInputAction: TextInputAction.next,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r"[a-zA-Z\s]+")),
+                                ],
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter a shop name';
+                                  }
+                                  if (value.length < 3) {
+                                    return 'Invalid name. Name must be at least 3 characters long.';
+                                  }
                                   return null;
-                                }
-                              }),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            controller: controller.instructCtrl,
-                            focusNode: controller.instructCtrlfNode,
-                            decoration: textBoxDecoration('Instructions'),
-                            textInputAction: TextInputAction.next,
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                // Define the border color here
+                                borderRadius: BorderRadius.circular(
+                                    30), // Rounded corners
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.cusnameCtrl,
+                                  focusNode: controller.cusnameCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Customer Name',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r"[a-zA-Z]+|\s")),
+                                  ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter customer name';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid name. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                ),
+                              )),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                // Define the border color here
+                                borderRadius: BorderRadius.circular(
+                                    30), // Rounded corners
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  keyboardType: TextInputType.phone,
+                                  controller: controller.phonenumCtrl,
+                                  focusNode: controller.phonenumCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Phone Number',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) {
+                                    String patttern =
+                                        r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)';
+                                    RegExp regExp = new RegExp(patttern);
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter mobile number';
+                                    } else if (!regExp.hasMatch(value)) {
+                                      return 'Please enter valid mobile number';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              )),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                // Define the border color here
+                                borderRadius: BorderRadius.circular(
+                                    30), // Rounded corners
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.emailCtrl,
+                                  focusNode: controller.emailCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'E-mail',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) {
+                                    String pattern =
+                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+                                    RegExp regex = RegExp(pattern);
+                                    if (!regex.hasMatch(value!))
+                                      return 'Enter Valid Email';
+                                    else
+                                      return null;
+                                  },
+                                ),
+                              )),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                // Define the border color here
+                                borderRadius: BorderRadius.circular(
+                                    30), // Rounded corners
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.orgCtrl,
+                                  focusNode: controller.orgCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Organisation',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r"[a-zA-Z]+|\s")),
+                                  ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter organization';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid name. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                ),
+                              )),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                // Define the border color here
+                                borderRadius: BorderRadius.circular(
+                                    30), // Rounded corners
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.gstCtrl,
+                                  focusNode: controller.gstCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'GST Number',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  // inputFormatters: [
+                                  //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
+                                  // ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter GST number';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid name. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                ),
+                              )),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.pancardCtrl,
+                                  focusNode: controller.pancardCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Pancard',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  // inputFormatters: [
+                                  //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
+                                  // ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter pancard details';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid name. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                )),
+                          ),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.categoryCtrl,
+                                  focusNode: controller.categoryCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Category',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r"[a-zA-Z]+|\s")),
+                                  ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter category information';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid name. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                )),
+                          ),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.budgetCtrl,
+                                  focusNode: controller.budgetCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Budget Informations',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  // inputFormatters: [
+                                  //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
+                                  // ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter budget informations';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid name. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                )),
+                          ),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey),
+                                // Define the border color here
+                                borderRadius: BorderRadius.circular(
+                                    30), // Rounded corners
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.brandCtrl,
+                                  focusNode: controller.brandCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Brand Informations',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r"[a-zA-Z]+|\s")),
+                                  ],
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter brand informations';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid name. Name must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                ),
+                              )),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.addressoneCtrl,
+                                  focusNode: controller.addressoneCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Address Line 1',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter address';
+                                    }
+                                    if (value.length < 3) {
+                                      return 'Invalid address. Address must be at least 3 characters long.';
+                                    }
+                                    return null; // Return null if the input is valid
+                                  },
+                                )),
+                          ),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.addresstwoCtrl,
+                                  focusNode: controller.addresstwoCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Address Line 2',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                )),
+                          ),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                    keyboardType: TextInputType.phone,
+                                    controller: controller.pincodeCtrl,
+                                    focusNode: controller.pincodeCtrlfNode,
+                                    decoration: InputDecoration(
+                                      labelText: 'Pincode',
+                                      border: InputBorder.none,
+                                      // Removes the default underline
+                                      labelStyle: TextStyle(
+                                          color: Colors.grey), // Label color
+                                    ),
+                                    textInputAction: TextInputAction.next,
+                                    validator: (value) {
+                                      String patttern =
+                                          r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)';
+                                      RegExp regExp = new RegExp(patttern);
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter pincode';
+                                      } else {
+                                        return null;
+                                      }
+                                    })),
+                          ),
+                          SizedBox(height: Get.height * .02),
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              // Define the border color here
+                              borderRadius:
+                                  BorderRadius.circular(30), // Rounded corners
+                            ),
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12.0),
+                                // Padding inside the container
+                                child: TextFormField(
+                                  controller: controller.instructCtrl,
+                                  focusNode: controller.instructCtrlfNode,
+                                  decoration: InputDecoration(
+                                    labelText: 'Instructions',
+                                    border: InputBorder.none,
+                                    // Removes the default underline
+                                    labelStyle: TextStyle(
+                                        color: Colors.grey), // Label color
+                                  ),
+                                  textInputAction: TextInputAction.next,
+                                )),
                           ),
                           SizedBox(height: Get.height * .03),
                           Center(
@@ -325,7 +578,8 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                               text: 'Submit',
                               buttonPress: () {
                                 MyUtils.hideKeyboard();
-                                if (controller.formKey.currentState!.validate()) {
+                                if (controller.formKey.currentState!
+                                    .validate()) {
                                   // All fields are valid, perform the submit operation
                                   errM(() => controller.shopRegister());
                                 }

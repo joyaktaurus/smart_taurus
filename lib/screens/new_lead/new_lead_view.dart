@@ -77,14 +77,172 @@ class NewLeadSubmit extends GetView<NewLeadSubmitController> {
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          TextFormField(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            height: 90,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.deepPurpleAccent,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    IconButton(
+                                      onPressed: () {
+                                        // Show the dropdown by fetching customer data
+                                        controller.showDropdown
+                                            .toggle(); // Toggle dropdown visibility
+                                        controller.initialCustomersList();
+                                      },
+                                      icon: const Icon(Icons.add),
+                                      color: Colors.deepPurpleAccent,
+                                    ),
+                                    const Text(
+                                      "Add Party",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                  ],
+                                ),
+                                Obx(() {
+                                  // Show the selected shop name if any shop is selected
+                                  if (controller.selectedShop.isNotEmpty) {
+                                    final selectedShop =
+                                    controller.customerData.firstWhere(
+                                          (shop) =>
+                                      shop.intShopId.toString() ==
+                                          controller.selectedShop.value,
+                                    );
+                                    return Text(
+                                      selectedShop.shopName ?? 'Unnamed Shop',
+                                      style: TextStyle(
+                                          color: Colors.grey[800],
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600),
+                                    );
+                                  }
+                                  return const SizedBox();
+                                }),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Obx(() {
+                          // Show dropdown only when `showDropdown` is true
+                          if (controller.showDropdown.isTrue) {
+                            if (controller.isScreenProgress.isTrue) {
+                              return const CircularProgressIndicator();
+                            }
+                            if (controller.customerData.isEmpty) {
+                              return const Text('No shops available');
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: Colors.deepPurpleAccent, width: 2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  hint: const Text('Select Shop'),
+                                  value: controller.selectedShop.isNotEmpty
+                                      ? controller.selectedShop.value
+                                      : null,
+                                  // Selected value from the dropdown
+                                  items: controller.customerData.map((shop) {
+                                    return DropdownMenuItem<String>(
+                                      value: shop.intShopId.toString(),
+                                      child: Text(shop.shopName ?? 'Unnamed Shop'),
+                                    );
+                                  }).toList(),
+                                  onChanged: (selectedValue) {
+                                    // Handle shop selection and hide dropdown
+                                    controller.selectedShop(selectedValue!);
+                                    controller.showDropdown.value =
+                                    false; // Hide the dropdown
+                                    print('Selected shop: $selectedValue');
+                                  },
+                                ),
+                              ),
+                            );
+                          } else {
+                            return const SizedBox(); // Hide dropdown when not active
+                          }
+                        }),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            // Define the border color here
+                            borderRadius:
+                            BorderRadius.circular(30), // Rounded corners
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0),
+                            // Padding inside the container
+
+                            child: TextFormField(
                             controller: controller.cusnameCtrl,
                             focusNode: controller.cusnameCtrlfNode,
-                            decoration: textBoxDecoration('Customer Name'),
+                              decoration: InputDecoration(
+                                labelText: 'Title',
+                                border: InputBorder.none,
+                                // Removes the default underline
+                                labelStyle: TextStyle(
+                                    color: Colors.grey), // Label color
+                              ),                            textInputAction: TextInputAction.next,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r"[a-zA-Z]+|\s")),
+                            ],
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please title';
+                              }
+                              if (value.length < 3) {
+                                return 'Invalid title. Title must be at least 3 characters long.';
+                              }
+                              return null; // Return null if the input is valid
+                            },
+                          ),
+                          )   ),
+                        SizedBox(height: Get.height * .01),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            // Define the border color here
+                            borderRadius:
+                            BorderRadius.circular(30), // Rounded corners
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12.0),
+                            // Padding inside the container
+
+                          child: TextFormField(
+                            controller: controller.phonenumCtrl,
+                            focusNode: controller.phonenumCtrlfNode,
+                            decoration: InputDecoration(
+                              labelText: 'Note',
+                              border: InputBorder.none,
+                              // Removes the default underline
+                              labelStyle: TextStyle(
+                                  color: Colors.grey), // Label color
+                            ),
                             textInputAction: TextInputAction.next,
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
@@ -92,57 +250,39 @@ class NewLeadSubmit extends GetView<NewLeadSubmitController> {
                             ],
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter customer name';
+                                return 'Please title';
                               }
                               if (value.length < 3) {
-                                return 'Invalid name. Name must be at least 3 characters long.';
+                                return 'Invalid title. Title must be at least 3 characters long.';
                               }
                               return null; // Return null if the input is valid
                             },
                           ),
-                          SizedBox(height: Get.height * .01),
-                          TextFormField(
-                            keyboardType: TextInputType.phone,
-                            controller: controller.phonenumCtrl,
-                            focusNode: controller.phonenumCtrlfNode,
-                            decoration: textBoxDecoration('Phone Number'),
-                            textInputAction: TextInputAction.next,
-                            validator: (value) {
-                              String patttern =
-                                  r'(^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$)';
-                              RegExp regExp = new RegExp(patttern);
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter mobile number';
-                              } else if (!regExp.hasMatch(value)) {
-                                return 'Please enter valid mobile number';
+                          )  ),
+                        SizedBox(height: Get.height * .03),
+                        Center(
+                          child: MAButton(
+                            text: 'Submit',
+                            buttonPress: () {
+                              MyUtils.hideKeyboard();
+                              if (controller.formKey.currentState!.validate()) {
+                                // Call the submit function to send the lead details to the server
+                                controller.submitLeadDetails();
                               }
-                              return null;
                             },
+                            colors: Colors.white,
+                            color: Colors.deepPurpleAccent,
+                            isEnabled: true,
+                            padding: const EdgeInsets.all(30),
+                            height: Get.height * 0.07,
+                            width: Get.width * 0.4,
+                            clipBehavior: 0,
+                            radius: 30,
+                            fontSize: 20,
                           ),
-                          SizedBox(height: Get.height * .03),
-                          Center(
-                            child: MAButton(
-                              text: 'Submit',
-                              buttonPress: () {
-                                MyUtils.hideKeyboard();
-                                if (controller.formKey.currentState!.validate()) {
-                                  // All fields are valid, perform the submit operation
-                                  errM(() => controller.shopRegister());
-                                }
-                              },
-                              colors: Colors.white,
-                              color: Colors.deepPurpleAccent,
-                              isEnabled: true,
-                              padding: const EdgeInsets.all(30),
-                              height: Get.height * 0.07,
-                              width: Get.width * 0.4,
-                              clipBehavior: 0,
-                              radius: 30,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+
+                      ],
                     ),
                   ),
                 ),

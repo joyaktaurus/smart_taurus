@@ -7,9 +7,8 @@ import '../../models/lead_listing_model.dart';
 import '../../services/lead_listing_services.dart';
 
 class LeadListingController extends GetxController {
-
   var selectedIndex = Rx<int?>(null); // Track selected item index
-  RxList<ShopShop> leadListData = <ShopShop>[].obs; // This will store ShopShop data
+  RxList<Leads> leadListData = <Leads>[].obs; // Store Leads data
   RxBool isScreenProgress = true.obs;
 
   @override
@@ -28,9 +27,9 @@ class LeadListingController extends GetxController {
       if (resp.ok) {
         final leadListing = LeadListing.fromJson(resp.rdata);
 
-        // Extract the ShopShop objects from ShopElement and assign them to leadListData
-        final shopData = leadListing.shop?.map((shopElement) => shopElement.shop).whereType<ShopShop>().toList() ?? [];
-        leadListData.assignAll(shopData);
+        // Assign the full Leads data to leadListData
+        final leadsData = leadListing.leads ?? [];
+        leadListData.assignAll(leadsData);
 
         isScreenProgress.value = false; // Hide progress indicator
         print('Profile data fetched successfully: ${leadListData.length} items');
@@ -46,3 +45,5 @@ class LeadListingController extends GetxController {
     }
   }
 }
+
+

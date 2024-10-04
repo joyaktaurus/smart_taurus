@@ -30,6 +30,8 @@ class LoginView extends GetView<LoginViewController> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Image.asset("assets/images/logowhite.png"),
+                SizedBox(height: 30),
                 Text(
                   "Login",
                   style: MyTheme.regularTextStyle(

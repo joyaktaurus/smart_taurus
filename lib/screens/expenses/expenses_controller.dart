@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/api_resp.dart';
 import '../../models/shop_res.dart';
@@ -35,6 +36,21 @@ class ExpenseController extends GetxController {
   final FocusNode otherExCtrlfNode = FocusNode();
   final FocusNode traDateCtrlfNode = FocusNode();
 
+
+  void selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null && pickedDate != DateTime.now()) {
+      // Format the pickedDate to yyyy-mm-dd format
+      String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+      traDateCtrl.text = formattedDate;
+    }
+  }
 
   void shopRegister() async {
     log("Shop registraion called");

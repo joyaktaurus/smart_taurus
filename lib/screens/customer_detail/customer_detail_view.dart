@@ -36,21 +36,21 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                   style: TextStyle(color: Colors.black),
                 ),
               ),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.search, color: Colors.black),
-                  onPressed: () {
-                    Get.toNamed(Routes.dashBoard);
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.notification_add_outlined,
-                      color: Colors.black),
-                  onPressed: () {
-                    // Add functionality for notifications icon
-                  },
-                ),
-              ],
+              // actions: [
+              //   IconButton(
+              //     icon: Icon(Icons.search, color: Colors.black),
+              //     onPressed: () {
+              //       Get.toNamed(Routes.dashBoard);
+              //     },
+              //   ),
+              //   IconButton(
+              //     icon: Icon(Icons.notification_add_outlined,
+              //         color: Colors.black),
+              //     onPressed: () {
+              //       // Add functionality for notifications icon
+              //     },
+              //   ),
+              // ],
               centerTitle: true, // Ensure the title is centered
             ),
             drawer: Drawer(
@@ -61,7 +61,8 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                 if (controller.isScreenProgress.value) {
                   // Show a loading spinner while data is being fetched
                   return Center(child: CircularProgressIndicator());
-                } else if (controller.customerDetails.value?.intShopId == null) {
+                } else if (controller.customerDetails.value?.intShopId ==
+                    null) {
                   // Show a message if there are no customer details
                   return Center(child: Text("No customer details available."));
                 } else {
@@ -101,65 +102,88 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                         child: Padding(
                             padding: EdgeInsets.all(6.0),
                             child: Column(children: [
-                              Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      height: 70,
-                                      width: 70,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            color:
-                                                Colors.black12), // Grey border
-                                      ),
-                                      child: Center(
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/images/img.png"),
-                                              fit: BoxFit
-                                                  .cover, // Ensures the image covers the circle area
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: Get.width * 0.02),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 15.0),
-                                      child: Column(
+                                    Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                           controller.customerDetails.value!.customerName.toString(),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 17),
+                                          Container(
+                                            height: 70,
+                                            width: 70,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: Colors
+                                                      .black12), // Grey border
+                                            ),
+                                            child: Center(
+                                              child: Container(
+                                                height: 65,
+                                                width: 65,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    image: AssetImage(
+                                                        "assets/images/img.png"),
+                                                    fit: BoxFit
+                                                        .cover, // Ensures the image covers the circle area
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                          Text(
-                                            controller.customerDetails.value!.shopName.toString(),
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.grey),
+                                          SizedBox(width: Get.width * 0.02),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 15.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  controller.customerDetails
+                                                          .value!.customerName
+                                                          .toString() ??
+                                                      "----",
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 17),
+                                                ),
+                                                Text(
+                                                  controller.customerDetails
+                                                          .value!.shopName
+                                                          .toString() ??
+                                                      "----",
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      color: Colors.grey),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
+                                        ]),
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 20.0,left: 50),
+                                      padding: const EdgeInsets.only(top: 20.0),
                                       child: Text(
-                                        controller.customerDetails.value!.categoryInfo.toString(),
+                                        controller.customerDetails.value
+                                                    ?.categoryInfo?.isNotEmpty ==
+                                                true
+                                            ? controller.customerDetails.value!
+                                                .categoryInfo!
+                                            : "----",
                                         style: TextStyle(
-                                            color: Colors.deepPurpleAccent),
+                                          fontSize: 17,
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                     ),
-                                  ]),
+                                  ],
+                                ),
+                              ),
                               SizedBox(height: Get.height * 0.01),
                               Padding(
                                 padding: const EdgeInsets.only(
@@ -184,7 +208,13 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                           ),
                                         ),
                                         SizedBox(width: Get.width * 0.01),
-                                        Text( controller.customerDetails.value!.phoneNumber.toString(),
+                                        Text(
+                                          controller.customerDetails.value
+                                              ?.phoneNumber?.isNotEmpty ==
+                                              true
+                                              ? controller.customerDetails.value!
+                                              .phoneNumber!
+                                              : "----",
                                         )
                                       ],
                                     ),
@@ -204,7 +234,13 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                           ),
                                         ),
                                         SizedBox(width: Get.width * 0.01),
-                                        Text( controller.customerDetails.value!.strEmail.toString(),
+                                        Text(
+                                          controller.customerDetails.value
+                                              ?.strEmail?.isNotEmpty ==
+                                              true
+                                              ? controller.customerDetails.value!
+                                              .strEmail!
+                                              : "----",
                                         )
                                       ],
                                     ),
@@ -235,7 +271,13 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                           ),
                                         ),
                                         SizedBox(width: Get.width * 0.01),
-                                        Text( controller.customerDetails.value!.shopName.toString(),
+                                        Text(
+                                          controller.customerDetails.value
+                                              ?.shopName?.isNotEmpty ==
+                                              true
+                                              ? controller.customerDetails.value!
+                                              .shopName!
+                                              : "----",
                                         )
                                       ],
                                     ),
@@ -259,9 +301,21 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(controller.customerDetails.value!.addressLine1.toString(),
+                                            Text(
+                                              controller.customerDetails.value
+                                                  ?.addressLine1?.isNotEmpty ==
+                                                  true
+                                                  ? controller.customerDetails.value!
+                                                  .addressLine1!
+                                                  : "----",
                                             ),
-                                            Text( controller.customerDetails.value!.addressLine1.toString(),
+                                            Text(
+                                              controller.customerDetails.value
+                                                  ?.addressLine1?.isNotEmpty ==
+                                                  true
+                                                  ? controller.customerDetails.value!
+                                                  .addressLine1!
+                                                  : "----",
                                             ),
                                           ],
                                         )
@@ -314,7 +368,13 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text("GST"),
-                                      Text( controller.customerDetails.value!.gstNumber.toString(),
+                                      Text(
+                                        controller.customerDetails.value
+                                            ?.gstNumber?.isNotEmpty ==
+                                            true
+                                            ? controller.customerDetails.value!
+                                            .gstNumber!
+                                            : "----",
                                       ),
                                     ],
                                   )
@@ -341,7 +401,13 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text("Pan Card"),
-                                      Text(controller.customerDetails.value!.pancard.toString(),
+                                      Text(
+                                        controller.customerDetails.value
+                                            ?.pancard?.isNotEmpty ==
+                                            true
+                                            ? controller.customerDetails.value!
+                                            .pancard!
+                                            : "----",
                                       ),
                                     ],
                                   )
@@ -393,7 +459,13 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text("Budget Info"),
-                                      Text(controller.customerDetails.value!.budgetInfo.toString(),
+                                      Text(
+                                        controller.customerDetails.value
+                                            ?.budgetInfo?.isNotEmpty ==
+                                            true
+                                            ? controller.customerDetails.value!
+                                            .budgetInfo!
+                                            : "----",
                                       ),
                                     ],
                                   )
@@ -420,7 +492,13 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text("Brand Info"),
-                                      Text(controller.customerDetails.value!.brandInfo.toString(),
+                                      Text(
+                                        controller.customerDetails.value
+                                            ?.brandInfo?.isNotEmpty ==
+                                            true
+                                            ? controller.customerDetails.value!
+                                            .brandInfo!
+                                            : "----",
                                       ),
                                     ],
                                   )
@@ -472,7 +550,12 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text("Notes"),
-                                      Text("xxx xxxx xxx"),
+                                      Text(  controller.customerDetails.value
+                                          ?.categoryInfo?.isNotEmpty ==
+                                          true
+                                          ? controller.customerDetails.value!
+                                          .categoryInfo!
+                                          : "----",),
                                     ],
                                   )
                                 ],

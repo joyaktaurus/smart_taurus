@@ -350,7 +350,7 @@ class AddOrderView extends GetView<AddOrderController> {
                   ),
                 ),
                 Container(
-                  height: 400,
+                  height: 300,
                   width: 800,
                   color: Colors.grey[200],
                   child: Padding(
@@ -391,7 +391,7 @@ class AddOrderView extends GetView<AddOrderController> {
                                       height: 30,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5),
-                                        color: Colors.green,
+                                        color: Colors.deepPurpleAccent,
                                       ),
                                       child: Row(
                                         mainAxisAlignment:
