@@ -41,14 +41,14 @@ class ExpenseView extends GetView<ExpenseController> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.notification_add_outlined, color: Colors.black),
-              onPressed: () {
-                Get.toNamed(Routes.dashBoard);
-              },
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //     icon: Icon(Icons.notification_add_outlined, color: Colors.black),
+          //     onPressed: () {
+          //       Get.toNamed(Routes.dashBoard);
+          //     },
+          //   ),
+          // ],
           centerTitle: true, // Ensure the title is centered
         ),
         drawer: Drawer(
@@ -319,7 +319,7 @@ class ExpenseView extends GetView<ExpenseController> {
                                     suffixIcon: IconButton(
                                       icon: Icon(
                                         Icons.calendar_today,
-                                        color: Colors.deepPurpleAccent,
+                                        color: MyTheme.appColor,
                                       ),
                                       onPressed: () {
                                         controller.selectDate(context); // Call selectDate function here
@@ -360,7 +360,7 @@ class ExpenseView extends GetView<ExpenseController> {
                                 }
                               },
                               colors: Colors.white,
-                              color: Colors.deepPurpleAccent,
+                              color: MyTheme.appColor,
                               isEnabled: true,
                               padding: const EdgeInsets.all(30),
                               height: Get.height * 0.07,

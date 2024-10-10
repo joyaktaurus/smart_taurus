@@ -1,10 +1,11 @@
+
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../models/empdetails.dart';
 import '../../services/user_services.dart';
 
-class DashboardController extends GetxController {
+class ProfileController extends GetxController {
   var employee = Employee().obs;
   var imagePath = ''.obs;
   var isLoading = true.obs;
@@ -35,19 +36,7 @@ class DashboardController extends GetxController {
       isLoading(false);
     }
   }
-}
+  }
 
 
-// The error occurs because the imagePath field is part of the EmpDetails
-// class, not the Employee class. Since you're trying to access
-// imagePath from the Employee object, it results in the error.
-//
-// To fix this, you'll need to pass the imagePath from the EmpDetails
-// object to the view or use it directly from where EmpDetails is parsed in your controller.
-//
-// Here's the solution:
-//
-// Add imagePath as an observable in your controller (since it belongs to EmpDetails).
-// Use this observable in your view when constructing the image URL.
-// Modify the Controller:
-// Update the DashboardController to store the imagePath as well.
+

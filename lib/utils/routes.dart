@@ -20,6 +20,8 @@ import '../screens/login/login_view.dart';
 import '../screens/new_lead/new_lead_binding.dart';
 import '../screens/new_lead/new_lead_view.dart';
 import '../screens/onboarding_screen.dart';
+import '../screens/order_details/order_detail_bindings.dart';
+import '../screens/order_details/order_details_view.dart';
 import '../screens/product_list/product_list_bindings.dart';
 import '../screens/product_list/product_list_view.dart';
 import '../screens/product_view_list/product_view_binding.dart';
@@ -27,6 +29,8 @@ import '../screens/product_view_list/product_view_page.dart';
 import '../screens/splash_screen.dart';
 import '../screens/task_listing/task_list_bindings.dart';
 import '../screens/task_listing/task_list_view.dart';
+import '../screens/user_profile/profile_bindings.dart';
+import '../screens/user_profile/profile_view.dart';
 
 
 class Routes {
@@ -44,6 +48,8 @@ class Routes {
   static const addOrder = '/addOrder';
   static const newLead = '/newLead';
   static const productView = '/productView';
+  static const profileView = '/profileView';
+  static const orderDetails = '/orderDetails';
 
 
   static final routes = [
@@ -109,7 +115,6 @@ class Routes {
         finalAmount: Get.arguments['finalAmount'],
       ),
     ),
-
     GetPage(
       binding: NewLeadSubmitBindings(),
       name: newLead,
@@ -119,6 +124,16 @@ class Routes {
       binding: ProductViewBindings(),
       name: productView,
       page: () =>  ProductViewPage(),
+    ),
+    GetPage(
+      binding: ProfileBindings(),
+      name: profileView,
+      page: () =>  ProfileView(),
+    ),
+    GetPage(
+      binding: OrderDetailBindings(),
+      name: orderDetails,
+      page: () =>  OrderDetailsView(),
     ),
 
   ];

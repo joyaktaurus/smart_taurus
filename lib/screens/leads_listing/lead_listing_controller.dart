@@ -4,16 +4,18 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import '../../app.dart';
 import '../../models/api_resp.dart';
 import '../../models/lead_listing_model.dart';
+import '../../models/order_status_model.dart';
 import '../../services/lead_listing_services.dart';
+import '../../services/order_status_services.dart';
 
 class LeadListingController extends GetxController {
   var selectedIndex = Rx<int?>(null); // Track selected item index
-  RxList<Leads> leadListData = <Leads>[].obs; // Store Leads data
+  RxList<Order> orderListData = <Order>[].obs; // Store Order data
   RxBool isScreenProgress = true.obs;
 
   @override
   void onInit() {
-    initialCustomersList();
+    fetchOrderList();
     super.onInit();
   }
 
@@ -21,29 +23,28 @@ class LeadListingController extends GetxController {
     selectedIndex.value = index;
   }
 
-  Future<void> initialCustomersList() async {
+  Future<void> fetchOrderList() async {
     try {
-      final ApiResp resp = await LeadListingServices.getLeadList();
+      final ApiResp resp = await OrderStatusServices.getOrderList();
       if (resp.ok) {
-        final leadListing = LeadListing.fromJson(resp.rdata);
+        // Parse the order list data
+        final orderStatusModel = OrderStatusModel.fromJson(resp.rdata);
+        final ordersData = orderStatusModel.orders ?? [];
 
-        // Assign the full Leads data to leadListData
-        final leadsData = leadListing.leads ?? [];
-        leadListData.assignAll(leadsData);
+        // Assign the full Order data to orderListData
+        orderListData.assignAll(ordersData);
 
         isScreenProgress.value = false; // Hide progress indicator
-        print('Profile data fetched successfully: ${leadListData.length} items');
+        print('Order data fetched successfully: ${orderListData.length} items');
       } else {
         // Handle API response failure
         isScreenProgress.value = false;
-        print('Error fetching profile data: ${resp.msgs}');
+        print('Error fetching order data: ${resp.msgs}');
       }
     } catch (e) {
       // Handle errors during data fetching
       isScreenProgress.value = false;
-      print('Error fetching profile data: $e');
+      print('Error fetching order data: $e');
     }
   }
 }
-
-

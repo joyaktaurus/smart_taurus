@@ -7,6 +7,7 @@ class MyTheme {
   static Color whiteColor = const Color(0xFFFFFFFF);
   static Color myBlueDark = const Color.fromRGBO(0, 0, 128, 1);
   static Color dashBack = const Color(0x00FFFDFD);
+  static Color appColor = Color.fromRGBO(77, 82, 225, 1);
 
   static TextStyle regularTextStyle(
       {Color? color,

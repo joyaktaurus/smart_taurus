@@ -85,7 +85,7 @@ class NewLeadSubmit extends GetView<NewLeadSubmitController> {
                             height: 90,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: Colors.deepPurpleAccent,
+                                color: MyTheme.appColor,
                                 width: 2,
                               ),
                               borderRadius: BorderRadius.circular(15),
@@ -103,7 +103,7 @@ class NewLeadSubmit extends GetView<NewLeadSubmitController> {
                                         controller.initialCustomersList();
                                       },
                                       icon: const Icon(Icons.add),
-                                      color: Colors.deepPurpleAccent,
+                                      color: MyTheme.appColor,
                                     ),
                                     const Text(
                                       "Add Party",
@@ -271,7 +271,7 @@ class NewLeadSubmit extends GetView<NewLeadSubmitController> {
                               }
                             },
                             colors: Colors.white,
-                            color: Colors.deepPurpleAccent,
+                            color: MyTheme.appColor,
                             isEnabled: true,
                             padding: const EdgeInsets.all(30),
                             height: Get.height * 0.07,

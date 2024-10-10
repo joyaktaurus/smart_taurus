@@ -6,6 +6,7 @@ abstract class ApiPaths {
   static const customerList = '/get-shop';
   static const leadformSubmit = '/shop-register';
   static const leadListing = '/get-lead';
+  static const orderListing = '/get-order';
   static const productListing = '/get-products';
   static const taskListing = '/get-task';
   static const taskUpdate = '/update-task';
@@ -15,5 +16,6 @@ abstract class ApiPaths {
    static const AddOrderSubmit = '/add-order';
   static const EmpDetails = '/get-employee';
   static const productSearch = '/product-search';
+  static const orderDetails = '/get-order-details';
 
 }

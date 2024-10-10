@@ -15,7 +15,6 @@ abstract class App{
   static List<Shop> cusdetails = [];
   static List<ShopShop> shop = [];
   static List<ProductListing> prodDetails = [];
-  static List<TaskList> taskList = [];
 
 
 }

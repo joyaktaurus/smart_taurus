@@ -129,7 +129,7 @@ class AddOrderVieww extends GetView<AddOrderController> {
                     height: 50,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
-                      color: Colors.deepPurpleAccent,
+                      color: MyTheme.appColor,
                     ),
                     child: Row(
                       children: [
@@ -203,15 +203,15 @@ class AddOrderView extends GetView<AddOrderController> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.notification_add_outlined,
-                  color: Colors.black),
-              onPressed: () {
-                Get.toNamed(Routes.dashBoard);
-              },
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //     icon: const Icon(Icons.notification_add_outlined,
+          //         color: Colors.black),
+          //     onPressed: () {
+          //       Get.toNamed(Routes.dashBoard);
+          //     },
+          //   ),
+          // ],
           centerTitle: true,
         ),
         drawer: const Drawer(),
@@ -241,7 +241,7 @@ class AddOrderView extends GetView<AddOrderController> {
                     height: 90,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.deepPurpleAccent,
+                        color: MyTheme.appColor,
                         width: 2,
                       ),
                       borderRadius: BorderRadius.circular(15),
@@ -259,7 +259,7 @@ class AddOrderView extends GetView<AddOrderController> {
                                 controller.initialCustomersList();
                               },
                               icon: const Icon(Icons.add),
-                              color: Colors.deepPurpleAccent,
+                              color: MyTheme.appColor,
                             ),
                             const Text(
                               "Add Party",
@@ -308,8 +308,7 @@ class AddOrderView extends GetView<AddOrderController> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.deepPurpleAccent, width: 2),
+                          border: Border.all(color: MyTheme.appColor, width: 2),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: DropdownButton<String>(
@@ -356,80 +355,106 @@ class AddOrderView extends GetView<AddOrderController> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Obx(() {
-                      return ListView.builder(
-                        itemCount: controller.products.length,
-                        itemBuilder: (context, index) {
-                          final product = controller.products[index];
+                      return Container(
+                        height: 300,
+                        width: 800,
+                        color: Colors.grey[200],
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: controller.products.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    "Click below to add products",
+                                    style: TextStyle(
+                                        color: Colors.grey[600], fontSize: 16),
+                                  ),
+                                )
+                              : ListView.builder(
+                                  itemCount: controller.products.length,
+                                  itemBuilder: (context, index) {
+                                    final product = controller.products[index];
 
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Padding(
+                                    return Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(product.productName ?? ''),
-                                          // Display price based on quantity
-                                          Text(
-                                              "\$${(double.tryParse(product.price ?? '0')! * product.quantity).toStringAsFixed(2)}"),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 130,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.deepPurpleAccent,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          IconButton(
-                                            onPressed: () {
-                                              // Decrement quantity and update price
-                                              controller
-                                                  .countDecrement(product);
-                                            },
-                                            icon: Icon(Icons.remove,
-                                                color: Colors.white, size: 20),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: Colors.white,
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(product.productName ??
+                                                        ''),
+                                                    // Display price based on quantity
+                                                    Text(
+                                                        "\$${(double.tryParse(product.price ?? '0')! * product.quantity).toStringAsFixed(2)}"),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                width: 130,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  color: MyTheme.appColor,
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        // Decrement quantity and update price
+                                                        controller
+                                                            .countDecrement(
+                                                                product);
+                                                      },
+                                                      icon: Icon(Icons.remove,
+                                                          color: Colors.white,
+                                                          size: 20),
+                                                    ),
+                                                    Text(
+                                                      "${product.quantity}",
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ),
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        // Increment quantity and update price
+                                                        controller
+                                                            .countIncrement(
+                                                                product);
+                                                      },
+                                                      icon: Icon(Icons.add,
+                                                          color: Colors.white,
+                                                          size: 20),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                            "${product.quantity}",
-                                            // Display the quantity
-                                            style:
-                                                TextStyle(color: Colors.white),
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              // Increment quantity and update price
-                                              controller
-                                                  .countIncrement(product);
-                                            },
-                                            icon: Icon(Icons.add,
-                                                color: Colors.white, size: 20),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    );
+                                  },
                                 ),
-                              ),
-                            ),
-                          );
-                        },
+                        ),
                       );
                     }),
                   ),
@@ -449,8 +474,9 @@ class AddOrderView extends GetView<AddOrderController> {
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.deepPurpleAccent),
+                        borderRadius: BorderRadius.circular(15),
+                        color: MyTheme.appColor,
+                      ),
                       child: Row(
                         children: [
                           IconButton(
@@ -497,7 +523,7 @@ class AddOrderView extends GetView<AddOrderController> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 40.0),
+                  padding: EdgeInsets.only(top: 40.0, bottom: 10),
                   child: GestureDetector(
                     onTap: () {
                       controller.submitOrder();
@@ -505,8 +531,9 @@ class AddOrderView extends GetView<AddOrderController> {
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.deepPurpleAccent),
+                        borderRadius: BorderRadius.circular(15),
+                        color: MyTheme.appColor,
+                      ),
                       child: Center(
                         child: Text(
                           "Submit",

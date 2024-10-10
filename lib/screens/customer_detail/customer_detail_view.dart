@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 
 import '../../models/customer_detail_model.dart';
+import '../../utils/my_theme.dart';
 import '../../utils/my_utils.dart';
 import '../../utils/routes.dart';
 import 'customer_detail_controller.dart';
@@ -198,7 +199,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                           height: 30,
                                           width: 30,
                                           decoration: BoxDecoration(
-                                            color: Colors.deepPurpleAccent,
+                                            color: MyTheme.appColor,
                                             shape: BoxShape.circle,
                                           ),
                                           child: Icon(
@@ -224,7 +225,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                           height: 30,
                                           width: 30,
                                           decoration: BoxDecoration(
-                                            color: Colors.deepPurpleAccent,
+                                            color: MyTheme.appColor,
                                             shape: BoxShape.circle,
                                           ),
                                           child: Icon(
@@ -261,7 +262,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                           height: 30,
                                           width: 30,
                                           decoration: BoxDecoration(
-                                            color: Colors.deepPurpleAccent,
+                                            color: MyTheme.appColor,
                                             shape: BoxShape.circle,
                                           ),
                                           child: Icon(
@@ -287,7 +288,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                           height: 30,
                                           width: 30,
                                           decoration: BoxDecoration(
-                                            color: Colors.deepPurpleAccent,
+                                            color: MyTheme.appColor,
                                             shape: BoxShape.circle,
                                           ),
                                           child: Icon(
@@ -353,7 +354,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                     height: 30,
                                     width: 30,
                                     decoration: BoxDecoration(
-                                      color: Colors.deepPurpleAccent,
+                                      color: MyTheme.appColor,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
@@ -386,7 +387,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                     height: 30,
                                     width: 30,
                                     decoration: BoxDecoration(
-                                      color: Colors.deepPurpleAccent,
+                                      color: MyTheme.appColor,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
@@ -444,7 +445,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                     height: 30,
                                     width: 30,
                                     decoration: BoxDecoration(
-                                      color: Colors.deepPurpleAccent,
+                                      color: MyTheme.appColor,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
@@ -477,7 +478,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                     height: 30,
                                     width: 30,
                                     decoration: BoxDecoration(
-                                      color: Colors.deepPurpleAccent,
+                                      color: MyTheme.appColor,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(
@@ -535,7 +536,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                     height: 30,
                                     width: 30,
                                     decoration: BoxDecoration(
-                                      color: Colors.deepPurpleAccent,
+                                      color: MyTheme.appColor,
                                       shape: BoxShape.circle,
                                     ),
                                     child: Icon(

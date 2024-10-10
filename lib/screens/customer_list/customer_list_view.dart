@@ -173,9 +173,9 @@ class CustomerListView extends GetView<CustomerListController> {
                                                           BoxDecoration(
                                                         shape:
                                                             BoxShape.circle,
-                                                        color: Color.fromRGBO(
-                                                            77, 82, 225, 1),
-                                                      ),
+                                                            color: MyTheme.appColor,
+
+                                                          ),
                                                       child: Image.asset(
                                                           "assets/images/Vector.png"),
                                                     ),

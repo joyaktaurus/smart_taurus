@@ -5,6 +5,8 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:smart_taurus/components/rounded_loader.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import '../../utils/local_store.dart';
+import '../../utils/my_theme.dart';
 import '../../utils/my_utils.dart';
 import '../../utils/routes.dart';
 import 'dashboard_controller.dart';
@@ -40,10 +42,11 @@ class DashboardView extends GetView<DashboardController> {
             actions: [
               IconButton(
                 icon:
-                    Icon(Icons.notification_add_outlined, color: Colors.black),
+                    Icon(Icons.logout, color: Colors.black),
                 onPressed: () {
-                  // Add functionality for notifications icon
-                },
+                  LocalStore.clearData();
+                  Get.offNamed(Routes.login);
+                  },
               ),
             ],
             centerTitle: true, // Ensure the title is centered
@@ -71,11 +74,9 @@ class DashboardView extends GetView<DashboardController> {
                       child:
                           RoundedLoader()); // Show loader while fetching data
                 }
-
                 if (controller.employee.value.name == null) {
                   return Center(child: Text("No data available"));
                 }
-
                 return Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Column(
@@ -99,6 +100,7 @@ class DashboardView extends GetView<DashboardController> {
                             padding: EdgeInsets.all(10.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Row(
                                     crossAxisAlignment:
@@ -160,138 +162,167 @@ class DashboardView extends GetView<DashboardController> {
                                         ),
                                       ),
                                     ]),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 20.0),
-                                  child: Text("..."),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(Routes.profileView);
+                                  },
+                                  child: Text(
+                                    "....",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
                                 ),
                               ],
                             ),
                           )),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      height: 130, // Adjust the container height if needed
-                      width: 800,  // Adjust the width to decrease the overall size
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 130,
+                          // Adjust the container height if needed
+                          width: 800,
+                          // Adjust the width to decrease the overall size
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: MyTheme.appColor,
+                          ),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                SizedBox(
-                                  width: 80,  // Decreased width
-                                  height: 80, // Decreased height
-                                  child: SfRadialGauge(
-                                    axes: [
-                                      RadialAxis(
-                                        pointers: [
-                                          RangePointer(
-                                            value: 50,
-                                            width: 8,
-                                            cornerStyle: CornerStyle.bothCurve,
-                                            gradient: const SweepGradient(
-                                              colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF)],
-                                              stops: [0.1, 0.4],
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 80, // Decreased width
+                                      height: 80, // Decreased height
+                                      child: SfRadialGauge(
+                                        axes: [
+                                          RadialAxis(
+                                            pointers: [
+                                              RangePointer(
+                                                value: 50,
+                                                width: 8,
+                                                cornerStyle:
+                                                    CornerStyle.bothCurve,
+                                                gradient: const SweepGradient(
+                                                  colors: [
+                                                    Color(0xFFFFFFFF),
+                                                    Color(0xFFFFFFFF)
+                                                  ],
+                                                  stops: [0.1, 0.4],
+                                                ),
+                                              )
+                                            ],
+                                            axisLineStyle: AxisLineStyle(
+                                              thickness: 8,
+                                              color: Colors.grey.shade400,
                                             ),
+                                            startAngle: 5,
+                                            endAngle: 5,
+                                            showLabels: false,
+                                            showTicks: false,
+                                            annotations: [
+                                              GaugeAnnotation(
+                                                widget: Text(
+                                                  "4/7",
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    // Adjusted the font size for the text
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                angle: 270,
+                                                positionFactor:
+                                                    0.1, // Adjusted to fit inside the smaller gauge
+                                              ),
+                                            ],
                                           )
                                         ],
-                                        axisLineStyle: AxisLineStyle(
-                                          thickness: 8,
-                                          color: Colors.grey.shade400,
-                                        ),
-                                        startAngle: 5,
-                                        endAngle: 5,
-                                        showLabels: false,
-                                        showTicks: false,
-                                        annotations: [
-                                          GaugeAnnotation(
-                                            widget: Text(
-                                              "4/7",
-                                              style: TextStyle(
-                                                fontSize: 20,  // Adjusted the font size for the text
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            angle: 270,
-                                            positionFactor: 0.1, // Adjusted to fit inside the smaller gauge
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      "Visits",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        // Adjusted the font size for the text
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                SizedBox(height:5),
-                                Text("Visits",style: TextStyle(
-                                  fontSize:16,  // Adjusted the font size for the text
-                                  color: Colors.white,
-
-                                ),)
-                              ],
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                  width: 80,  // Decreased width
-                                  height: 80, // Decreased height
-                                  child: SfRadialGauge(
-                                    axes: [
-                                      RadialAxis(
-                                        pointers: [
-                                          RangePointer(
-                                            value: 50,
-                                            width: 8,
-                                            cornerStyle: CornerStyle.bothCurve,
-                                            gradient: const SweepGradient(
-                                              colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF)],
-                                              stops: [0.1, 0.4],
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      width: 80, // Decreased width
+                                      height: 80, // Decreased height
+                                      child: SfRadialGauge(
+                                        axes: [
+                                          RadialAxis(
+                                            pointers: [
+                                              RangePointer(
+                                                value: 50,
+                                                width: 8,
+                                                cornerStyle:
+                                                    CornerStyle.bothCurve,
+                                                gradient: const SweepGradient(
+                                                  colors: [
+                                                    Color(0xFFFFFFFF),
+                                                    Color(0xFFFFFFFF)
+                                                  ],
+                                                  stops: [0.1, 0.4],
+                                                ),
+                                              )
+                                            ],
+                                            axisLineStyle: AxisLineStyle(
+                                              thickness: 8,
+                                              color: Colors.grey.shade400,
                                             ),
+                                            startAngle: 5,
+                                            endAngle: 5,
+                                            showLabels: false,
+                                            showTicks: false,
+                                            annotations: [
+                                              GaugeAnnotation(
+                                                widget: Text(
+                                                  "2/7",
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                    // Adjusted the font size for the text
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                angle: 270,
+                                                positionFactor:
+                                                    0.1, // Adjusted to fit inside the smaller gauge
+                                              ),
+                                            ],
                                           )
                                         ],
-                                        axisLineStyle: AxisLineStyle(
-                                          thickness: 8,
-                                          color: Colors.grey.shade400,
-                                        ),
-                                        startAngle: 5,
-                                        endAngle: 5,
-                                        showLabels: false,
-                                        showTicks: false,
-                                        annotations: [
-                                          GaugeAnnotation(
-                                            widget: Text(
-                                              "2/7",
-                                              style: TextStyle(
-                                                fontSize: 20,  // Adjusted the font size for the text
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            angle: 270,
-                                            positionFactor: 0.1, // Adjusted to fit inside the smaller gauge
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      "Tasks",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        // Adjusted the font size for the text
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                SizedBox(height:5),
-                                Text("Tasks",style: TextStyle(
-                                  fontSize:16,  // Adjusted the font size for the text
-                                  color: Colors.white,
-                                ),)
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  )],
+                      )
+                    ],
                   ),
                 );
               }),
@@ -328,67 +359,96 @@ class DashboardView extends GetView<DashboardController> {
                           children: [
                             GestureDetector(
                               onTap: () {
+                                Get.toNamed(Routes.taskListing);
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    "assets/images/tasks.png",
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(
+                                    "Tasks",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[700]),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            GestureDetector(
+                              onTap: () {
                                 Get.toNamed(Routes.leadSubmit);
                               },
                               child: Column(
                                 children: [
                                   Image.asset(
-                                    "assets/images/form.png",
-                                    height: 30,
-                                    width: 30,
-                                    color: Colors.deepPurpleAccent,
+                                    "assets/images/leadform.png",
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    "Lead Form",
+                                    "Lead/Visits",
                                     style: TextStyle(
                                         fontSize: 16, color: Colors.grey[700]),
                                   ),
                                 ],
                               ),
                             ),
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Get.toNamed(Routes.newLead);
+                            //   },
+                            //   child: Column(
+                            //     children: [
+                            //       Image.asset(
+                            //         "assets/images/leadsnew.png",
+                            //
+                            //       ),
+                            //       SizedBox(height: 5),
+                            //       Text(
+                            //         "Leads",
+                            //         style: TextStyle(
+                            //             fontSize: 16, color: Colors.grey[700]),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(Routes.leadListing);
+                                Get.toNamed(Routes.customerList);
                               },
                               child: Column(
                                 children: [
                                   Image.asset(
-                                    "assets/images/list.png",
-                                    height: 30,
-                                    width: 30,
-                                    color: Colors.deepPurpleAccent,
+                                    "assets/images/customers.png",
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    "Lead Listing",
+                                    "Customers",
                                     style: TextStyle(
                                         fontSize: 16, color: Colors.grey[700]),
                                   ),
                                 ],
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.newLead);
-                              },
-                              child: Column(
-                                children: [
-                                  Image.asset(
-                                    "assets/images/leads.png",
-                                    height: 30,
-                                    width: 30,
-                                    color: Colors.deepPurpleAccent,
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "New Leads",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
-                            )
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Get.toNamed(Routes.leadListing);
+                            //   },
+                            //   child: Column(
+                            //     children: [
+                            //       Image.asset(
+                            //         "assets/images/leadlisting.png",
+                            //       ),
+                            //       SizedBox(height: 5),
+                            //       Text(
+                            //         "Leads Status",
+                            //         style: TextStyle(
+                            //             fontSize: 16, color: Colors.grey[700]),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         )
                       ],
@@ -438,10 +498,7 @@ class DashboardView extends GetView<DashboardController> {
                               child: Column(
                                 children: [
                                   Image.asset(
-                                    "assets/images/order-food.png",
-                                    height: 30,
-                                    width: 30,
-                                    color: Colors.deepPurpleAccent,
+                                    "assets/images/order.png",
                                   ),
                                   SizedBox(height: 5),
                                   Text(
@@ -454,25 +511,41 @@ class DashboardView extends GetView<DashboardController> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(Routes.productView);
+                                Get.toNamed(Routes.leadListing);
                               },
                               child: Column(
                                 children: [
                                   Image.asset(
-                                    "assets/images/checklist.png",
-                                    height: 30,
-                                    width: 30,
-                                    color: Colors.deepPurpleAccent,
+                                    "assets/images/leadlisting.png",
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    "Products",
+                                    "Order Status",
                                     style: TextStyle(
                                         fontSize: 16, color: Colors.grey[700]),
                                   ),
                                 ],
                               ),
                             ),
+
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Get.toNamed(Routes.productView);
+                            //   },
+                            //   child: Column(
+                            //     children: [
+                            //       Image.asset(
+                            //         "assets/images/products.png",
+                            //       ),
+                            //       SizedBox(height: 5),
+                            //       Text(
+                            //         "Products",
+                            //         style: TextStyle(
+                            //             fontSize: 16, color: Colors.grey[700]),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                             GestureDetector(
                               onTap: () {
                                 Get.toNamed(Routes.expenses);
@@ -480,10 +553,7 @@ class DashboardView extends GetView<DashboardController> {
                               child: Column(
                                 children: [
                                   Image.asset(
-                                    "assets/images/expense.png",
-                                    height: 30,
-                                    width: 30,
-                                    color: Colors.deepPurpleAccent,
+                                    "assets/images/expenses.png",
                                   ),
                                   SizedBox(height: 5),
                                   Text(
@@ -523,44 +593,45 @@ class DashboardView extends GetView<DashboardController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Field CRM",
+                          "Product",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                         SizedBox(height: Get.height * 0.02),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     Get.toNamed(Routes.taskListing);
+                            //   },
+                            //   child: Column(
+                            //     children: [
+                            //       Image.asset(
+                            //         "assets/images/tasks.png",
+                            //       ),
+                            //       SizedBox(height: 5),
+                            //       Text(
+                            //         "Tasks",
+                            //         style: TextStyle(
+                            //             fontSize: 16, color: Colors.grey[700]),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            SizedBox(width: 25),
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(Routes.taskListing);
+                                Get.toNamed(Routes.productView);
                               },
                               child: Column(
                                 children: [
                                   Image.asset(
-                                    "assets/images/grommet-icons_task.png",
+                                    "assets/images/products.png",
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    "Tasks",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.customerList);
-                              },
-                              child: Column(
-                                children: [
-                                  Image.asset(
-                                    "assets/images/cust.png",
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Customers",
+                                    "Products",
                                     style: TextStyle(
                                         fontSize: 16, color: Colors.grey[700]),
                                   ),

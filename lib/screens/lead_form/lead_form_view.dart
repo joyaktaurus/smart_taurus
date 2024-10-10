@@ -41,14 +41,14 @@ class LeadSubmit extends GetView<LeadSubmitController> {
               style: TextStyle(color: Colors.black),
             ),
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.notification_add_outlined, color: Colors.black),
-              onPressed: () {
-                Get.toNamed(Routes.dashBoard);
-              },
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //     icon: Icon(Icons.notification_add_outlined, color: Colors.black),
+          //     onPressed: () {
+          //       Get.toNamed(Routes.dashBoard);
+          //     },
+          //   ),
+          // ],
           centerTitle: true, // Ensure the title is centered
         ),
         drawer: Drawer(
@@ -585,7 +585,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                                 }
                               },
                               colors: Colors.white,
-                              color: Colors.deepPurpleAccent,
+                              color: MyTheme.appColor,
                               isEnabled: true,
                               padding: const EdgeInsets.all(30),
                               height: Get.height * 0.07,

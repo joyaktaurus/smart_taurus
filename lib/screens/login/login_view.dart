@@ -166,7 +166,7 @@ class LoginView extends GetView<LoginViewController> {
                         controller.doLogin();
                       },
                           color: Colors.white,
-                          colors: Color.fromRGBO(77, 82, 225, 1),
+                          colors:MyTheme.appColor,
                       isEnabled: true,
                       padding: const EdgeInsets.all(30),
                       height: Get.height * 0.06,

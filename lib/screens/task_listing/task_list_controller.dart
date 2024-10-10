@@ -64,4 +64,3 @@ class TaskListingController extends GetxController {
     fetchTaskList();
   }
 }
-

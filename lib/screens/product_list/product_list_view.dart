@@ -232,7 +232,7 @@ class ProductListingView extends GetView<ProductListingController> {
                                               "Price",
                                               style: MyTheme.regularTextStyle(
                                                 fontWeight: FontWeight.w500,
-                                                color: Colors.deepPurpleAccent,
+                                                color: MyTheme.appColor,
                                                 fontSize: Get.height * .018,
                                               ),
                                             ),

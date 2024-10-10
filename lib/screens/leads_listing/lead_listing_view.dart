@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:smart_taurus/utils/my_theme.dart';
 
 import '../../components/app_empty.dart';
 import '../../components/rounded_loader.dart';
@@ -33,24 +34,24 @@ class LeadListingView extends GetView<LeadListingController> {
           ),
           title: Center(
             child: Text(
-              'Leads',
+              'Order Status',
               style: TextStyle(color: Colors.black),
             ),
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.search, color: Colors.black),
-              onPressed: () {
-                Get.toNamed(Routes.dashBoard);
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.notification_add_outlined, color: Colors.black),
-              onPressed: () {
-                // Add functionality for notifications icon
-              },
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //     icon: Icon(Icons.search, color: Colors.black),
+          //     onPressed: () {
+          //       Get.toNamed(Routes.dashBoard);
+          //     },
+          //   ),
+          //   IconButton(
+          //     icon: Icon(Icons.notification_add_outlined, color: Colors.black),
+          //     onPressed: () {
+          //       // Add functionality for notifications icon
+          //     },
+          //   ),
+          // ],
           centerTitle: true, // Ensure the title is centered
         ),
         drawer: Drawer(
@@ -71,35 +72,33 @@ class LeadListingView extends GetView<LeadListingController> {
               ],
             ),
           ),
+
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(bottom: 80.0, top: 15),
+              padding: EdgeInsets.only(bottom: 10.0, top: 15),
               child: Obx(() {
                 bool isLoading = controller.isScreenProgress.value;
-                final leadList = controller.leadListData;
+                final orderList = controller.orderListData;
 
                 if (isLoading) {
-                  Future.delayed(Duration(seconds: 2), () {
-                    controller.isScreenProgress.value = false;
-                  });
                   return Center(
                     child: Padding(
-                      padding: EdgeInsets.only(top: Get.height * 0.3),
-                      child: RoundedLoader(),
+                      padding: EdgeInsets.only(top: Get.height * 0.15),
+                      child:
+                          RoundedLoader(), // Replace with your RoundedLoader
                     ),
                   );
-                } else if (leadList.isEmpty) {
+                } else if (orderList.isEmpty) {
                   return Center(
-                    child: MAResultEmpty(
-                      msg: 'Results Empty',
-                    ),
+                    child:
+                        Text('No Orders Found', style: TextStyle(fontSize: 16)),
                   );
                 } else {
                   return ListView.builder(
-                    itemCount: leadList.length,
+                    itemCount: orderList.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final lead = leadList[index]; // Get the Leads object
-                      final shop = lead.shop; // Get the nested ShopShop object
+                      final order = orderList[index]; // Get the Order object
+                      final shop = order.shop; // Get the nested Shop object
 
                       return Container(
                         width: double.infinity,
@@ -123,7 +122,8 @@ class LeadListingView extends GetView<LeadListingController> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
@@ -131,36 +131,80 @@ class LeadListingView extends GetView<LeadListingController> {
                                           height: 45,
                                           width: 45,
                                           decoration: BoxDecoration(
-                                            color: Colors.deepPurpleAccent,
+                                            color: MyTheme.appColor,
                                             shape: BoxShape.circle,
                                           ),
-                                          child: Image.asset("assets/images/building.png")),
-                                      SizedBox(width: Get.width * 0.01),
+                                          child: Image.asset(
+                                              "assets/images/building.png")),
+                                      SizedBox(width: Get.width * 0.05),
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(shop?.customerName?.toString() ?? ''),
-                                          Text(shop?.shopName?.toString() ?? ''),
+                                          Text(
+                                            shop?.customerName != null &&
+                                                    shop!.customerName!
+                                                        .isNotEmpty
+                                                ? shop!.customerName![0]
+                                                        .toUpperCase() +
+                                                    shop!.customerName!
+                                                        .substring(1)
+                                                : '', // Show customer name
+                                            style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          SizedBox(height: Get.height * 0.001),
+                                          Text(
+                                            shop?.shopName != null &&
+                                                    shop!.shopName!.isNotEmpty
+                                                ? shop!.shopName![0]
+                                                        .toUpperCase() +
+                                                    shop!.shopName!.substring(1)
+                                                : '', // Show shop name
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                              // Display the status field from Leads
-                              Container(
-                                width: Get.width * 0.25,
-                                height: Get.height * 0.035,
-                                decoration: BoxDecoration(
-                                    color: Colors.deepPurpleAccent,
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Center(
-                                  child: Text(
-                                    lead.status?.toString() ?? '----',
+                                  Text(
+                                    "${controller.orderListData[index].status}",
+                                 //   "New", // Show total or other details
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 13,
-                                        color: Colors.white),
+                                        color: Colors.green[700]),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 18.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Get.toNamed(Routes.orderDetails,
+                                      arguments: order.id,);
+                                    },
+                                  child: Container(
+                                    width: Get.width * 0.25,
+                                    height: Get.height * 0.045,
+                                    decoration: BoxDecoration(
+                                        color: MyTheme.appColor,
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Center(
+                                      child: Text(
+                                        'View Details',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13,
+                                            color: Colors.white),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -172,19 +216,18 @@ class LeadListingView extends GetView<LeadListingController> {
                   );
                 }
               }),
-
-
             ),
           ),
         ]),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            // Action when FAB is pressed (e.g., navigate to lead creation screen)
-            Get.toNamed(Routes.newLead);
-          },
-          backgroundColor: Colors.deepPurpleAccent,
-          child: Icon(Icons.add), // Icon for adding new leads
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     // Action when FAB is pressed (e.g., navigate to lead creation screen)
+        //     Get.toNamed(Routes.addOrder);
+        //   },
+        //   backgroundColor: MyTheme.appColor,
+        //
+        //   child: Icon(Icons.add), // Icon for adding new leads
+        // ),
       ),
     );
   }
