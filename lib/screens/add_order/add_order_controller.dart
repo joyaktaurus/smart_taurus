@@ -135,6 +135,11 @@ class AddOrderController extends GetxController {
         var responseData = response.rdata; // Directly use the response data
         String message = responseData["message"] ?? "Order submitted successfully";
         Get.snackbar('Success', message);
+
+        // Clear the product list and reset the final amount
+        products.clear();
+        updateFinalAmount(); // Reset final amount to 0
+        products.refresh(); // Refresh the list to update the UI
       } else {
         Get.snackbar('Error', 'Failed to submit order');
       }
@@ -143,6 +148,7 @@ class AddOrderController extends GetxController {
       Get.snackbar('Error', 'Something went wrong: $e');
     }
   }
+
 
 }
 
