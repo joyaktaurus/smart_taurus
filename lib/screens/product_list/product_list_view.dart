@@ -158,20 +158,31 @@ class ProductListingView extends GetView<ProductListingController> {
                                               height: 110,
                                               width: 110,
                                               decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
+                                                borderRadius: BorderRadius.circular(10),
                                                 shape: BoxShape.rectangle,
-                                                image: DecorationImage(
-                                                  image: NetworkImage(
-                                                    controller
-                                                        .proData[index].imageurl
-                                                        .toString(),
-                                                  ),
-                                                  fit: BoxFit
-                                                      .cover, // Ensures the image covers the circle area
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(10), // Ensures proper border clipping
+                                                child: (controller.proData[index].imageurl != null &&
+                                                    controller.proData[index].imageurl!.isNotEmpty)
+                                                    ? Image.network(
+                                                  controller.proData[index].imageurl.toString(),
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error, stackTrace) {
+                                                    // If the network image fails to load, display the asset image
+                                                    return Image.asset(
+                                                      'assets/images/img_2.png', // Path to your placeholder image
+                                                      fit: BoxFit.cover,
+                                                    );
+                                                  },
+                                                )
+                                                    : Image.asset(
+                                                  'assets/images/img_2.png', // Path to your placeholder image
+                                                  fit: BoxFit.cover, // Ensures the placeholder image covers the container
                                                 ),
                                               ),
-                                            ),
+                                            )
+
                                           ),
                                         ),
                                       ),
@@ -292,8 +303,6 @@ class ProductListingView extends GetView<ProductListingController> {
                                             ),
                                           ),
                                         ),
-
-
                                       ],
                                     ),
                                   )

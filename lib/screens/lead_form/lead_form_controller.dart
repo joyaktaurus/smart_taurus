@@ -50,7 +50,9 @@ class LeadSubmitController extends GetxController {
   final FocusNode instructCtrlfNode = FocusNode();
 
   void shopRegister() async {
-    log("Shop registraion called");
+    log("Shop registration called");
+
+    // Submit the form
     ApiResp resp = await ShopRegisterServices.fetchUser(
         shopname: shopnameCtrl.text,
         customername: cusnameCtrl.text,
@@ -65,35 +67,46 @@ class LeadSubmitController extends GetxController {
         addressline1: addressoneCtrl.text,
         addressline2: addresstwoCtrl.text,
         pincode: pincodeCtrl.text,
-        instructions: instructCtrl.text);
-    if (!resp.ok == false) {
+        instructions: instructCtrl.text
+    );
+
+    if (!resp.ok) {
       MyUtils.msg(resp.msgs);
       return;
     }
+
     Shop shop = Shop.fromJson(resp.rdata);
     if (shop.message == 'Shop Details Entered Successfully') {
-      shopnameCtrl.clear();
-      cusnameCtrl.clear();
-      phonenumCtrl.clear();
-      emailCtrl.clear();
-      orgCtrl.clear();
-      gstCtrl.clear();
-      pancardCtrl.clear();
-      categoryCtrl.clear();
-      budgetCtrl.clear();
-      brandCtrl.clear();
-      addressoneCtrl.clear();
-      addresstwoCtrl.clear();
-      pincodeCtrl.clear();
-      instructCtrl.clear();
       Get.snackbar(
         'Success',
-        'Travel Details Entered Successfully',
+        'Shop Details Entered Successfully',
         backgroundColor: Colors.white,
         colorText: Colors.black,
         snackPosition: SnackPosition.TOP,
       );
     }
+
+    // Clear all the text fields after submission
+    clearFields();
   }
+
+// A method to clear all the text fields
+  void clearFields() {
+    shopnameCtrl.clear();
+    cusnameCtrl.clear();
+    phonenumCtrl.clear();
+    emailCtrl.clear();
+    orgCtrl.clear();
+    gstCtrl.clear();
+    pancardCtrl.clear();
+    categoryCtrl.clear();
+    budgetCtrl.clear();
+    brandCtrl.clear();
+    addressoneCtrl.clear();
+    addresstwoCtrl.clear();
+    pincodeCtrl.clear();
+    instructCtrl.clear();
+  }
+
 
 }

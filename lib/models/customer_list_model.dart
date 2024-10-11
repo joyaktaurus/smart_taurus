@@ -36,6 +36,7 @@ class Shop {
   String? strInstructions;
   String? createdAt;
   String? updatedAt;
+  String? imageurl;
 
   Shop(
       {this.intShopId,
@@ -48,7 +49,9 @@ class Shop {
         this.pincode,
         this.strInstructions,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.imageurl
+      });
 
   Shop.fromJson(Map<String, dynamic> json) {
     intShopId = json['int_shop_id'];
@@ -62,6 +65,8 @@ class Shop {
     strInstructions = json['str_instructions'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    imageurl = json['imageurl'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -77,6 +82,7 @@ class Shop {
     data['str_instructions'] = this.strInstructions;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['imageurl'] = this.imageurl;
     return data;
   }
 }

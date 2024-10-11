@@ -117,9 +117,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                             width: 70,
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  color: Colors
-                                                      .black12), // Grey border
+                                              border: Border.all(color: Colors.black12), // Grey border
                                             ),
                                             child: Center(
                                               child: Container(
@@ -128,15 +126,16 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
-                                                    image: AssetImage(
-                                                        "assets/images/img.png"),
-                                                    fit: BoxFit
-                                                        .cover, // Ensures the image covers the circle area
+                                                    image: controller.customerDetails.value?.shopImage != null
+                                                        ? NetworkImage("https://seowebsites.in/Smart_Taurus/smart_taurus/public/uploads/shops/${controller.customerDetails.value?.shopImage}")
+                                                        : AssetImage("assets/images/img.png") as ImageProvider,
+                                                    fit: BoxFit.cover, // Ensures the image covers the circle area
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
+
                                           SizedBox(width: Get.width * 0.02),
                                           Padding(
                                             padding:

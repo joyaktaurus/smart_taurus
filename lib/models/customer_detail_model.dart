@@ -41,6 +41,7 @@ class Shop {
   String? categoryInfo;
   String? budgetInfo;
   String? brandInfo;
+  String? shopImage;
   String? strInstructions;
   String? createdBy;
   DateTime? createdAt;
@@ -60,6 +61,7 @@ class Shop {
     this.budgetInfo,
     this.brandInfo,
     this.strInstructions,
+    this.shopImage,
     this.createdBy,
     this.createdAt,
     this.updatedAt,
@@ -79,6 +81,7 @@ class Shop {
     budgetInfo: json["budget_info"],
     brandInfo: json["brand_info"],
     strInstructions: json["str_instructions"],
+    shopImage: json["shop_image"],
     createdBy: json["created_by"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
@@ -98,6 +101,7 @@ class Shop {
     "budget_info": budgetInfo,
     "brand_info": brandInfo,
     "str_instructions": strInstructions,
+    "shop_image": shopImage,
     "created_by": createdBy,
     "created_at": createdAt!.toIso8601String(),
     "updated_at": updatedAt!.toIso8601String(),

@@ -15,7 +15,6 @@ import '../../services/lead_submit_services.dart';
 import '../../utils/my_utils.dart';
 
 class ExpenseController extends GetxController {
-
   RxList additionalFields = [].obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -27,7 +26,6 @@ class ExpenseController extends GetxController {
   final TextEditingController otherExCtrl = TextEditingController(text: '');
   final TextEditingController traDateCtrl = TextEditingController(text: '');
 
-
   final FocusNode traFromCtrlfNode = FocusNode();
   final FocusNode traToCtrlNode = FocusNode();
   final FocusNode amountCtrlfNode = FocusNode();
@@ -35,7 +33,6 @@ class ExpenseController extends GetxController {
   final FocusNode traTypeCtrlfNode = FocusNode();
   final FocusNode otherExCtrlfNode = FocusNode();
   final FocusNode traDateCtrlfNode = FocusNode();
-
 
   void selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -62,28 +59,33 @@ class ExpenseController extends GetxController {
       travel_type: traTypeCtrl.text,
       other_expenses: otherExCtrl.text,
       travel_date: traDateCtrl.text,
-        );
-    if (!resp.ok == false) {
+    );
+    if (!resp.ok) {
       MyUtils.msg(resp.msgs);
       return;
     }
+
     Shop shop = Shop.fromJson(resp.rdata);
-    if (shop.message == 'Shop Details Entered Successfully') {
-      traFromCtrl.clear();
-      traToCtrl.clear();
-      amountCtrl.clear();
-      purposeCtrl.clear();
-      traTypeCtrl.clear();
-      otherExCtrl.clear();
-      traDateCtrl.clear();
+    if (shop.message == 'Expenses Details Entered Successfully') {
       Get.snackbar(
         'Success',
-        'Travel Details Entered Successfully',
+        'Shop Details Entered Successfully',
         backgroundColor: Colors.white,
         colorText: Colors.black,
         snackPosition: SnackPosition.TOP,
       );
     }
+
+    clearFields();
   }
 
+  void clearFields() {
+    traFromCtrl.clear();
+    traToCtrl.clear();
+    amountCtrl.clear();
+    purposeCtrl.clear();
+    traTypeCtrl.clear();
+    otherExCtrl.clear();
+    traDateCtrl.clear();
+  }
 }

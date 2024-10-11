@@ -76,7 +76,7 @@ class CustomerListView extends GetView<CustomerListController> {
                   ],
                 ),
               ),
-              SizedBox(height: Get. height * 0.03),
+              SizedBox(height: Get.height * 0.03),
               Obx(
                 () => controller.isScreenProgress.value
                     ? Center(child: RoundedLoader())
@@ -84,8 +84,7 @@ class CustomerListView extends GetView<CustomerListController> {
                         child: Column(
                           children: [
                             Padding(
-                              padding:
-                                  EdgeInsets.only(left: 20.0, right: 20.0),
+                              padding: EdgeInsets.only(left: 20.0, right: 20.0),
                               child: MASearchBar(
                                 hintText: 'Search a Shop',
                                 controller: controller.searchCntrl,
@@ -103,21 +102,19 @@ class CustomerListView extends GetView<CustomerListController> {
                             ),
                             controller.customerData.isEmpty
                                 ? Expanded(
-                                    child:
-                                        MAResultEmpty(msg: 'Results Empty'),
+                                    child: MAResultEmpty(msg: 'Results Empty'),
                                   )
                                 : Expanded(
                                     child: GridView.builder(
-                                      padding: EdgeInsets.only(top: 15.0),
-                                      itemCount:
-                                          controller.customerData.length,
+                                      padding: EdgeInsets.only(top: 5.0),
+                                      itemCount: controller.customerData.length,
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2,
                                         crossAxisSpacing: 10.0,
                                         mainAxisSpacing: 10.0,
                                         childAspectRatio:
-                                            3 / 3.6, // Adjust as needed
+                                            3 / 3.95, // Adjust as needed
                                       ),
                                       itemBuilder: (context, index) {
                                         final customers =
@@ -155,35 +152,31 @@ class CustomerListView extends GetView<CustomerListController> {
                                                 Padding(
                                                   padding:
                                                       const EdgeInsets.only(
-                                                          top: 15, left: 80),
+                                                          top: 5, left: 80),
                                                   child: InkWell(
                                                     onTap: () {
                                                       Get.toNamed(
                                                         Routes.customerDetail,
-                                                        arguments: customers
-                                                            .intShopId,
-                                                        preventDuplicates:
-                                                            true,
+                                                        arguments:
+                                                            customers.intShopId,
+                                                        preventDuplicates: true,
                                                       );
                                                     },
                                                     child: Container(
                                                       height: 40,
                                                       width: 40,
-                                                      decoration:
-                                                          BoxDecoration(
-                                                        shape:
-                                                            BoxShape.circle,
-                                                            color: MyTheme.appColor,
-
-                                                          ),
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        color: MyTheme.appColor,
+                                                      ),
                                                       child: Image.asset(
                                                           "assets/images/Vector.png"),
                                                     ),
                                                   ),
                                                 ),
                                                 Container(
-                                                  height: 70,
-                                                  width: 70,
+                                                  height: 100,
+                                                  width: 100,
                                                   decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
                                                     border: Border.all(
@@ -192,18 +185,34 @@ class CustomerListView extends GetView<CustomerListController> {
                                                   ),
                                                   child: Center(
                                                     child: Container(
-                                                      height: 65,
-                                                      width: 65,
-                                                      decoration:
-                                                          BoxDecoration(
-                                                        shape:
-                                                            BoxShape.circle,
-                                                        image:
-                                                            DecorationImage(
-                                                          image: AssetImage(
-                                                              "assets/images/img.png"),
+                                                      height: 95,
+                                                      width: 95,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                          image: controller
+                                                                          .customerData[
+                                                                              index]
+                                                                          .imageurl !=
+                                                                      null &&
+                                                                  controller
+                                                                      .customerData[
+                                                                          index]
+                                                                      .imageurl!
+                                                                      .isNotEmpty
+                                                              ? NetworkImage(
+                                                                  controller
+                                                                      .customerData[
+                                                                          index]
+                                                                      .imageurl
+                                                                      .toString(),
+                                                                )
+                                                              : AssetImage(
+                                                                      'assets/images/img.png') // Replace with your asset path
+                                                                  as ImageProvider,
+                                                          // Cast to ImageProvider to handle both types
                                                           fit: BoxFit
-                                                              .cover, // Ensures the image covers the circle area
+                                                              .cover, // Ensures the image covers the area
                                                         ),
                                                       ),
                                                     ),
@@ -211,8 +220,7 @@ class CustomerListView extends GetView<CustomerListController> {
                                                 ),
                                                 Padding(
                                                   padding:
-                                                      const EdgeInsets.all(
-                                                          8.0),
+                                                      const EdgeInsets.all(8.0),
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
@@ -220,8 +228,7 @@ class CustomerListView extends GetView<CustomerListController> {
                                                     children: [
                                                       Text(
                                                         controller
-                                                            .customerData[
-                                                                index]
+                                                            .customerData[index]
                                                             .customerName
                                                             .toString(),
                                                         style: TextStyle(
@@ -237,14 +244,16 @@ class CustomerListView extends GetView<CustomerListController> {
                                                       SizedBox(height: 4),
                                                       Text(
                                                         controller
-                                                            .customerData[
-                                                                index]
+                                                            .customerData[index]
                                                             .shopName
                                                             .toString(),
                                                         style: TextStyle(
                                                           fontSize: 15,
                                                           color: Colors.black,
                                                         ),
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
                                                       ),
                                                     ],
                                                   ),
