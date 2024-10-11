@@ -13,43 +13,16 @@ import '../../services/shop_search_services.dart';
 class CustomerListController extends GetxController {
   var selectedIndex = Rx<int?>(null); // Track selected item index
   Map customersListApiPayload = {};
+
   void selectItem(int index) {
     selectedIndex.value = index;
   }
 
-  RxList<Shop> customerData = <Shop>[].obs;
+//  RxList<Shop> customerData = <Shop>[].obs;
+  RxList<Shop> customerData = (List<Shop>.of([])).obs;
+
   RxBool isScreenProgress = true.obs;
   final TextEditingController searchCntrl = TextEditingController(text: '');
-  final TextEditingController CustomersSearchCntrl = TextEditingController(text: '');
-
-  RxBool isCloseButtonVisible = false.obs;
-  RxString searchTypeChosenValue = 'Name / P/N or SKU'.obs;
-
-  List<Shop> originalList = [];
-
-  @override
-  void onInit() {
-    initialCustomersList();
-    super.onInit();
-  }
-
-  Future<void> initialCustomersList() async {
-    try {
-      final ApiResp resp = await CustomerServices.getList();
-      if (resp.ok) {
-        final profileDetails = CustomerList.fromJson(resp.rdata);
-        customerData.assignAll(profileDetails.shop ?? []);
-        originalList = List<Shop>.from(customerData);
-        isScreenProgress.value = false; // Hide progress indicator
-      } else {
-        isScreenProgress.value = false;
-        print('Error fetching profile data: ${resp.msgs}');
-      }
-    } catch (e) {
-      isScreenProgress.value = false;
-      print('Error fetching profile data: $e');
-    }
-  }
 
   void searchBtn() async {
     String shopName = searchCntrl.text.trim();
@@ -64,29 +37,78 @@ class CustomerListController extends GetxController {
             customerData.assignAll((data['shop'] as List).map((data) => Shop.fromJson(data)));
           }
         }
-        isCloseButtonVisible.value = true; // Show the close button
       } else {
         print('Search request failed: ${response.msgs[0]}');
       }
     }
   }
 
-  void searchOnChangeFn(val) {
+  void searchOnChangeFn(val) async {
     if (val.isEmpty) {
       searchCntrl.clear();
-      isCloseButtonVisible.value = false; // Hide the close button when the input is cleared
     }
   }
+
 
   void onFieldSubmittedFn(val) async {
     searchBtn();
   }
 
+  Future<bool> loadMore() async {
+    log("onLoadMore");
+    return true;
+  }
+  final TextEditingController CustomersSearchCntrl = TextEditingController(text: '');
+  List<Shop>originalList=[];
+  RxBool isCloseButtonVisible = true.obs;
+
+
   void searchSuffixIconBtn() {
+    // Clear API payload and search controller
     customersListApiPayload.clear();
     CustomersSearchCntrl.clear();
+
+    // Set progress state to false as no progress indicator is needed
+    isScreenProgress.value = false;
+
+    // Restore the original list to myList
     customerData.value = List<Shop>.from(originalList);
+
+    // Clear the search term
     searchCntrl.clear();
-    isCloseButtonVisible.value = false; // Hide the close button
+
+    // Hide the close button
+    isCloseButtonVisible.value = false; // Ensure you have a variable to control visibility
   }
+
+  RxString searchTypeChosenValue = 'Name / P/N or SKU'.obs;
+
+  @override
+  void onInit() {
+    initialCustomersList();
+    super.onInit();
+  }
+
+  Future<void> initialCustomersList() async {
+    try {
+      final ApiResp resp = await CustomerServices.getList();
+      if (resp.ok) {
+        final profileDetails = CustomerList.fromJson(resp.rdata);
+        // Assign the list or an empty list if shop is null
+        customerData.assignAll(profileDetails.shop ?? []);
+        App.cusdetails = customerData;
+        isScreenProgress.value = false; // Hide progress indicator
+        print('Profile data fetched successfully: ${customerData.length} items');
+      } else {
+        // Handle the case when the API response is not successful
+        isScreenProgress.value = false;
+        print('Error fetching profile data: ${resp.msgs}');
+      }
+    } catch (e) {
+      // Handle errors during data fetching
+      isScreenProgress.value = false;
+      print('Error fetching profile data: $e');
+    }
+  }
+
 }
