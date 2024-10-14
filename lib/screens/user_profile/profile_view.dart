@@ -27,16 +27,14 @@ class ProfileView extends GetView<ProfileController> {
               elevation: 0,
               iconTheme: IconThemeData(color: Colors.black),
               leading: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
                 onPressed: () {
                   Get.back();
                 },
               ),
-              title: Center(
-                child: Text(
-                  'Profile Detail',
-                  style: TextStyle(color: Colors.black),
-                ),
+              title: Text(
+                'Profile Detail',
+                style: TextStyle(color: Colors.black),
               ),
               centerTitle: true, // Ensure the title is centered
             ),

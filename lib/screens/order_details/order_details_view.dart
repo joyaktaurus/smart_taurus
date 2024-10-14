@@ -24,16 +24,14 @@ class OrderDetailsView extends GetView<OrderDetailController> {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
             onPressed: () {
               Get.back();
             },
           ),
-          title: Center(
-            child: Text(
-              'Order Details',
-              style: TextStyle(color: Colors.black),
-            ),
+          title: Text(
+            'Order Details',
+            style: TextStyle(color: Colors.black),
           ),
           // actions: [
           //   IconButton(

@@ -19,6 +19,8 @@ import '../screens/login/login_bindings.dart';
 import '../screens/login/login_view.dart';
 import '../screens/new_lead/new_lead_binding.dart';
 import '../screens/new_lead/new_lead_view.dart';
+import '../screens/new_tasks/new_task_bindings.dart';
+import '../screens/new_tasks/new_task_vieew.dart';
 import '../screens/onboarding_screen.dart';
 import '../screens/order_details/order_detail_bindings.dart';
 import '../screens/order_details/order_details_view.dart';
@@ -50,7 +52,7 @@ class Routes {
   static const productView = '/productView';
   static const profileView = '/profileView';
   static const orderDetails = '/orderDetails';
-
+  static const newTask = '/newTask';
 
   static final routes = [
     GetPage(
@@ -135,7 +137,11 @@ class Routes {
       name: orderDetails,
       page: () =>  OrderDetailsView(),
     ),
-
+    GetPage(
+      binding: NewTaskBindings(),
+      name: newTask,
+      page: () =>  NewTaskView(),
+    ),
   ];
 
 }

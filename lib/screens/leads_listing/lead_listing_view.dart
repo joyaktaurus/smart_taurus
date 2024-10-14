@@ -27,16 +27,14 @@ class LeadListingView extends GetView<LeadListingController> {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
             onPressed: () {
               Get.back();
             },
           ),
-          title: Center(
-            child: Text(
-              'Order Status',
-              style: TextStyle(color: Colors.black),
-            ),
+          title: Text(
+            'Order Status',
+            style: TextStyle(color: Colors.black),
           ),
           // actions: [
           //   IconButton(

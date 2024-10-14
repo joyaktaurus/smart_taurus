@@ -30,16 +30,14 @@ class ProductListingView extends GetView<ProductListingController> {
             elevation: 0,
             iconTheme: IconThemeData(color: Colors.black),
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
               onPressed: () {
                 Get.back();
               },
             ),
-            title: Center(
-              child: Text(
-                'Product Listing',
-                style: TextStyle(color: Colors.black),
-              ),
+            title: Text(
+              'Product Listing',
+              style: TextStyle(color: Colors.black),
             ),
             // actions: [
             //   IconButton(

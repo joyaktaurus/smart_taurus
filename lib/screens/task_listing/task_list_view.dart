@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:smart_taurus/screens/task_listing/task_list_controller.dart';
+import 'package:smart_taurus/utils/my_theme.dart';
 
 import '../../components/app_empty.dart';
 import '../../components/rounded_loader.dart';
+import '../../models/task_listing_model.dart';
 import '../../utils/my_utils.dart';
 import '../../utils/routes.dart';
 
@@ -27,7 +29,7 @@ class TaskListingView extends GetView<TaskListingController> {
             elevation: 0,
             iconTheme: IconThemeData(color: Colors.black),
             leading: IconButton(
-              icon: Icon(Icons.arrow_back),
+              icon: Icon(Icons.arrow_back, color: MyTheme.appColor,),
               onPressed: () {
                 Get.back();
               },
@@ -51,10 +53,10 @@ class TaskListingView extends GetView<TaskListingController> {
                     width: 300,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: Colors.deepPurpleAccent,
+                      color: MyTheme.appColor,
                       borderRadius: BorderRadius.circular(40),
                     ),
-                    child: Center(child: Text('New Task')),
+                    child: Center(child: Text('Assigned Task')),
                   ),
                 ),
                 Tab(
@@ -62,7 +64,7 @@ class TaskListingView extends GetView<TaskListingController> {
                     width: 300,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: Colors.deepPurpleAccent,
+                      color: MyTheme.appColor,
                       borderRadius: BorderRadius.circular(40),
                     ),
                     child: Center(child: Text('Completed Task')),
@@ -71,11 +73,23 @@ class TaskListingView extends GetView<TaskListingController> {
               ],
             ),
           ),
-          body: TabBarView(
-            children: [
-              _buildTaskList(false), // New Tasks
-              _buildTaskList(true), // Completed Tasks
-            ],
+          body: Container(
+            height: Get.height * 0.75,
+            child: TabBarView(
+              children: [
+                _buildTaskList(false), // New Tasks
+                _buildTaskList(true), // Completed Tasks
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              // Action when FAB is pressed (e.g., navigate to lead creation screen)
+              Get.toNamed(Routes.newTask);
+            },
+            backgroundColor: MyTheme.appColor,
+
+            child: Icon(Icons.add), // Icon for adding new leads
           ),
         ),
       ),
@@ -86,7 +100,8 @@ class TaskListingView extends GetView<TaskListingController> {
   Widget _buildTaskList(bool isCompleted) {
     return Obx(() {
       bool isLoading = controller.isScreenProgress.value;
-      final tasks = isCompleted ? controller.completedTasks : controller.newTasks;
+      final tasks = isCompleted ? controller.completedTasks : controller
+          .newTasks;
 
       if (isLoading) {
         return Center(child: RoundedLoader());
@@ -123,15 +138,20 @@ class TaskListingView extends GetView<TaskListingController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Task Name with Read More functionality
+                      Row(
+                        children: [
+                          Text("${task.taskDate}", style: TextStyle(
+                              color: Colors.grey[700], fontSize: 14)),
+                        ],
+                      ),
+                      SizedBox(height: 10),
                       _buildTaskTextWithReadMore(task.task.toString(), index),
-
-                      // Show Checkbox only for New Tasks
                       if (!isCompleted)
                         Align(
                           alignment: Alignment.centerRight,
                           child: Checkbox(
-                            value: task.status == 'Completed',
+                            value: task.status == Status.COMPLETED,
+                            // Compare using enum
                             onChanged: (bool? newValue) {
                               if (newValue != null) {
                                 controller.toggleTaskStatus(task, newValue);

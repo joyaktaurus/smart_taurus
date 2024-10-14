@@ -192,16 +192,14 @@ class AddOrderView extends GetView<AddOrderController> {
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.black),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
+            icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
             onPressed: () {
               Get.back();
             },
           ),
-          title: const Center(
-            child: Text(
-              'Add Order',
-              style: TextStyle(color: Colors.black),
-            ),
+          title: Text(
+            'Add Order',
+            style: TextStyle(color: Colors.black),
           ),
           // actions: [
           //   IconButton(

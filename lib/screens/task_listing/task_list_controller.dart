@@ -7,13 +7,8 @@ import '../../models/task_listing_model.dart';
 import '../../services/task_listing_services.dart';
 import '../../services/task_update_services.dart';
 
-
 class TaskListingController extends GetxController {
   RxList<TaskList> taskData = <TaskList>[].obs;
-  // RxBool isScreenProgress = true.obs;
-  // RxList<TaskList> newTasks = <TaskList>[].obs;  // List for new tasks
-  // RxList<TaskList> completedTasks = <TaskList>[].obs;  // List for completed tasks
-
   var isScreenProgress = false.obs;
   var newTasks = <TaskList>[].obs;
   var completedTasks = <TaskList>[].obs;
@@ -23,10 +18,11 @@ class TaskListingController extends GetxController {
   void toggleExpandedTask(int index) {
     expandedTasks[index] = !(expandedTasks[index] ?? false);
   }
+
   @override
   void onInit() {
     super.onInit();
-    fetchTaskList();  // Fetch task list on initialization
+    fetchTaskList();
   }
 
   // Fetch task list and filter into new and completed
@@ -37,9 +33,9 @@ class TaskListingController extends GetxController {
         final taskList = TaskListingModel.fromJson(resp.rdata).shop ?? [];
         taskData.assignAll(taskList);
 
-        // Separate tasks into new and completed
-        newTasks.assignAll(taskList.where((task) => task.status != 'Completed').toList());
-        completedTasks.assignAll(taskList.where((task) => task.status == 'Completed').toList());
+        // Separate tasks into new and completed using enum comparison
+        newTasks.assignAll(taskList.where((task) => task.status == Status.NEW).toList());
+        completedTasks.assignAll(taskList.where((task) => task.status == Status.COMPLETED).toList());
 
         isScreenProgress.value = false;
       } else {
@@ -54,11 +50,11 @@ class TaskListingController extends GetxController {
 
   // Toggle task status between New and Completed
   void toggleTaskStatus(TaskList task, bool isCompleted) async {
-    final status = isCompleted ? 'Completed' : 'New';
+    final status = isCompleted ? Status.COMPLETED : Status.NEW;
     task.status = status;
 
     // Update task status in API
-    await TaskUpdateServices.fetchtaskUpdate(task_id: task.id.toString(), status: status);
+    await TaskUpdateServices.fetchtaskUpdate(task_id: task.id.toString(), status: statusValues.reverse[status]);
 
     // Refresh the task lists
     fetchTaskList();

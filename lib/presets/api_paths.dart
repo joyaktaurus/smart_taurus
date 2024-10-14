@@ -17,5 +17,6 @@ abstract class ApiPaths {
   static const EmpDetails = '/get-employee';
   static const productSearch = '/product-search';
   static const orderDetails = '/get-order-details';
+  static const newTask = '/add-task';
 
 }

@@ -27,22 +27,16 @@ class DashboardView extends GetView<DashboardController> {
             backgroundColor: Colors.transparent,
             elevation: 0,
             iconTheme: IconThemeData(color: Colors.black),
-            leading: IconButton(
-              icon: Icon(Icons.menu_outlined),
-              onPressed: () {
-                // Add functionality for the drawer icon
-              },
-            ),
-            title: Center(
-              child: Text(
-                'Dashboard',
-                style: TextStyle(color: Colors.black),
-              ),
+            // leading:
+            //     Image.asset("assets/images/logo_blue.png",),
+            title: Text(
+              'Dashboard',
+              style: TextStyle(color: Colors.black),
             ),
             actions: [
               IconButton(
                 icon:
-                    Icon(Icons.logout, color: Colors.black),
+                    Icon(Icons.logout, color: MyTheme.appColor),
                 onPressed: () {
                   LocalStore.clearData();
                   Get.offNamed(Routes.login);
