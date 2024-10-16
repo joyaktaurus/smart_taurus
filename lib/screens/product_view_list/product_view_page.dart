@@ -31,7 +31,10 @@ class ProductViewPage extends GetView<ProductViewController> {
               elevation: 0,
               iconTheme: IconThemeData(color: Colors.black),
               leading: IconButton(
-                icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: MyTheme.appColor,
+                ),
                 onPressed: () {
                   Get.back();
                 },
@@ -40,21 +43,6 @@ class ProductViewPage extends GetView<ProductViewController> {
                 'Product Listing',
                 style: TextStyle(color: Colors.black),
               ),
-              // actions: [
-              //   IconButton(
-              //     icon: Icon(Icons.search, color: Colors.black),
-              //     onPressed: () {
-              //       Get.toNamed(Routes.dashBoard);
-              //     },
-              //   ),
-              //   IconButton(
-              //     icon:
-              //         Icon(Icons.notification_add_outlined, color: Colors.black),
-              //     onPressed: () {
-              //       // Add functionality for notifications icon
-              //     },
-              //   ),
-              // ],
               centerTitle: true, // Ensure the title is centered
             ),
             drawer: Drawer(
@@ -76,271 +64,193 @@ class ProductViewPage extends GetView<ProductViewController> {
                 ),
               ),
               Padding(
-                  padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 20,),
+                  padding: EdgeInsets.only(
+                    left: 10.0,
+                    right: 10.0,
+                    top: 20,
+                  ),
                   child: Obx(() => controller.isScreenProgress.value
                       ? Center(child: RoundedLoader())
                       : Column(children: [
-                      MASearchBar(
-                        hintText: 'Search a Product ',
-                        controller: controller.searchCntrl,
-                        searchFn: () => controller.searchBtn(),
-                        searchTypeChosenValue:
-                            controller.searchTypeChosenValue.value,
-                        suffixIconBtnFn: () =>
-                            controller.searchSuffixIconBtn(),
-                        textInputAction: TextInputAction.search,
-                        textFieldOnchanged: (val) =>
-                            controller.searchOnChangeFn(val),
-                        onFieldSubmitted: (val) =>
-                            controller.onFieldSubmittedFn(val),
-                      ),
-                      controller.proData.isEmpty
-                          ? Expanded(
-                              child: MAResultEmpty(msg: 'Results Empty'),
-                            )
-                          : Expanded(
-                              child: ListView.builder(
-                              itemCount: controller.proData.length,
-                              itemBuilder:
-                                  (BuildContext context, int index) {
-                                final customers = controller.proData[index];
-                                return Padding(
-                                  padding: EdgeInsets.only(bottom: 10,top: 10),
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(20),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey
-                                                .withOpacity(0.3),
-                                            spreadRadius: 1,
-                                            blurRadius: 5,
-                                            offset: Offset(
-                                                0, 3), // Shadow offset
-                                          ),
-                                        ],
-                                        color: Colors.white,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.only(
-                                                        left: 10.0),
-                                                child: Container(
-                                                  height: 110,
-                                                  width: 110,
-                                                  decoration: BoxDecoration(
-                                                    shape:
-                                                        BoxShape.rectangle,
-                                                    borderRadius:
-                                                        BorderRadius
-                                                            .circular(10),
-                                                    border: Border.all(
-                                                        color: Colors
-                                                            .black12), // Grey border
-                                                  ),
-                                                  child: Center(
-                                                    child: Container(
-                                                      height: 110,
-                                                      width: 110,
-                                                      decoration:
-                                                          BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    10),
-                                                        shape: BoxShape
-                                                            .rectangle,
-                                                        image:
-                                                            DecorationImage(
+                          MASearchBar(
+                            hintText: 'Search a Product ',
+                            controller: controller.searchCntrl,
+                            searchFn: () => controller.searchBtn(),
+                            suffixIconBtnFn: () =>
+                                controller.searchSuffixIconBtn(),
+                            // Close button logic
+                            textInputAction: TextInputAction.search,
+                            textFieldOnchanged: (val) =>
+                                controller.searchOnChangeFn(val),
+                            onFieldSubmitted: (val) =>
+                                controller.onFieldSubmittedFn(val),
+                          ),
+                          controller.proData.isEmpty
+                              ? Expanded(
+                                  child: MAResultEmpty(msg: 'Results Empty'))
+                              : Expanded(
+                                  child: ListView.builder(
+                                  itemCount: controller.proData.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    final product = controller.proData[index];
+                                    return Padding(
+                                      padding:
+                                          EdgeInsets.only(bottom: 10, top: 10),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.3),
+                                              spreadRadius: 1,
+                                              blurRadius: 5,
+                                              offset: Offset(0, 3),
+                                            ),
+                                          ],
+                                          color: Colors.white,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10.0),
+                                                  child: Container(
+                                                    height: 110,
+                                                    width: 110,
+                                                    decoration: BoxDecoration(
+                                                      shape: BoxShape.rectangle,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      border: Border.all(
+                                                          color:
+                                                              Colors.black12),
+                                                    ),
+                                                    child: Center(
+                                                      child: Container(
+                                                        height: 110,
+                                                        width: 110,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
                                                           image:
-                                                              NetworkImage(
-                                                            controller
-                                                                .proData[
-                                                                    index]
-                                                                .imageurl
-                                                                .toString(),
+                                                              DecorationImage(
+                                                            image: NetworkImage(
+                                                              controller
+                                                                  .proData[
+                                                                      index]
+                                                                  .imageurl
+                                                                  .toString(),
+                                                            ),
                                                           ),
-                                                          fit: BoxFit
-                                                              .cover, // Ensures the image covers the circle area
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                  width: Get.width * .03),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: 20,
-                                                    bottom: 10,
-                                                    left: 10),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
-                                                  children: [
-                                                    Text(
-                                                      (controller
-                                                                  .proData[
-                                                                      index]
-                                                                  .productName ??
-                                                              "----")
-                                                          .toString(),
-                                                      style: MyTheme
-                                                          .regularTextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: MyTheme
-                                                            .myBlueDark,
-                                                        fontSize:
-                                                            Get.height *
-                                                                .018,
-                                                      ),
-                                                    ),
-                                                    // SizedBox(
-                                                    //   height: 10,
-                                                    // ),
-                                                    // Text(
-                                                    //   (controller.proData[index]
-                                                    //       .productId ??
-                                                    //       "----")
-                                                    //       .toString(),
-                                                    //   style: MyTheme.regularTextStyle(
-                                                    //     fontWeight: FontWeight.w600,
-                                                    //     color: MyTheme.myBlueDark,
-                                                    //     fontSize: Get.height * .018,
-                                                    //   ),
-                                                    // ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    SingleChildScrollView(
-                                                        child: Container(
-                                                      width: 200,
-                                                      height: 60,
-                                                      child: Text(
-                                                        (controller
-                                                                    .proData[
-                                                                        index]
-                                                                    .productDescription ??
-                                                                "----")
-                                                            .toString(),
+                                                SizedBox(
+                                                    width: Get.width * .03),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 20,
+                                                      bottom: 10,
+                                                      left: 10),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        product.productName ??
+                                                            "----",
                                                         style: MyTheme
                                                             .regularTextStyle(
                                                           fontWeight:
-                                                              FontWeight
-                                                                  .w600,
-                                                          color:
-                                                              Colors.grey,
+                                                              FontWeight.w600,
+                                                          color: MyTheme
+                                                              .myBlueDark,
                                                           fontSize:
-                                                              Get.height *
-                                                                  .013,
+                                                              Get.height * .018,
                                                         ),
                                                       ),
-                                                    )),
-                                                    SizedBox(
-                                                        height: Get.height *
-                                                            .01),
-                                                    Text(
-                                                      "Price",
-                                                      style: MyTheme
-                                                          .regularTextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: MyTheme.appColor,
-
-                                                        fontSize:
-                                                            Get.height *
-                                                                .018,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                        height: Get.height *
-                                                            .01),
-                                                    Row(
-                                                      children: [
-                                                        Icon(
-                                                          Icons
-                                                              .currency_rupee_outlined,
-                                                          size: 14,
-                                                        ),
-                                                        Text(
-                                                          controller
-                                                              .proData[
-                                                                  index]
-                                                              .price
-                                                              .toString(),
+                                                      SizedBox(height: 10),
+                                                      Container(
+                                                        width: 200,
+                                                        height: 60,
+                                                        child: Text(
+                                                          product.productDescription ??
+                                                              "----",
                                                           style: MyTheme
                                                               .regularTextStyle(
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w600,
-                                                            color: Colors
-                                                                .black,
+                                                                FontWeight.w600,
+                                                            color: Colors.grey,
                                                             fontSize:
                                                                 Get.height *
-                                                                    .018,
+                                                                    .013,
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ],
+                                                      ),
+                                                      SizedBox(
+                                                          height:
+                                                              Get.height * .01),
+                                                      Text(
+                                                        "Price",
+                                                        style: MyTheme
+                                                            .regularTextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color:
+                                                              MyTheme.appColor,
+                                                          fontSize:
+                                                              Get.height * .018,
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                          height:
+                                                              Get.height * .01),
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                              Icons
+                                                                  .currency_rupee_outlined,
+                                                              size: 14),
+                                                          Text(
+                                                            product.price
+                                                                .toString(),
+                                                            style: MyTheme
+                                                                .regularTextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize:
+                                                                  Get.height *
+                                                                      .018,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          // Padding(
-                                          //   padding:
-                                          //   EdgeInsets.only(bottom: 10, right: 20),
-                                          //   child: Row(
-                                          //     mainAxisAlignment: MainAxisAlignment.end,
-                                          //     children: [
-                                          //       GestureDetector(
-                                          //         onTap: () {
-                                          //           // Pass the selected product details back to AddOrderView using Get.back()
-                                          //           final selectedProduct = ProductListing(
-                                          //             productId: customers.productId ?? "Unknown ID",
-                                          //             productName: customers.productName ?? "Unknown Product",
-                                          //             price: customers.price != null ? customers.price : '0.0',
-                                          //             // Add more fields if needed from the ProductListing class
-                                          //           );
-                                          //           Get.back(result: selectedProduct);  // Return the selected product
-                                          //         },
-                                          //         child: Container(
-                                          //           height: Get.height * 0.05,
-                                          //           width: Get.width * 0.2,
-                                          //           decoration: BoxDecoration(
-                                          //             borderRadius: BorderRadius.circular(15),
-                                          //             color: MyTheme.myBlueDark,
-                                          //           ),
-                                          //           child: Center(
-                                          //             child: Text(
-                                          //               "ADD",
-                                          //               style: MyTheme.regularTextStyle(
-                                          //                 fontWeight: FontWeight.w600,
-                                          //                 color: MyTheme.whiteColor,
-                                          //                 fontSize: Get.height * .018,
-                                          //               ),
-                                          //             ),
-                                          //           ),
-                                          //         ),
-                                          //       ),
-                                          //
-                                          //
-                                          //     ],
-                                          //   ),
-                                          // )
-                                        ],
-                                      )),
-                                );
-                              },
-                            ))
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )),
                         ])))
             ])));
   }

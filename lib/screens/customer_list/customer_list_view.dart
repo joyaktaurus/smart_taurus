@@ -38,21 +38,6 @@ class CustomerListView extends GetView<CustomerListController> {
               'Customer List',
               style: TextStyle(color: Colors.black),
             ),
-            // actions: [
-            //   IconButton(
-            //     icon: Icon(Icons.search, color: Colors.black),
-            //     onPressed: () {
-            //       Get.toNamed(Routes.dashBoard);
-            //     },
-            //   ),
-            //   IconButton(
-            //     icon:
-            //         Icon(Icons.notification_add_outlined, color: Colors.black),
-            //     onPressed: () {
-            //       // Add functionality for notifications icon
-            //     },
-            //   ),
-            // ],
             centerTitle: true, // Ensure the title is centered
           ),
           drawer: Drawer(
@@ -77,7 +62,10 @@ class CustomerListView extends GetView<CustomerListController> {
               SizedBox(height: Get. height * 0.03),
               Obx(
                     () => controller.isScreenProgress.value
-                    ? Center(child: RoundedLoader())
+                    ? Center(child: Padding(
+                      padding:  EdgeInsets.only(top: Get.height * 0.3),
+                      child: RoundedLoader(),
+                    ))
                     : Expanded(
                   child: Column(
                     children: [
@@ -88,15 +76,11 @@ class CustomerListView extends GetView<CustomerListController> {
                           hintText: 'Search a Shop',
                           controller: controller.searchCntrl,
                           searchFn: () => controller.searchBtn(),
-                          searchTypeChosenValue:
-                          controller.searchTypeChosenValue.value,
-                          suffixIconBtnFn: () =>
-                              controller.searchSuffixIconBtn(),
+                          searchTypeChosenValue: controller.searchTypeChosenValue.value,
+                          suffixIconBtnFn: () => controller.searchSuffixIconBtn(),
                           textInputAction: TextInputAction.search,
-                          textFieldOnchanged: (val) =>
-                              controller.searchOnChangeFn(val),
-                          onFieldSubmitted: (val) =>
-                              controller.onFieldSubmittedFn(val),
+                          textFieldOnchanged: (val) => controller.searchOnChangeFn(val), // This calls the updated search function
+                          onFieldSubmitted: (val) => controller.onFieldSubmittedFn(val),
                         ),
                       ),
                       controller.customerData.isEmpty

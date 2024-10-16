@@ -35,12 +35,11 @@ class DashboardView extends GetView<DashboardController> {
             ),
             actions: [
               IconButton(
-                icon:
-                    Icon(Icons.logout, color: MyTheme.appColor),
+                icon: Icon(Icons.logout, color: MyTheme.appColor),
                 onPressed: () {
                   LocalStore.clearData();
                   Get.offNamed(Routes.login);
-                  },
+                },
               ),
             ],
             centerTitle: true, // Ensure the title is centered
@@ -66,7 +65,10 @@ class DashboardView extends GetView<DashboardController> {
                 if (controller.isLoading.value) {
                   return Center(
                       child:
-                          RoundedLoader()); // Show loader while fetching data
+                          Padding(
+                            padding: const EdgeInsets.all(50.0),
+                            child: RoundedLoader(),
+                          )); // Show loader while fetching data
                 }
                 if (controller.employee.value.name == null) {
                   return Center(child: Text("No data available"));
@@ -337,7 +339,7 @@ class DashboardView extends GetView<DashboardController> {
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(left: 23.0,right: 12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -369,6 +371,7 @@ class DashboardView extends GetView<DashboardController> {
                                 ],
                               ),
                             ),
+                            SizedBox(width: 2,),
 
                             GestureDetector(
                               onTap: () {
@@ -388,6 +391,7 @@ class DashboardView extends GetView<DashboardController> {
                                 ],
                               ),
                             ),
+                            SizedBox(width: 2,),
                             // GestureDetector(
                             //   onTap: () {
                             //     Get.toNamed(Routes.newLead);
@@ -465,103 +469,103 @@ class DashboardView extends GetView<DashboardController> {
                       ),
                     ],
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 18.0),
+                        child: Text(
                           "Sales CRM",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600),
                         ),
-                        SizedBox(height: Get.height * 0.02),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.addOrder, arguments: {
-                                  'productName': '',
-                                  // Default or placeholder value
-                                  'finalAmount': 0.0,
-                                  // Default value
-                                });
-                              },
-                              child: Column(
-                                children: [
-                                  Image.asset(
-                                    "assets/images/order.png",
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Orders",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
+                      ),
+                      SizedBox(height: Get.height * 0.02),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.addOrder, arguments: {
+                                'productName': '',
+                                // Default or placeholder value
+                                'finalAmount': 0.0,
+                                // Default value
+                              });
+                            },
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  "assets/images/order.png",
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  "Orders",
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.grey[700]),
+                                ),
+                              ],
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.leadListing);
-                              },
-                              child: Column(
-                                children: [
-                                  Image.asset(
-                                    "assets/images/leadlisting.png",
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Order Status",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.leadListing);
+                            },
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  "assets/images/leadlisting.png",
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  "Order Status",
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.grey[700]),
+                                ),
+                              ],
                             ),
+                          ),
 
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     Get.toNamed(Routes.productView);
-                            //   },
-                            //   child: Column(
-                            //     children: [
-                            //       Image.asset(
-                            //         "assets/images/products.png",
-                            //       ),
-                            //       SizedBox(height: 5),
-                            //       Text(
-                            //         "Products",
-                            //         style: TextStyle(
-                            //             fontSize: 16, color: Colors.grey[700]),
-                            //       ),
-                            //     ],
-                            //   ),
-                            // ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.expenses);
-                              },
-                              child: Column(
-                                children: [
-                                  Image.asset(
-                                    "assets/images/expenses.png",
-                                  ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Expenses",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Get.toNamed(Routes.productView);
+                          //   },
+                          //   child: Column(
+                          //     children: [
+                          //       Image.asset(
+                          //         "assets/images/products.png",
+                          //       ),
+                          //       SizedBox(height: 5),
+                          //       Text(
+                          //         "Products",
+                          //         style: TextStyle(
+                          //             fontSize: 16, color: Colors.grey[700]),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          GestureDetector(
+                            onTap: () {
+                              Get.toNamed(Routes.expenses);
+                            },
+                            child: Column(
+                              children: [
+                                Image.asset(
+                                  "assets/images/expenses.png",
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  "Expenses",
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.grey[700]),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    ],
                   )),
               SizedBox(height: Get.height * 0.001),
               Container(

@@ -166,53 +166,6 @@ class NewTaskView extends GetView<NewTaskController> {
                             ),
                           ),
                         ),
-
-                          // Container(
-                          //   decoration: BoxDecoration(
-                          //     borderRadius: BorderRadius.circular(15),
-                          //     color: Colors.white,
-                          //     boxShadow: [
-                          //       BoxShadow(
-                          //         color: Colors.grey.withOpacity(0.3),
-                          //         spreadRadius: 1,
-                          //         blurRadius: 5,
-                          //         offset: Offset(0, 3),
-                          //       ),
-                          //     ],
-                          //   ),
-                          //   child: Padding(
-                          //     padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                          //     child: TextFormField(
-                          //       controller: controller.traDateCtrl,
-                          //       focusNode: controller.traDateCtrlfNode,
-                          //       decoration: InputDecoration(
-                          //         suffixIcon: IconButton(
-                          //           icon: Icon(
-                          //             Icons.calendar_today,
-                          //             color: MyTheme.appColor,
-                          //           ),
-                          //           onPressed: () {
-                          //             controller.selectDateTime(context); // Call the updated method
-                          //           },
-                          //         ),
-                          //         labelText: 'Task Date & Time',
-                          //         border: InputBorder.none,
-                          //         labelStyle: TextStyle(color: Colors.grey),
-                          //       ),
-                          //       textInputAction: TextInputAction.next,
-                          //       validator: (value) {
-                          //         if (value == null || value.isEmpty) {
-                          //           return 'Please enter a valid date and time';
-                          //         }
-                          //         if (value.length < 19) {
-                          //           return 'Invalid date and time format';
-                          //         }
-                          //         return null;
-                          //       },
-                          //     ),
-                          //   ),
-                          // ),
-
                           SizedBox(height: Get.height * .01),
                           Center(
                             child: MAButton(

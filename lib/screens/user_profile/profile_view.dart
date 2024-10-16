@@ -143,12 +143,21 @@ class ProfileView extends GetView<ProfileController> {
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 17),
                                           ),
-                                          Text(
-                                            controller.employee.value.id.toString() ??
-                                                '',
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.grey),
+                                          Row(
+                                            children: [
+                                              Text( 'Emp ID: ',
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.grey),
+                                              ),
+                                              Text(
+                                                controller.employee.value.id.toString() ??
+                                                    '',
+                                                style: TextStyle(
+                                                    fontSize: 17,
+                                                    color: Colors.grey),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
@@ -157,7 +166,7 @@ class ProfileView extends GetView<ProfileController> {
                             ),
                             SizedBox(height: Get.height * 0.01),
                             Padding(
-                              padding: const EdgeInsets.only(left: 20.0, right: 10),
+                              padding: const EdgeInsets.only( right: 80, top: 10),
                               child: Wrap(
                                 spacing: Get.width * 0.04, // Horizontal space between items
                                 runSpacing: Get.height * 0.02, // Vertical space between rows
@@ -172,10 +181,10 @@ class ProfileView extends GetView<ProfileController> {
                                     label: controller.employee.value.email ?? '',
                                     width: Get.width * 0.4, // Set width for longer content like email
                                   ),
-                                  _buildIconWithText(
-                                    icon: Icons.business_outlined,
-                                    label: controller.employee.value.gender ?? '',
-                                  ),
+                                  // _buildIconWithText(
+                                  //   icon: Icons.business_outlined,
+                                  //   label: controller.employee.value.gender ?? '',
+                                  // ),
                                   _buildIconWithText(
                                     icon: Icons.location_on_outlined,
                                     label: controller.employee.value.job ?? '----',
@@ -184,6 +193,7 @@ class ProfileView extends GetView<ProfileController> {
                               ),
                             ),
                             SizedBox(height: Get.height * 0.018),
+
                           ]))),
                 ]);
               }),
@@ -191,8 +201,9 @@ class ProfileView extends GetView<ProfileController> {
   }
 }
 Widget _buildIconWithText({required IconData icon, required String label, double? width}) {
-  return Row(
+  return Column(
     mainAxisSize: MainAxisSize.min,
+    crossAxisAlignment: CrossAxisAlignment.start, // Align the text and icon to the start
     children: [
       Container(
         height: 30,
@@ -207,7 +218,7 @@ Widget _buildIconWithText({required IconData icon, required String label, double
           size: 17,
         ),
       ),
-      SizedBox(width: Get.width * 0.01),
+     SizedBox(height: Get.height * 0.01), // Add space between icon and text
       width != null
           ? Container(
         width: width,

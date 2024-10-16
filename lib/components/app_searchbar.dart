@@ -10,11 +10,12 @@ class MASearchBar extends StatelessWidget {
   final ValueChanged<String?>? dropDownOnchanged;
   final ValueChanged<String>? onFieldSubmitted;
   final TextInputAction textInputAction;
-  final VoidCallback suffixIconBtnFn;
+  final VoidCallback? suffixIconBtnFn;
   final String? searchTypeChosenValue;
   final VoidCallback? goToQRScan;
   final VoidCallback searchFn;
   final bool isQrCode;
+  final bool? showSuffixIcon; // <-- Add the parameter for dynamic visibility
   final String? hintText;
   const MASearchBar(
       {Key? key,
@@ -22,13 +23,14 @@ class MASearchBar extends StatelessWidget {
       this.textFieldOnchanged,
       this.onFieldSubmitted,
       required this.textInputAction,
-      required this.suffixIconBtnFn,
+        this.suffixIconBtnFn,
       this.searchTypeChosenValue,
       this.dropDownOnchanged,
       this.goToQRScan,
       this.isQrCode = true,
       required this.searchFn,
         this.hintText,
+        this.showSuffixIcon,
       })
       : super(key: key);
 

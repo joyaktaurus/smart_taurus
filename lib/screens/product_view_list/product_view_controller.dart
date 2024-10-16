@@ -21,6 +21,7 @@ class ProductViewController extends GetxController {
   // Reactive variables for UI states
   RxBool isScreenProgress = true.obs;
   RxDouble finalAmount = 0.0.obs;
+  List<ProductListing> originalList = []; // Store the original product list here
 
   // Updates final amount based on quantity and rate
   void updateFinalAmount(String quantity, double rate) {
@@ -49,8 +50,8 @@ class ProductViewController extends GetxController {
       final ApiResp resp = await ProductServices.getproductList();
       if (resp.ok) {
         final prodDetails = ProductListingModel.fromJson(resp.rdata);
-        proData.assignAll(prodDetails.shop ?? []);
-        App.prodDetails = proData;
+        originalList = prodDetails.shop ?? []; // Store the original list
+        proData.assignAll(originalList); // Assign to the reactive list
         isScreenProgress.value = false;
         print('Product data fetched successfully: ${proData.length} items');
       } else {
@@ -62,7 +63,6 @@ class ProductViewController extends GetxController {
       print('Error fetching product data: $e');
     }
   }
- // final TextEditingController searchCntrl = TextEditingController(text: '');
 
   void searchBtn() async {
     String productName = searchCntrl.text.trim();
@@ -70,7 +70,6 @@ class ProductViewController extends GetxController {
       ApiResp response = await ProductSearchServices.fetchSearchListProduct(productName);
       if (response.ok) {
         if (response.rdata is Map<String, dynamic> && response.rdata.containsKey('product')) {
-          // Extract the list of products from the response
           List<dynamic> products = response.rdata['product'];
           proData.assignAll(products.map((data) => ProductListing.fromJson(data)).toList());
         } else {
@@ -82,9 +81,32 @@ class ProductViewController extends GetxController {
     }
   }
 
-  void searchOnChangeFn(val) async {
+  void restoreOriginalList() {
+    proData.assignAll(originalList); // Restore the original list
+    isScreenProgress.value = false; // No need to show progress bar
+  }
+
+  void searchSuffixIconBtn() {
+    // Clear the search term and restore original product list
+    searchCntrl.clear();
+    proData.assignAll(originalList); // Restore the original list
+    isScreenProgress.value = false; // No need to show progress bar
+  }
+
+  void searchOnChangeFn(String val) {
     if (val.isEmpty) {
       searchCntrl.clear();
+      restoreOriginalList(); // Restore original list when search field is empty
+    } else {
+      // Filter the original list based on the input
+      List<ProductListing> filteredList = originalList.where((customer) {
+        // Check if customerName and shopName are not null
+        final customerName = customer.productName?.toLowerCase() ?? '';
+        // final shopName = customer.shopName?.toLowerCase() ?? '';
+        return customerName.startsWith(val.toLowerCase());
+      }).toList();
+
+      proData.assignAll(filteredList); // Update the customerData with filtered list
     }
   }
 
@@ -95,27 +117,26 @@ class ProductViewController extends GetxController {
 
   Map customersListApiPayload = {};
   final TextEditingController ProductSearchCntrl = TextEditingController(text: '');
-  List<ProductListing>originalList=[];
   RxBool isCloseButtonVisible = true.obs;
 
 
-  void searchSuffixIconBtn() {
-    // Clear API payload and search controller
-    customersListApiPayload.clear();
-    ProductSearchCntrl.clear();
-
-    // Set progress state to false as no progress indicator is needed
-    isScreenProgress.value = false;
-
-    // Restore the original list to myList
-    proData.value = List<ProductListing>.from(originalList);
-
-    // Clear the search term
-    searchCntrl.clear();
-
-    // Hide the close button
-    isCloseButtonVisible.value = false; // Ensure you have a variable to control visibility
-  }
+  // void searchSuffixIconBtn() {
+  //   // Clear API payload and search controller
+  //   customersListApiPayload.clear();
+  //   ProductSearchCntrl.clear();
+  //
+  //   // Set progress state to false as no progress indicator is needed
+  //   isScreenProgress.value = false;
+  //
+  //   // Restore the original list to myList
+  //   proData.value = List<ProductListing>.from(originalList);
+  //
+  //   // Clear the search term
+  //   searchCntrl.clear();
+  //
+  //   // Hide the close button
+  //   isCloseButtonVisible.value = false; // Ensure you have a variable to control visibility
+  // }
 
   RxString searchTypeChosenValue = 'Name / P/N or SKU'.obs;
 

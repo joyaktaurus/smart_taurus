@@ -7,13 +7,16 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
+import 'package:smart_taurus/utils/my_theme.dart';
 
 import '../../models/api_resp.dart';
+import '../../models/new_task.dart';
 import '../../models/shop_res.dart';
 import '../../services/expenses_services.dart';
 import '../../services/lead_submit_services.dart';
 import '../../services/new_task_services.dart';
 import '../../utils/my_utils.dart';
+import '../../utils/routes.dart';
 
 class NewTaskController extends GetxController {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -62,7 +65,7 @@ class NewTaskController extends GetxController {
 
     // Check if the date is selected before making the API request
     if (selectedDate.value == null) {
-     // MyUtils.msg("h");
+      log("No date selected");
       return;
     }
 
@@ -71,24 +74,29 @@ class NewTaskController extends GetxController {
       task_date: traDateCtrl.text, // Make sure traDateCtrl.text is populated
     );
 
+    // Log the response to see what's being returned
+ //   log("API Response: ${resp.ok}, Message: ${resp.msgs}");
+
     if (!resp.ok) {
       MyUtils.msg(resp.msgs);
       return;
     }
 
-    Shop shop = Shop.fromJson(resp.rdata);
-    if (shop.message == 'Task Details Entered Successfully') {
+    NewTask task = NewTask.fromJson(resp.rdata);
+    if (task.message == 'Task Entered Successfully') {
       Get.snackbar(
         'Success',
-        'Shop Details Entered Successfully',
-        backgroundColor: Colors.white,
-        colorText: Colors.black,
+        'Task Entered Successfully',
+        backgroundColor: MyTheme.appColor,
+        colorText: Colors.white,
         snackPosition: SnackPosition.TOP,
       );
     }
 
     clearFields();
+    Get.toNamed(Routes.taskListing);
   }
+
 
   void clearFields() {
     traFromCtrl.clear();

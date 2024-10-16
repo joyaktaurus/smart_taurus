@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:smart_taurus/utils/my_theme.dart';
 
 import '../../models/api_resp.dart';
 import '../../models/shop_res.dart';
@@ -80,8 +81,8 @@ class LeadSubmitController extends GetxController {
       Get.snackbar(
         'Success',
         'Shop Details Entered Successfully',
-        backgroundColor: Colors.white,
-        colorText: Colors.black,
+        backgroundColor: MyTheme.appColor,
+        colorText: Colors.white,
         snackPosition: SnackPosition.TOP,
       );
     }

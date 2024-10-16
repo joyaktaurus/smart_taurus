@@ -12,13 +12,17 @@ void main() async{
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: App.appTitle,
+      title: 'Your App Title', // Set your app title
       theme: ThemeData(
-       // canvasColor: Colors.transparent,
-        primarySwatch: MyTheme.primaryColor1,
-        unselectedWidgetColor: Colors.blue,
+        primaryColor: Colors.blue, // Primary app color
+        unselectedWidgetColor: Colors.blue, // Color for unselected widgets (e.g., checkboxes)
+        checkboxTheme: CheckboxThemeData(
+          fillColor: MaterialStateProperty.all(Colors.green), // Checkbox background color when checked
+          checkColor: MaterialStateProperty.all(Colors.black), // Tick mark color
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)), // Rounded corners
+        ),
       ),
-      initialRoute: Routes.splash,
+      initialRoute: Routes.splash, // Ensure you have defined your routes
       getPages: Routes.routes,
     ),
   );
