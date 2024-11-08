@@ -35,7 +35,7 @@ class TaskListingView extends GetView<TaskListingController> {
                 color: MyTheme.appColor,
               ),
               onPressed: () {
-                Get.back();
+                Get.toNamed(Routes.dashBoard);
               },
             ),
             title: Text(
@@ -164,7 +164,7 @@ class TaskListingView extends GetView<TaskListingController> {
                                 style: TextStyle(
                                     color: Colors.grey[700], fontSize: 14)),
                             Text(
-                              "Assigned by ${task.user?.getFormattedName()}",
+                              "Assigned by ${task.user!.name}",
                               style: TextStyle(
                                   color: MyTheme.appColor,
                                   fontSize: 13,
@@ -176,17 +176,18 @@ class TaskListingView extends GetView<TaskListingController> {
                         _buildTaskTextWithReadMore(task.task.toString(), index),
                         if (!isCompleted)
                           Align(
-                              alignment: Alignment.centerRight,
-                              child:
-                              CustomCheckbox(
-                                value: task.status == Status.COMPLETED,
-                                onChanged: (bool? newValue) {
-                                  if (newValue != null) {
-                                    _showConfirmationDialog(task, newValue);
-                                  }
-                                },
-                              )
+                            alignment: Alignment.centerRight,
+                            child: CustomCheckbox(
+                              taskId: task.id!, // Pass the task id to track the checkbox state
+                              initialValue: controller.checkedTasks[task.id] ?? false,
+                              onChanged: (bool newValue) {
+                                if (newValue) {
+                                  _showConfirmationDialog(task, newValue);
+                                }
+                              },
+                            ),
                           ),
+
                       ],
                     ),
                   ),
@@ -208,27 +209,6 @@ class TaskListingView extends GetView<TaskListingController> {
     });
   }
 
-  void _showConfirmationDialog(TaskList task, bool newValue) {
-    Get.defaultDialog(
-      buttonColor: MyTheme.appColor,
-      confirmTextColor: Colors.white,
-      cancelTextColor: Colors.black,
-      title: "Confirm Completion",
-      middleText: "Are you sure about you complete the task?",
-      textConfirm: "OK",
-      textCancel: "Cancel",
-      onConfirm: () {
-        controller.toggleTaskStatus(task, newValue);
-        Get.back(); // Close the dialog
-      },
-      onCancel: () {
-        Get.toNamed(Routes.taskListing);
-      },
-      barrierDismissible: false, // Prevent closing by tapping outside
-    );
-  }
-
-  // Method to build task text with Read More/Read Less functionality
   Widget _buildTaskTextWithReadMore(String taskText, int index) {
     final TextStyle textStyle = TextStyle(
       fontWeight: FontWeight.w400,
@@ -275,97 +255,77 @@ class TaskListingView extends GetView<TaskListingController> {
       );
     });
   }
-}
-
-class CustomCheckbox extends StatefulWidget {
-  final bool value;
-  final ValueChanged<bool?> onChanged;
-
-  const CustomCheckbox({
-    Key? key,
-    required this.value,
-    required this.onChanged,
-  }) : super(key: key);
-
-  @override
-  _CustomCheckboxState createState() => _CustomCheckboxState();
-}
-
-class _CustomCheckboxState extends State<CustomCheckbox> {
-  bool isChecked = false;
-
-  @override
-  void initState() {
-    super.initState();
-    isChecked = widget.value; // Initialize the checkbox with the given value
-  }
-
-  void _showTaskCompletionDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Task Complete?'),
-          content: const Text('Are you sure the task is completed?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                // Close the dialog and uncheck the checkbox (revert)
-                setState(() {
-                  isChecked = false; // Revert to unchecked
-                });
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                // Keep the checkbox checked and call the onChanged callback
-                widget.onChanged(isChecked);
-              },
-              child: const Text('Confirm'),
-            ),
-          ],
-        );
+  void _showConfirmationDialog(TaskList task, bool newValue) {
+    Get.defaultDialog(
+      buttonColor: MyTheme.appColor,
+      confirmTextColor: Colors.white,
+      cancelTextColor: Colors.black,
+      title: "Confirm Completion",
+      middleText: "Are you sure you want to complete the task?",
+      textConfirm: "OK",
+      textCancel: "Cancel",
+      onConfirm: () {
+        controller.toggleTaskStatus(task, newValue); // Update task status if confirmed
+        Get.back(); // Close the dialog
       },
+      onCancel: () {
+        // Reset the checkbox state using the toggleCheckbox method
+        controller.toggleCheckbox(task.id ?? 0, false);
+      },
+      barrierDismissible: false, // Prevent closing by tapping outside
     );
   }
+
+// Method to build task text with Read More/Read Less functionality
+}
+
+class CustomCheckbox extends StatelessWidget {
+  final bool initialValue;
+  final ValueChanged<bool> onChanged;
+  final int taskId; // Add taskId to track individual checkbox state
+
+  CustomCheckbox({
+    Key? key,
+    required this.initialValue,
+    required this.onChanged,
+    required this.taskId, // Add this parameter
+  }) : super(key: key);
+
+  final TaskListingController controller = Get.put(TaskListingController());
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // First, color the checkbox (toggle its state)
-        setState(() {
-          isChecked = !isChecked;
-        });
-
-        // Then, show the confirmation dialog
-        Future.delayed(const Duration(milliseconds: 200), () {
-          _showTaskCompletionDialog(context);
-        });
+        // Toggle the checkbox state for this specific task
+        bool currentValue = controller.checkedTasks[taskId] ?? initialValue;
+        controller.toggleCheckbox(taskId, !currentValue); // Update specific task
+        onChanged(!currentValue); // Trigger the callback
       },
-      child: Container(
-        width: 20, // Width for visibility of the tick icon
-        height: 20, // Height for visibility of the tick icon
-        decoration: BoxDecoration(
-          color: isChecked ? Colors.green : Colors.transparent,
-          // Green background if checked, transparent if unchecked
-          border: Border.all(
-            color: MyTheme.appColor, // Border color
-            width: 2, // Border width for visibility
+      child: Obx(
+            () => Container(
+          width: 20,
+          height: 20,
+          decoration: BoxDecoration(
+            color: controller.checkedTasks[taskId] ?? initialValue
+                ? Colors.transparent
+                : Colors.transparent,
+            border: Border.all(
+              color: MyTheme.appColor,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(4),
           ),
-          borderRadius: BorderRadius.circular(4), // Rounded corners
+          child: controller.checkedTasks[taskId] ?? initialValue
+              ? Icon(
+            Icons.check,
+            color: MyTheme.appColor,
+            size: 16,
+          )
+              : null,
         ),
-        child: isChecked
-            ? Icon(
-          Icons.check, // Tick mark icon
-          color: Colors.black, // Tick mark color
-          size: 16, // Size of the tick mark
-        )
-            : null, // No tick mark if not checked
       ),
     );
   }
 }
+

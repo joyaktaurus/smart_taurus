@@ -166,7 +166,7 @@ class ProfileView extends GetView<ProfileController> {
                             ),
                             SizedBox(height: Get.height * 0.01),
                             Padding(
-                              padding: const EdgeInsets.only( right: 80, top: 10),
+                              padding:  EdgeInsets.only( right: 30,),
                               child: Wrap(
                                 spacing: Get.width * 0.04, // Horizontal space between items
                                 runSpacing: Get.height * 0.02, // Vertical space between rows
@@ -179,14 +179,14 @@ class ProfileView extends GetView<ProfileController> {
                                   _buildIconWithText(
                                     icon: Icons.mail_outline_outlined,
                                     label: controller.employee.value.email ?? '',
-                                    width: Get.width * 0.4, // Set width for longer content like email
+                                    width: Get.width * 0.7, // Set width for longer content like email
                                   ),
                                   // _buildIconWithText(
                                   //   icon: Icons.business_outlined,
                                   //   label: controller.employee.value.gender ?? '',
                                   // ),
                                   _buildIconWithText(
-                                    icon: Icons.location_on_outlined,
+                                    icon: Icons.workspaces_outlined,
                                     label: controller.employee.value.job ?? '----',
                                   ),
                                 ],
@@ -201,9 +201,9 @@ class ProfileView extends GetView<ProfileController> {
   }
 }
 Widget _buildIconWithText({required IconData icon, required String label, double? width}) {
-  return Column(
+  return Row(
     mainAxisSize: MainAxisSize.min,
-    crossAxisAlignment: CrossAxisAlignment.start, // Align the text and icon to the start
+    crossAxisAlignment: CrossAxisAlignment.center, // Align the text and icon to the start
     children: [
       Container(
         height: 30,
@@ -218,7 +218,7 @@ Widget _buildIconWithText({required IconData icon, required String label, double
           size: 17,
         ),
       ),
-     SizedBox(height: Get.height * 0.01), // Add space between icon and text
+    SizedBox(width: Get.width * 0.02), // Add space between icon and text
       width != null
           ? Container(
         width: width,

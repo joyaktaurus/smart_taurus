@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:smart_taurus/screens/new_sales_crm/view_complete_order/view_order_controller.dart';
 import 'package:smart_taurus/utils/my_theme.dart';
-import '../../components/rounded_loader.dart';
-import '../../utils/my_utils.dart';
-import '../../utils/routes.dart';
-import 'order_details_controller.dart';
 
-class OrderDetailsView extends GetView<OrderDetailController> {
-  const OrderDetailsView({Key? key}) : super(key: key);
+import '../../../components/rounded_loader.dart';
+import '../../../utils/my_utils.dart';
+
+class ViewOrder extends GetView<ViewOrderController> {
+  const ViewOrder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +31,14 @@ class OrderDetailsView extends GetView<OrderDetailController> {
             },
           ),
           title: Text(
-            'Order Details',
+            'View Order',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true, // Ensure the title is centered
         ),
         drawer: Drawer(
-            // Add a drawer if needed
-            ),
+          // Add a drawer if needed
+        ),
         body: Column(children: [
           Container(
             height: 0.3, // Height of the grey divider
@@ -78,95 +78,6 @@ class OrderDetailsView extends GetView<OrderDetailController> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 4),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("TAURUS CRM",style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 17,
-                                color: MyTheme.appColor
-                              ),),
-                              Text("INVOICE",style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17
-                              ),),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0,bottom: 4),
-                          child: Text("# INV-00009",style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 15
-                          ),),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0, bottom: 25),
-                          child: Text("PAID",style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: MyTheme.appColor,
-                              fontSize: 14
-                          ),),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0, bottom: 4),
-                          child: Text("Bill To",style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14
-                          ),),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0, bottom: 4),
-                          child: Text(
-                            "${controller.orderData.value.first.shop?.customerName ?? 'N/A'}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                color: Colors.grey[700]
-                            ),),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0, bottom: 4),
-                          child: Text(
-                            "${controller.orderData.value.first.shop?.shopName.toString() ?? 'N/A'}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                              color: Colors.grey[700]
-                            ),),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0, bottom: 4),
-                          child: Text(
-                            "${controller.orderData.value.first.shop?.addressLine1 ?? 'N/A'}",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                color: Colors.grey[700]
-                            ),),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 8.0, bottom: 10,top: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: const [
-                              Text(
-                                "Invoice Date : ",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                ),),
-                              Text(
-                                "2024-01-20",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14,
-                                ),),
-                            ],
-                          ),
-                        ),
-                        Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Table(
                             border: TableBorder.all(
@@ -205,14 +116,6 @@ class OrderDetailsView extends GetView<OrderDetailController> {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       'Rate',
-                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      'Tax',
                                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                       textAlign: TextAlign.center,
                                     ),
@@ -260,15 +163,6 @@ class OrderDetailsView extends GetView<OrderDetailController> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text("GST 5.0%",
-                                        //"${detail.amount ?? 'N/A'}",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 13),
-
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
                                       child: Text(
                                         "${detail.amount ?? 'N/A'}",
                                         textAlign: TextAlign.center,
@@ -295,40 +189,63 @@ class OrderDetailsView extends GetView<OrderDetailController> {
             child: Center(
               child: Obx(
                     () => Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                      child: Column(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Sub Total",
-                                style: MyTheme.regularTextStyle(
-                                  fontSize: Get.height * .018,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              // Check if orderData has any items before accessing the first element
-                              Text(
-                                controller.orderData.value.isNotEmpty
-                                    ? '${controller.orderData.value.first.total.toString()}'
-                                    : '', // Provide a fallback value if empty
-                                style: MyTheme.regularTextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            "Sub Total",
+                            style: MyTheme.regularTextStyle(
+                              fontSize: Get.height * .018,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
+                          // Check if orderData has any items before accessing the first element
+                          Text(
+                            controller.orderData.value.isNotEmpty
+                                ? '${controller.orderData.value.first.total.toString()}'
+                                : '', // Provide a fallback value if empty
+                            style: MyTheme.regularTextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Check if orderData has any items before accessing the first element
+                            Text(
+                              controller.orderData.value.isNotEmpty
+                                  ? '${controller.orderData.value.first.total.toString()}'
+                                  : '', // Provide a fallback value if empty
+                              style: MyTheme.regularTextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Container(
+                          color: Colors.grey[200],
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "GST(%)",
+                                  "Total",
                                   style: MyTheme.regularTextStyle(
                                     fontSize: Get.height * .018,
                                     color: Colors.black,
@@ -343,48 +260,17 @@ class OrderDetailsView extends GetView<OrderDetailController> {
                                   style: MyTheme.regularTextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 15,
+                                    fontSize: 17,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Container(
-                              color: Colors.grey[200],
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Total",
-                                      style: MyTheme.regularTextStyle(
-                                        fontSize: Get.height * .018,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    // Check if orderData has any items before accessing the first element
-                                    Text(
-                                      controller.orderData.value.isNotEmpty
-                                          ? '${controller.orderData.value.first.total.toString()}'
-                                          : '', // Provide a fallback value if empty
-                                      style: MyTheme.regularTextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 17,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

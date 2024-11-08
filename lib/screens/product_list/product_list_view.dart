@@ -118,7 +118,7 @@ class ProductListingView extends GetView<ProductListingController> {
                     });
                     return Center(
                       child: Padding(
-                        padding: EdgeInsets.only(top: Get.height * 0.3),
+                        padding: EdgeInsets.only(top: Get.height * 0.1),
                         child: RoundedLoader(),
                       ),
                     );
@@ -198,7 +198,7 @@ class ProductListingView extends GetView<ProductListingController> {
                                                           fit: BoxFit.cover,
                                                         );
                                                       },
-                                                    )
+                                                     )
                                                   : Image.asset(
                                                       'assets/images/img_2.png',
                                                       // Path to your placeholder image

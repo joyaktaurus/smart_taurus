@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
@@ -11,6 +12,7 @@ import '../../models/api_resp.dart';
 import '../../models/product_listing_model.dart';
 import '../../services/add_order_submit_services.dart';
 import '../../services/customerlist_services.dart';
+import '../../utils/my_theme.dart';
 
 class AddOrderController extends GetxController {
   var products = <ProductListing>[].obs; // Observable list to hold products
@@ -38,7 +40,7 @@ class AddOrderController extends GetxController {
 
   // Decrement product quantity
   void countDecrement(ProductListing product) {
-    if (product.quantity > 0) {
+    if (product.quantity > 1) {
       product.quantity--; // Decrease the quantity
       updateFinalAmount(); // Update the final amount
       products.refresh(); // Refresh the list to update UI
@@ -56,6 +58,14 @@ class AddOrderController extends GetxController {
       Get.snackbar('Error', 'Product ID is missing');
     }
   }
+
+  // Delete product from the list
+  void deleteProduct(ProductListing product) {
+    products.remove(product); // Remove the product from the list
+    updateFinalAmount(); // Update the final amount after deletion
+    products.refresh(); // Refresh the list to update the UI
+  }
+
 
   // Update final amount based on product prices and quantities
   void updateFinalAmount() {
@@ -134,7 +144,9 @@ class AddOrderController extends GetxController {
       if (response.ok) {
         var responseData = response.rdata; // Directly use the response data
         String message = responseData["message"] ?? "Order submitted successfully";
-        Get.snackbar('Success', message);
+        Get.snackbar('Success', message, backgroundColor: MyTheme.appColor,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.TOP,);
 
         // Clear the product list and reset the final amount
         products.clear();

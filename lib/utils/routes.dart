@@ -11,6 +11,8 @@ import '../screens/dashboard/dashboard_bindings.dart';
 import '../screens/dashboard/dashboard_view.dart';
 import '../screens/expenses/expenses_bindings.dart';
 import '../screens/expenses/expenses_view.dart';
+import '../screens/expenses_listing/exp_list_bindings.dart';
+import '../screens/expenses_listing/exp_list_view.dart';
 import '../screens/lead_form/lead_form_bindings.dart';
 import '../screens/lead_form/lead_form_view.dart';
 import '../screens/leads_listing/lead_listing_bindings.dart';
@@ -19,6 +21,12 @@ import '../screens/login/login_bindings.dart';
 import '../screens/login/login_view.dart';
 import '../screens/new_lead/new_lead_binding.dart';
 import '../screens/new_lead/new_lead_view.dart';
+import '../screens/new_sales_crm/category_products/category_bindings.dart';
+import '../screens/new_sales_crm/category_products/category_view.dart';
+import '../screens/new_sales_crm/order_take/order_take_bindings.dart';
+import '../screens/new_sales_crm/order_take/order_take_view.dart';
+import '../screens/new_sales_crm/view_complete_order/view_order_bindings.dart';
+import '../screens/new_sales_crm/view_complete_order/view_order_screen.dart';
 import '../screens/new_tasks/new_task_bindings.dart';
 import '../screens/new_tasks/new_task_vieew.dart';
 import '../screens/onboarding_screen.dart';
@@ -47,12 +55,16 @@ class Routes {
   static const productListing = '/productListing';
   static const taskListing = '/taskListing';
   static const expenses = '/expenses';
+  static const expensesListing = '/expensesListing';
   static const addOrder = '/addOrder';
   static const newLead = '/newLead';
   static const productView = '/productView';
   static const profileView = '/profileView';
   static const orderDetails = '/orderDetails';
   static const newTask = '/newTask';
+  static const orderTakeView = '/orderTakeView';
+  static const categoryView = '/categoryView';
+  static const viewOrder = '/viewOrder';
 
   static final routes = [
     GetPage(
@@ -110,6 +122,11 @@ class Routes {
       page: () =>  ExpenseView(),
     ),
     GetPage(
+      binding: ExpenseListingBindings(),
+      name: expensesListing,
+      page: () =>  ExpensesListingView(),
+    ),
+    GetPage(
       binding: AddOrderBindings(),
       name: Routes.addOrder,
       page: () => AddOrderView(
@@ -141,6 +158,22 @@ class Routes {
       binding: NewTaskBindings(),
       name: newTask,
       page: () =>  NewTaskView(),
+    ),
+    GetPage(
+      binding: OrderTakeBindings(),
+      name: orderTakeView,
+      page: () =>  OrderTakeView(
+      ),
+    ),
+    GetPage(
+      binding: CategoryListingBindings(),
+      name:categoryView,
+      page: () =>  CategoryListingView(),
+    ),
+    GetPage(
+      binding: ViewOrderBindings(),
+      name:viewOrder,
+      page: () =>  ViewOrder(),
     ),
   ];
 

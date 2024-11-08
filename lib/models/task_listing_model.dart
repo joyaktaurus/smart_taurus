@@ -42,8 +42,10 @@ class TaskList {
   String? taskDate;
   DateTime? createdAt;
   DateTime? updatedAt;
+  String? name;
   User? user;
-  bool? isChecked; // Add this property
+  bool? isChecked;
+  bool isSeen; // Add the isSeen property here
 
   TaskList({
     this.id,
@@ -54,8 +56,10 @@ class TaskList {
     this.taskDate,
     this.createdAt,
     this.updatedAt,
+    this.name,
     this.user,
-    this.isChecked = false, // Default to false (unchecked)
+    this.isChecked = false,
+    this.isSeen = false, // Set a default value for isSeen
   });
 
   factory TaskList.fromJson(Map<String, dynamic> json) => TaskList(
@@ -65,9 +69,12 @@ class TaskList {
     status: statusValues.map[json["status"]],
     createdBy: json["created_by"],
     taskDate: json["task_date"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
-    user: User.fromJson(json["user"]),
+    createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
+    updatedAt: json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : null,
+    name: json["name"],
+    user: json["user"] != null ? User.fromJson(json["user"]) : null,
+    isChecked: json["is_checked"] ?? false,
+    isSeen: json["is_seen"] ?? false, // Parse from JSON or default to false
   );
 
   Map<String, dynamic> toJson() => {
@@ -77,9 +84,12 @@ class TaskList {
     "status": statusValues.reverse[status],
     "created_by": createdBy,
     "task_date": taskDate,
-    "created_at": createdAt!.toIso8601String(),
-    "updated_at": updatedAt!.toIso8601String(),
-    "user": user!.toJson(),
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
+    "name": name,
+    "user": user?.toJson(),
+    "is_checked": isChecked,
+    "is_seen": isSeen, // Include isSeen in the JSON output
   };
 }
 
@@ -96,8 +106,8 @@ final statusValues = EnumValues({
 
 class User {
   int? id;
-  Name? name;
-  Email? email;
+  String? name; // Changed from `Name?` to `String?`
+  String? email;
   dynamic emailVerifiedAt;
   Type? type;
   Avatar? avatar;
@@ -113,7 +123,7 @@ class User {
 
   User({
     this.id,
-    this.name,
+    this.name, // Updated to use String
     this.email,
     this.emailVerifiedAt,
     this.type,
@@ -131,17 +141,17 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
     id: json["id"],
-    name: nameValues.map[json["name"]],
-    email: emailValues.map[json["email"]],
+    name: json["name"], // Directly assign the name as a string
+    email: json["email"],
     emailVerifiedAt: json["email_verified_at"],
     type: typeValues.map[json["type"]],
     avatar: avatarValues.map[json["avatar"]],
     lang: langValues.map[json["lang"]],
-    lastLogin: DateTime.parse(json["last_login"]),
+    lastLogin: json["last_login"] != null ? DateTime.parse(json["last_login"]) : null,
     isActive: json["is_active"],
     createdBy: json["created_by"],
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
+    createdAt: json["created_at"] != null ? DateTime.parse(json["created_at"]) : null,
+    updatedAt: json["updated_at"] != null ? DateTime.parse(json["updated_at"]) : null,
     messengerColor: messengerColorValues.map[json["messenger_color"]],
     darkMode: json["dark_mode"],
     activeStatus: json["active_status"],
@@ -149,33 +159,21 @@ class User {
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "name": nameValues.reverse[name],
-    "email": emailValues.reverse[email],
+    "name": name, // Use the name string directly
+    "email": email,
     "email_verified_at": emailVerifiedAt,
     "type": typeValues.reverse[type],
     "avatar": avatarValues.reverse[avatar],
     "lang": langValues.reverse[lang],
-    "last_login": lastLogin!.toIso8601String(),
+    "last_login": lastLogin?.toIso8601String(),
     "is_active": isActive,
     "created_by": createdBy,
-    "created_at": createdAt!.toIso8601String(),
-    "updated_at": updatedAt!.toIso8601String(),
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
     "messenger_color": messengerColorValues.reverse[messengerColor],
     "dark_mode": darkMode,
     "active_status": activeStatus,
   };
-
-  // New method to get formatted name
-  String getFormattedName() {
-    // Ensure the name is not null
-    if (name == null) return '';
-    // Get the string value of the enum
-    String nameStr = nameValues.reverse[name] ?? '';
-    // Capitalize the first letter and lowercase the rest
-    return nameStr.isNotEmpty
-        ? '${nameStr[0].toUpperCase()}${nameStr.substring(1).toLowerCase()}'
-        : '';
-  }
 }
 
 enum Avatar {
@@ -245,97 +243,5 @@ class EnumValues<T> {
     return reverseMap;
   }
 }
-
-
-
-// TaskListingModel taskListingModelFromJson(String str) => TaskListingModel.fromJson(json.decode(str));
-//
-// String taskListingModelToJson(TaskListingModel data) => json.encode(data.toJson());
-//
-// class TaskListingModel {
-//   String? message;
-//   List<TaskList>? shop;
-//
-//   TaskListingModel({
-//     this.message,
-//     this.shop,
-//   });
-//
-//   factory TaskListingModel.fromJson(Map<String, dynamic> json) => TaskListingModel(
-//     message: json["message"],
-//     shop: json["shop"] != null
-//         ? List<TaskList>.from(json["shop"].map((x) => TaskList.fromJson(x)))
-//         : [],
-//   );
-//
-//   Map<String, dynamic> toJson() => {
-//     "message": message,
-//     "shop": List<dynamic>.from(shop!.map((x) => x.toJson())),
-//   };
-// }
-//
-// class TaskList {
-//   int? id;
-//   String? task;
-//   String? assignedTo;
-//   Status? status; // Using Status enum
-//   String? createdBy;
-//   String? taskDate;
-//   DateTime? createdAt;
-//   DateTime? updatedAt;
-//
-//   TaskList({
-//     this.id,
-//     this.task,
-//     this.assignedTo,
-//     this.status,
-//     this.createdBy,
-//     this.taskDate,
-//     this.createdAt,
-//     this.updatedAt,
-//   });
-//
-//   factory TaskList.fromJson(Map<String, dynamic> json) => TaskList(
-//     id: json["id"],
-//     task: json["task"],
-//     assignedTo: json["assigned_to"],
-//     status: statusValues.map[json["status"]], // Convert status from String to Enum
-//     createdBy: json["created_by"],
-//     taskDate: json["task_date"],
-//     createdAt: DateTime.parse(json["created_at"]),
-//     updatedAt: DateTime.parse(json["updated_at"]),
-//   );
-//
-//   Map<String, dynamic> toJson() => {
-//     "id": id,
-//     "task": task,
-//     "assigned_to": assignedTo,
-//     "status": statusValues.reverse[status], // Convert status back to String
-//     "created_by": createdBy,
-//     "task_date": taskDate,
-//     "created_at": createdAt!.toIso8601String(),
-//     "updated_at": updatedAt!.toIso8601String(),
-//   };
-// }
-//
-// enum Status { COMPLETED, NEW }
-//
-// final statusValues = EnumValues({
-//   "Completed": Status.COMPLETED,
-//   "New": Status.NEW,
-// });
-//
-// class EnumValues<T> {
-//   Map<String, T> map;
-//   late Map<T, String> reverseMap;
-//
-//   EnumValues(this.map);
-//
-//   Map<T, String> get reverse {
-//     reverseMap = map.map((k, v) => MapEntry(v, k));
-//     return reverseMap;
-//   }
-// }
-
 
 

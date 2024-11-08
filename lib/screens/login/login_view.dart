@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
@@ -48,31 +49,64 @@ class LoginView extends GetView<LoginViewController> {
                 ),
                 SizedBox(height:  Get.height * 0.02),
                 Container(
-                  width: Get.width * 0.9,  // Set your desired width
-                  height: Get.height * 0.07,  // Set your desired height
+                  // width: Get.width * 0.9,  // Set your desired width
+                  // height: Get.height * 0.07,  // Set your desired height
                   decoration: BoxDecoration(
                     color:  Color.fromRGBO(255, 255, 255, 0.56), // Background color of the container
                     borderRadius: BorderRadius.circular(30),  // Circular border
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    padding:  EdgeInsets.symmetric(horizontal: 20.0),
                     child: TextFormField(
                       controller: controller.usernameController,
                       style: TextStyle(color: Colors.white,fontSize: 18.0),  // Set text color to white
                       decoration: InputDecoration(
                         hintText: 'User Name',
-                        hintStyle: TextStyle(color: Colors.white60),  // Set hint text color to a lighter shade of white
+                        hintStyle: TextStyle(color: Colors.white70),  // Set hint text color to a lighter shade of white
                         border: InputBorder.none,
-                        prefixIcon: Icon(Icons.person_outline, color: Colors.white),// Remove default border
+                        prefixIcon: Icon(Icons.person_outline, color: Colors.white),
+                        // Remove default border
                       ),
+                      contextMenuBuilder: (BuildContext context,
+                          EditableTextState editableTextState) {
+                        return AdaptiveTextSelectionToolbar(
+                          anchors: editableTextState.contextMenuAnchors,
+                          children: [
+                            TextSelectionToolbarTextButton(
+                              onPressed: () => editableTextState
+                                  .cutSelection(SelectionChangedCause.toolbar),
+                              padding: EdgeInsets.all(8),
+                              child: const Text('Cut'),
+                            ),
+                            TextSelectionToolbarTextButton(
+                              onPressed: () => editableTextState
+                                  .copySelection(SelectionChangedCause.toolbar),
+                              child: const Text('Copy'),
+                              padding: EdgeInsets.all(8),
+                            ),
+                            TextSelectionToolbarTextButton(
+                              onPressed: () => editableTextState
+                                  .pasteText(SelectionChangedCause.toolbar),
+                              child: const Text('Paste'),
+                              padding: EdgeInsets.all(8),
+                            ),
+                            TextSelectionToolbarTextButton(
+                              onPressed: () => editableTextState
+                                  .selectAll(SelectionChangedCause.toolbar),
+                              child: const Text('Select All'),
+                              padding: EdgeInsets.all(8),
+                            ),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
                 SizedBox(height:  Get.height * 0.02),
                 Obx( () =>
                    Container(
-                    width: Get.width * 0.9,  // Set your desired width
-                    height: Get.height * 0.07,  // Set your desired height
+                    // width: Get.width * 0.9,  // Set your desired width
+                    // height: Get.height * 0.07,  // Set your desired height
                     decoration: BoxDecoration(
                       color:  Color.fromRGBO(255, 255, 255, 0.56), // Background color of the container
                       borderRadius: BorderRadius.circular(30),  // Circular border
@@ -85,7 +119,7 @@ class LoginView extends GetView<LoginViewController> {
                         style: TextStyle(color: Colors.white,fontSize: 18.0),  // Set text color to white
                         decoration: InputDecoration(
                           hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.white60),  // Set hint text color to a lighter shade of white
+                          hintStyle: TextStyle(color: Colors.white70),  // Set hint text color to a lighter shade of white
                           border: InputBorder.none,
                           suffixIcon:  IconButton(
                             onPressed: () {
@@ -93,12 +127,43 @@ class LoginView extends GetView<LoginViewController> {
                             },
                             icon: Icon(controller.showPassword.value
                                 ? Icons.visibility
-                                : Icons.visibility_off),
+                                : Icons.visibility_off,color: Colors.white,),
                           ),
                           prefixIcon: Icon(Icons.lock_open_outlined, color: Colors.white),// Remove default border
                         ),
                         textInputAction: TextInputAction.next,
-
+                        contextMenuBuilder: (BuildContext context,
+                            EditableTextState editableTextState) {
+                          return AdaptiveTextSelectionToolbar(
+                            anchors: editableTextState.contextMenuAnchors,
+                            children: [
+                              TextSelectionToolbarTextButton(
+                                onPressed: () => editableTextState
+                                    .cutSelection(SelectionChangedCause.toolbar),
+                                padding: EdgeInsets.all(8),
+                                child: const Text('Cut'),
+                              ),
+                              TextSelectionToolbarTextButton(
+                                onPressed: () => editableTextState
+                                    .copySelection(SelectionChangedCause.toolbar),
+                                child: const Text('Copy'),
+                                padding: EdgeInsets.all(8),
+                              ),
+                              TextSelectionToolbarTextButton(
+                                onPressed: () => editableTextState
+                                    .pasteText(SelectionChangedCause.toolbar),
+                                child: const Text('Paste'),
+                                padding: EdgeInsets.all(8),
+                              ),
+                              TextSelectionToolbarTextButton(
+                                onPressed: () => editableTextState
+                                    .selectAll(SelectionChangedCause.toolbar),
+                                child: const Text('Select All'),
+                                padding: EdgeInsets.all(8),
+                              ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                   ),
@@ -177,7 +242,38 @@ class LoginView extends GetView<LoginViewController> {
                     ),
                   ),
                 ),
-
+                SizedBox(height: Get.height * 0.03,),
+                Padding(
+                  padding:  EdgeInsets.only(left: 50.0, right: 50.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red),
+                      // Define the border color here
+                      borderRadius:
+                      BorderRadius.circular(30), // Rounded corners
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset("assets/images/goog.png",width: 40,height: 40,),
+                        SizedBox(width: Get.width * 0.03),
+                        Text("Continue with google", style: TextStyle(color: Colors.white),)
+                        // TextButton.icon(icon:  Icon(FontAwesomeIcons.google, color: Colors.white),
+                        //   onPressed: () {},
+                        //   style: TextButton.styleFrom(
+                        //     side: const BorderSide(color: Colors.red),fixedSize: const Size(200, 40),
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(40),
+                        //     ),
+                        //   ),
+                        //   label: (const Text("Continue with google", style: TextStyle(color: Colors.white),)),
+                        //
+                        //   // child: Text("Continue with google"),
+                        // ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

@@ -14,6 +14,13 @@ import 'customer_detail_controller.dart';
 class CustomerDetailView extends GetView<CustomerDetailController> {
   const CustomerDetailView({Key? key}) : super(key: key);
 
+  String capitalizeFirstLetter(String? text) {
+    if (text == null || text.isEmpty) {
+      return "----"; // Default if text is null or empty
+    }
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -27,7 +34,10 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
               elevation: 0,
               iconTheme: IconThemeData(color: Colors.black),
               leading: IconButton(
-                icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: MyTheme.appColor,
+                ),
                 onPressed: () {
                   Get.back();
                 },
@@ -60,7 +70,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
               child: Obx(() {
                 if (controller.isScreenProgress.value) {
                   // Show a loading spinner while data is being fetched
-                    return Center(child: RoundedLoader());
+                  return Center(child: RoundedLoader());
                 } else if (controller.customerDetails.value?.intShopId ==
                     null) {
                   // Show a message if there are no customer details
@@ -105,7 +115,8 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Row(
                                         crossAxisAlignment:
@@ -116,7 +127,9 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                             width: 70,
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              border: Border.all(color: Colors.black12), // Grey border
+                                              border: Border.all(
+                                                  color: Colors
+                                                      .black12), // Grey border
                                             ),
                                             child: Center(
                                               child: Container(
@@ -125,37 +138,51 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                                 decoration: BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   image: DecorationImage(
-                                                    image: controller.customerDetails.value?.shopImage != null
-                                                        ? NetworkImage("https://seowebsites.in/Smart_Taurus/smart_taurus/public/uploads/shops/${controller.customerDetails.value?.shopImage}")
-                                                        : AssetImage("assets/images/img.png") as ImageProvider,
-                                                    fit: BoxFit.cover, // Ensures the image covers the circle area
+                                                    image: controller
+                                                                .customerDetails
+                                                                .value
+                                                                ?.shopImage !=
+                                                            null
+                                                        ? NetworkImage(
+                                                            "https://seowebsites.in/Smart_Taurus/smart_taurus/public/uploads/shops/${controller.customerDetails.value?.shopImage}")
+                                                        : AssetImage(
+                                                                "assets/images/img.png")
+                                                            as ImageProvider,
+                                                    fit: BoxFit
+                                                        .cover, // Ensures the image covers the circle area
                                                   ),
                                                 ),
                                               ),
                                             ),
                                           ),
-
                                           SizedBox(width: Get.width * 0.02),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 15.0),
+                                            padding: const EdgeInsets.only(
+                                                top: 15.0),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  controller.customerDetails
-                                                          .value!.customerName
-                                                          .toString() ??
+                                                  capitalizeFirstLetter(
+                                                          controller
+                                                              .customerDetails
+                                                              .value!
+                                                              .customerName) ??
                                                       "----",
                                                   style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 17),
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 17,
+                                                  ),
                                                 ),
+                                                SizedBox(
+                                                    height: Get.height * 0.001),
                                                 Text(
-                                                  controller.customerDetails
-                                                          .value!.shopName
-                                                          .toString() ??
+                                                  capitalizeFirstLetter(
+                                                          controller
+                                                              .customerDetails
+                                                              .value!
+                                                              .shopName) ??
                                                       "----",
                                                   style: TextStyle(
                                                       fontSize: 17,
@@ -168,8 +195,11 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                     Padding(
                                       padding: const EdgeInsets.only(top: 20.0),
                                       child: Text(
-                                        controller.customerDetails.value
-                                                    ?.categoryInfo?.isNotEmpty ==
+                                        controller
+                                                    .customerDetails
+                                                    .value
+                                                    ?.categoryInfo
+                                                    ?.isNotEmpty ==
                                                 true
                                             ? controller.customerDetails.value!
                                                 .categoryInfo!
@@ -188,8 +218,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                 padding: const EdgeInsets.only(
                                     left: 20.0, right: 10),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
@@ -209,13 +238,15 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                         SizedBox(width: Get.width * 0.01),
                                         Container(
                                           width: Get.width * 0.3,
-
                                           child: Text(
-                                            controller.customerDetails.value
-                                                ?.phoneNumber?.isNotEmpty ==
-                                                true
-                                                ? controller.customerDetails.value!
-                                                .phoneNumber!
+                                            controller
+                                                        .customerDetails
+                                                        .value
+                                                        ?.phoneNumber
+                                                        ?.isNotEmpty ==
+                                                    true
+                                                ? controller.customerDetails
+                                                    .value!.phoneNumber!
                                                 : "----",
                                           ),
                                         )
@@ -239,13 +270,15 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                         SizedBox(width: Get.width * 0.01),
                                         Container(
                                           width: Get.width * 0.3,
-
                                           child: Text(
-                                            controller.customerDetails.value
-                                                ?.strEmail?.isNotEmpty ==
-                                                true
-                                                ? controller.customerDetails.value!
-                                                .strEmail!
+                                            controller
+                                                        .customerDetails
+                                                        .value
+                                                        ?.strEmail
+                                                        ?.isNotEmpty ==
+                                                    true
+                                                ? controller.customerDetails
+                                                    .value!.strEmail!
                                                 : "----",
                                           ),
                                         )
@@ -254,13 +287,12 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: Get.height * 0.01),
+                              SizedBox(height: Get.height * 0.02),
                               Padding(
                                 padding: const EdgeInsets.only(
                                     left: 20.0, right: 10),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
@@ -280,13 +312,15 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                         SizedBox(width: Get.width * 0.01),
                                         Container(
                                           width: Get.width * 0.3,
-
                                           child: Text(
-                                            controller.customerDetails.value
-                                                ?.shopName?.isNotEmpty ==
-                                                true
-                                                ? controller.customerDetails.value!
-                                                .shopName!
+                                            controller
+                                                        .customerDetails
+                                                        .value
+                                                        ?.shopName
+                                                        ?.isNotEmpty ==
+                                                    true
+                                                ? controller.customerDetails
+                                                    .value!.shopName!
                                                 : "----",
                                           ),
                                         )
@@ -314,13 +348,15 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                           children: [
                                             Container(
                                               width: Get.width * 0.3,
-
                                               child: Text(
-                                                controller.customerDetails.value
-                                                    ?.addressLine1?.isNotEmpty ==
-                                                    true
-                                                    ? controller.customerDetails.value!
-                                                    .addressLine1!
+                                                controller
+                                                            .customerDetails
+                                                            .value
+                                                            ?.addressLine1
+                                                            ?.isNotEmpty ==
+                                                        true
+                                                    ? controller.customerDetails
+                                                        .value!.addressLine1!
                                                     : "----",
                                               ),
                                             ),
@@ -381,21 +417,23 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                       size: 17,
                                     ),
                                   ),
-                                  SizedBox(width: Get.width * 0.025),
+                                  SizedBox(width: Get.width * 0.015),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("GST"),
+                                      Text(
+                                        "GST",
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
                                       Container(
                                         width: Get.width * 0.3,
-
                                         child: Text(
                                           controller.customerDetails.value
-                                              ?.gstNumber?.isNotEmpty ==
-                                              true
-                                              ? controller.customerDetails.value!
-                                              .gstNumber!
+                                                      ?.gstNumber?.isNotEmpty ==
+                                                  true
+                                              ? controller.customerDetails
+                                                  .value!.gstNumber!
                                               : "----",
                                         ),
                                       ),
@@ -423,13 +461,16 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("Pan Card"),
+                                      Text(
+                                        "Pan Card",
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
                                       Text(
                                         controller.customerDetails.value
-                                            ?.pancard?.isNotEmpty ==
-                                            true
-                                            ? controller.customerDetails.value!
-                                            .pancard!
+                                                    ?.pancard?.isNotEmpty ==
+                                                true
+                                            ? controller
+                                                .customerDetails.value!.pancard!
                                             : "----",
                                       ),
                                     ],
@@ -476,21 +517,26 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                       size: 17,
                                     ),
                                   ),
-                                  SizedBox(width: Get.width * 0.025),
+                                  SizedBox(width: Get.width * 0.015),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("Budget Info"),
+                                      Text(
+                                        "Budget Info",
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
                                       Container(
                                         width: Get.width * 0.3,
-
                                         child: Text(
-                                          controller.customerDetails.value
-                                              ?.budgetInfo?.isNotEmpty ==
-                                              true
-                                              ? controller.customerDetails.value!
-                                              .budgetInfo!
+                                          controller
+                                                      .customerDetails
+                                                      .value
+                                                      ?.budgetInfo
+                                                      ?.isNotEmpty ==
+                                                  true
+                                              ? controller.customerDetails
+                                                  .value!.budgetInfo!
                                               : "----",
                                         ),
                                       ),
@@ -518,13 +564,16 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("Brand Info"),
+                                      Text(
+                                        "Brand Info",
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
                                       Text(
                                         controller.customerDetails.value
-                                            ?.brandInfo?.isNotEmpty ==
-                                            true
+                                                    ?.brandInfo?.isNotEmpty ==
+                                                true
                                             ? controller.customerDetails.value!
-                                            .brandInfo!
+                                                .brandInfo!
                                             : "----",
                                       ),
                                     ],
@@ -576,13 +625,21 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text("Notes"),
-                                      Text(  controller.customerDetails.value
-                                          ?.categoryInfo?.isNotEmpty ==
-                                          true
-                                          ? controller.customerDetails.value!
-                                          .categoryInfo!
-                                          : "----",),
+                                      Text(
+                                        "Notes",
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                      Text(
+                                        controller
+                                                    .customerDetails
+                                                    .value
+                                                    ?.categoryInfo
+                                                    ?.isNotEmpty ==
+                                                true
+                                            ? controller.customerDetails.value!
+                                                .categoryInfo!
+                                            : "----",
+                                      ),
                                     ],
                                   )
                                 ],

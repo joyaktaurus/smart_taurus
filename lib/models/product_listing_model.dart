@@ -38,9 +38,11 @@ class ProductListing {
   String? productDescription;
   String? price;
   String? image;
+  String? categoryId;
   String? status;
   String? imageurl;
   int quantity;
+  String? categoryName;
 
   ProductListing({
     this.productId,
@@ -48,8 +50,10 @@ class ProductListing {
     this.productDescription,
     this.price,
     this.image,
+    this.categoryId,
     this.status,
     this.imageurl,
+    this.categoryName,
     this.quantity = 0, // Initialize with 0
   });
 
@@ -58,8 +62,10 @@ class ProductListing {
     productName: json["product_name"],
     productDescription: json["product_description"],
     price: json["price"],
+    categoryId: json["category_id"],
     image: json["image"],
     status: json["status"],
+    categoryName: json["category_name"],
     imageurl: json["imageurl"],
   );
 
@@ -68,8 +74,10 @@ class ProductListing {
     "product_name": productName,
     "product_description": productDescription,
     "price": price,
+    "category_id": categoryId,
     "image": image,
     "status": status,
+    "category_name": categoryName,
     "imageurl": imageurl,
   };
 }

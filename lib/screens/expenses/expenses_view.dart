@@ -30,7 +30,10 @@ class ExpenseView extends GetView<ExpenseController> {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
           leading: IconButton(
-            icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
+            icon: Icon(
+              Icons.arrow_back,
+              color: MyTheme.appColor,
+            ),
             onPressed: () {
               Get.back();
             },
@@ -81,7 +84,7 @@ class ExpenseView extends GetView<ExpenseController> {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -119,7 +122,7 @@ class ExpenseView extends GetView<ExpenseController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -157,7 +160,7 @@ class ExpenseView extends GetView<ExpenseController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: MyTheme.appColor),
                                 // Define the border color here
                                 borderRadius: BorderRadius.circular(
                                     30), // Rounded corners
@@ -192,7 +195,7 @@ class ExpenseView extends GetView<ExpenseController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -226,7 +229,7 @@ class ExpenseView extends GetView<ExpenseController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -264,7 +267,7 @@ class ExpenseView extends GetView<ExpenseController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -301,8 +304,7 @@ class ExpenseView extends GetView<ExpenseController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              // Define the border color here
+                              border: Border.all(color: MyTheme.appColor),
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
                             ),
@@ -320,20 +322,16 @@ class ExpenseView extends GetView<ExpenseController> {
                                         color: MyTheme.appColor,
                                       ),
                                       onPressed: () {
-                                        controller.selectDate(context); // Call selectDate function here
+                                        controller.selectDate(
+                                            context); // Call selectDate function here
                                       },
                                     ),
                                     labelText: 'Travel Date',
                                     border: InputBorder.none,
-                                    // Removes the default underline
                                     labelStyle: TextStyle(
                                         color: Colors.grey), // Label color
                                   ),
-
                                   textInputAction: TextInputAction.next,
-                                  // inputFormatters: [
-                                  //   FilteringTextInputFormatter.allow(RegExp(r"[a-zA-Z]+|\s")),
-                                  // ],
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter travel date';
@@ -368,6 +366,41 @@ class ExpenseView extends GetView<ExpenseController> {
                               fontSize: 20,
                             ),
                           ),
+                          SizedBox(height: Get.height * .01),
+                          Padding(
+                            padding: EdgeInsets.only(left: 50.0, right: 50.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.expensesListing);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.red[900],
+                                  // border: Border.all(color: MyTheme.appColor),
+                                  borderRadius: BorderRadius.circular(
+                                      15), // Rounded corners
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.view_list_outlined,
+                                          size: 25, color: Colors.white),
+                                      SizedBox(width: Get.width * .03),
+                                      Text(
+                                        "Expenses View",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16,
+                                            color: Colors.white),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -381,6 +414,7 @@ class ExpenseView extends GetView<ExpenseController> {
     );
   }
 }
+
 InputDecoration textBoxDecoration(hintText) {
   return InputDecoration(
     hintText: hintText,
@@ -391,5 +425,3 @@ InputDecoration textBoxDecoration(hintText) {
         fontSize: Get.height * .018, color: Colors.black),
   );
 }
-
-

@@ -30,7 +30,10 @@ class LeadSubmit extends GetView<LeadSubmitController> {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
           leading: IconButton(
-            icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
+            icon: Icon(
+              Icons.arrow_back,
+              color: MyTheme.appColor,
+            ),
             onPressed: () {
               Get.back();
             },
@@ -81,7 +84,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                         children: [
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -120,7 +123,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: MyTheme.appColor),
                                 // Define the border color here
                                 borderRadius: BorderRadius.circular(
                                     30), // Rounded corners
@@ -158,7 +161,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: MyTheme.appColor),
                                 // Define the border color here
                                 borderRadius: BorderRadius.circular(
                                     30), // Rounded corners
@@ -195,7 +198,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: MyTheme.appColor),
                                 // Define the border color here
                                 borderRadius: BorderRadius.circular(
                                     30), // Rounded corners
@@ -229,7 +232,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: MyTheme.appColor),
                                 // Define the border color here
                                 borderRadius: BorderRadius.circular(
                                     30), // Rounded corners
@@ -267,7 +270,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: MyTheme.appColor),
                                 // Define the border color here
                                 borderRadius: BorderRadius.circular(
                                     30), // Rounded corners
@@ -304,7 +307,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -341,7 +344,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -379,7 +382,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -389,6 +392,8 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                                     horizontal: 12.0),
                                 // Padding inside the container
                                 child: TextFormField(
+                                  keyboardType: TextInputType.phone,
+
                                   controller: controller.budgetCtrl,
                                   focusNode: controller.budgetCtrlfNode,
                                   decoration: InputDecoration(
@@ -416,7 +421,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                               decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
+                                border: Border.all(color: MyTheme.appColor),
                                 // Define the border color here
                                 borderRadius: BorderRadius.circular(
                                     30), // Rounded corners
@@ -454,7 +459,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -488,7 +493,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -513,7 +518,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
@@ -548,7 +553,7 @@ class LeadSubmit extends GetView<LeadSubmitController> {
                           SizedBox(height: Get.height * .02),
                           Container(
                             decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: MyTheme.appColor),
                               // Define the border color here
                               borderRadius:
                                   BorderRadius.circular(30), // Rounded corners
