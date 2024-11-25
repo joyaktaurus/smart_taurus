@@ -10,7 +10,7 @@ String customerDetailToJson(CustomerDetail data) => json.encode(data.toJson());
 
 class CustomerDetail {
   String? message;
-  List<Shop>? shop;
+  List<Shopp>? shop;
 
   CustomerDetail({
     this.message,
@@ -19,7 +19,7 @@ class CustomerDetail {
 
   factory CustomerDetail.fromJson(Map<String, dynamic> json) => CustomerDetail(
     message: json["message"],
-    shop: List<Shop>.from(json["shop"].map((x) => Shop.fromJson(x))),
+    shop: List<Shopp>.from(json["shop"].map((x) => Shopp.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -28,7 +28,7 @@ class CustomerDetail {
   };
 }
 
-class Shop {
+class Shopp {
   String? intShopId;
   String? shopName;
   String? customerName;
@@ -47,7 +47,7 @@ class Shop {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  Shop({
+  Shopp({
     this.intShopId,
     this.shopName,
     this.customerName,
@@ -67,7 +67,7 @@ class Shop {
     this.updatedAt,
   });
 
-  factory Shop.fromJson(Map<String, dynamic> json) => Shop(
+  factory Shopp.fromJson(Map<String, dynamic> json) => Shopp(
     intShopId: json["int_shop_id"],
     shopName: json["shop_name"],
     customerName: json["customer_name"],

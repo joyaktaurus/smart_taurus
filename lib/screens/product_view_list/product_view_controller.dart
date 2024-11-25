@@ -14,14 +14,12 @@ import '../../utils/routes.dart';
 class ProductViewController extends GetxController {
   final TextEditingController searchCntrl = TextEditingController(text: '');
   final TextEditingController quantityCntrl = TextEditingController(text: '');
-
-  // Observable list of products
   var proData = <ProductListing>[].obs;
-
-  // Reactive variables for UI states
   RxBool isScreenProgress = true.obs;
   RxDouble finalAmount = 0.0.obs;
-  List<ProductListing> originalList = []; // Store the original product list here
+
+  var categories = <String>[].obs; // List of categories
+  var selectedCategory = Rxn<String>(); // Use Rxn<String> for nullable string
 
   // Updates final amount based on quantity and rate
   void updateFinalAmount(String quantity, double rate) {
@@ -43,27 +41,59 @@ class ProductViewController extends GetxController {
       'finalAmount': amount,
     });
   }
-
-  // Fetch the product list from API
   Future<void> initialCustomersList() async {
     try {
       final ApiResp resp = await ProductServices.getproductList();
       if (resp.ok) {
         final prodDetails = ProductListingModel.fromJson(resp.rdata);
-        originalList = prodDetails.shop ?? []; // Store the original list
-        proData.assignAll(originalList); // Assign to the reactive list
+        originalList = prodDetails.shop ?? [];
+        proData.assignAll(originalList);
+
+        // Collect unique category names
+        categories.assignAll(
+            originalList.map((e) => e.categoryName ?? "Unknown").toSet().toList()
+        );
+
         isScreenProgress.value = false;
-        print('Product data fetched successfully: ${proData.length} items');
       } else {
         isScreenProgress.value = false;
-        print('Error fetching product data: ${resp.msgs}');
       }
     } catch (e) {
       isScreenProgress.value = false;
-      print('Error fetching product data: $e');
     }
   }
+  // Fetch the product list from API
+  // Future<void> initialCustomersList() async {
+  //   try {
+  //     final ApiResp resp = await ProductServices.getproductList();
+  //     if (resp.ok) {
+  //       final prodDetails = ProductListingModel.fromJson(resp.rdata);
+  //       originalList = prodDetails.shop ?? []; // Store the original list
+  //       proData.assignAll(originalList); // Assign to the reactive list
+  //       isScreenProgress.value = false;
+  //       print('Product data fetched successfully: ${proData.length} items');
+  //     } else {
+  //       isScreenProgress.value = false;
+  //       print('Error fetching product data: ${resp.msgs}');
+  //     }
+  //   } catch (e) {
+  //     isScreenProgress.value = false;
+  //     print('Error fetching product data: $e');
+  //   }
+  // }
 
+  void onCategorySelected(String? category) {
+    selectedCategory.value = category;
+    if (category != null && category.isNotEmpty) {
+      // Filter the products based on the selected category
+      proData.assignAll(originalList.where((product) {
+        return product.categoryName == category;
+      }).toList());
+    } else {
+      // If no category is selected, restore the original list
+      proData.assignAll(originalList);
+    }
+  }
   void searchBtn() async {
     String productName = searchCntrl.text.trim();
     if (productName.isNotEmpty) {
@@ -81,18 +111,31 @@ class ProductViewController extends GetxController {
     }
   }
 
+  void searchSuffixIconBtn() {
+    searchCntrl.clear();
+    restoreOriginalList(); // Restore the original list when clear is clicked
+  }
+
   void restoreOriginalList() {
     proData.assignAll(originalList); // Restore the original list
     isScreenProgress.value = false; // No need to show progress bar
   }
 
-  void searchSuffixIconBtn() {
-    // Clear the search term and restore original product list
-    searchCntrl.clear();
-    proData.assignAll(originalList); // Restore the original list
-    isScreenProgress.value = false; // No need to show progress bar
-  }
-
+  // void searchSuffixIconBtn() {
+  //   // Clear the search term and restore original product list
+  //   searchCntrl.clear();
+  //   proData.assignAll(originalList); // Restore the original list
+  //   isScreenProgress.value = false; // No need to show progress bar
+  // }
+  // void searchOnChangeFn(val) async {
+  //   if (val.isEmpty) {
+  //     searchCntrl.clear();
+  //   }
+  // }
+  // void restoreOriginalList() {
+  //   proData.assignAll(originalList); // Restore the original list
+  //   isScreenProgress.value = false; // No need to show progress bar
+  // }
   void searchOnChangeFn(String val) {
     if (val.isEmpty) {
       searchCntrl.clear();
@@ -110,33 +153,15 @@ class ProductViewController extends GetxController {
     }
   }
 
-
   void onFieldSubmittedFn(val) async {
     searchBtn();
   }
 
+
   Map customersListApiPayload = {};
   final TextEditingController ProductSearchCntrl = TextEditingController(text: '');
+  List<ProductListing>originalList=[];
   RxBool isCloseButtonVisible = true.obs;
-
-
-  // void searchSuffixIconBtn() {
-  //   // Clear API payload and search controller
-  //   customersListApiPayload.clear();
-  //   ProductSearchCntrl.clear();
-  //
-  //   // Set progress state to false as no progress indicator is needed
-  //   isScreenProgress.value = false;
-  //
-  //   // Restore the original list to myList
-  //   proData.value = List<ProductListing>.from(originalList);
-  //
-  //   // Clear the search term
-  //   searchCntrl.clear();
-  //
-  //   // Hide the close button
-  //   isCloseButtonVisible.value = false; // Ensure you have a variable to control visibility
-  // }
 
   RxString searchTypeChosenValue = 'Name / P/N or SKU'.obs;
 

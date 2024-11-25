@@ -12,6 +12,7 @@ import '../../../models/product_listing_model.dart';
 import '../../../services/add_order_submit_services.dart';
 import '../../../services/customerlist_services.dart';
 import '../../../utils/my_theme.dart';
+import 'order_take_view.dart';
 
 class OrderTakeController extends GetxController {
   var products = <ProductListing>[].obs; // Observable list to hold products
@@ -24,12 +25,38 @@ class OrderTakeController extends GetxController {
 
   // final String productName; // Declare productName as final
   RxDouble finalAmount = 0.0.obs; // Observable for final amount
+  RxString selectedPaymentStatus =
+      ''.obs; // To hold the selected payment method
+  RxString selectedPaymentMethod = ''.obs;
+  var isPaymentAdded = false.obs; // Track if payment has been added
+  RxString shopName = ''.obs;  // Declare shopName to hold the name of the shop
+  RxString customerName = ''.obs;  // Declare shopName to hold the name of the shop
+  RxString addressLine1 = ''.obs;  // Declare shopName to hold the name of the shop
+  RxString paymentStatus = ''.obs;  // Declare shopName to hold the name of the shop
+
+  var chequeNumber = ''.obs;
+  var chequeDate = ''.obs;
+  var gpayid = ''.obs;
+  var cardnumber = ''.obs;
+
+  void submitPayment() {
+    // Handle your payment submission logic here
+    isPaymentAdded.value = true; // Set to true after payment submission
+  }
+
+  void selectPaymentStatus(String method) {
+    selectedPaymentStatus.value = method;
+  }
+
+  void selectPaymentMethod(String method) {
+    selectedPaymentMethod.value = method;
+  }
 
   // // Initialize productName and finalAmount in the constructor
   // AddOrderController({required this.productName, required double finalAmount}) {
   //   this.finalAmount.value = finalAmount; // Assign the initial value to RxDouble
   // }
- // var products = <ProductListing>[].obs;
+  // var products = <ProductListing>[].obs;
 
   // Update this method to get a controller for each product
   TextEditingController getTextEditingController(ProductListing product) {
@@ -38,14 +65,16 @@ class OrderTakeController extends GetxController {
     );
   }
 
-  void countIncrement(ProductListing product, TextEditingController controller) {
+  void countIncrement(
+      ProductListing product, TextEditingController controller) {
     product.quantity++; // Increment the quantity
     controller.text = product.quantity.toString(); // Update the TextField
     updateFinalAmount(); // Update the final amount
     products.refresh(); // Refresh the list to update the UI
   }
 
-  void countDecrement(ProductListing product, TextEditingController controller) {
+  void countDecrement(
+      ProductListing product, TextEditingController controller) {
     if (product.quantity > 1) {
       product.quantity--; // Decrease the quantity
       controller.text = product.quantity.toString(); // Update the TextField
@@ -53,6 +82,7 @@ class OrderTakeController extends GetxController {
       products.refresh(); // Refresh the list to update the UI
     }
   }
+
   // // Increment product quantity
   // void countIncrement(ProductListing product) {
   //   product.quantity++; // Increment the quantity
@@ -88,7 +118,6 @@ class OrderTakeController extends GetxController {
     products.refresh(); // Refresh the list to update the UI
   }
 
-
   // Update final amount based on product prices and quantities
   void updateFinalAmount() {
     finalAmount.value = products.fold(0.0, (sum, item) {
@@ -111,7 +140,8 @@ class OrderTakeController extends GetxController {
     return total;
   }
 
-
+  RxString selectedCustomerName =
+      ''.obs; // Add this line to define selectedCustomerName
 
   // Fetch customer list
   Future<void> initialCustomersList() async {
@@ -123,7 +153,8 @@ class OrderTakeController extends GetxController {
         customerData.assignAll(profileDetails.shop ?? []);
         App.cusdetails = customerData;
         isScreenProgress.value = false; // Hide progress indicator
-        print('Profile data fetched successfully: ${customerData.length} items');
+        print(
+            'Profile data fetched successfully: ${customerData.length} items');
       } else {
         isScreenProgress.value = false;
         print('Error fetching profile data: ${resp.msgs}');
@@ -133,6 +164,9 @@ class OrderTakeController extends GetxController {
       print('Error fetching profile data: $e');
     }
   }
+  RxString successMessage = ''.obs;  // New field to track the message
+
+  var isOrderSubmitted = false.obs; // New variable to track order submission
 
   Future<void> submitOrder() async {
     if (selectedShop.isEmpty || products.isEmpty) {
@@ -145,7 +179,8 @@ class OrderTakeController extends GetxController {
       int shopId = int.parse(selectedShop.value);
 
       // Prepare product data
-      List<String> productNames = products.map((p) => p.productName ?? '').toList();
+      List<String> productNames =
+          products.map((p) => p.productName ?? '').toList();
       List<String> productIds = products.map((p) {
         if (p.productId != null && p.productId!.isNotEmpty) {
           return p.productId!;
@@ -153,53 +188,122 @@ class OrderTakeController extends GetxController {
           throw Exception('Product ID is missing for ${p.productName}');
         }
       }).toList();
-      List<String> productQtys = products.map((p) => p.quantity.toString()).toList();
+      List<String> productQtys =
+          products.map((p) => p.quantity.toString()).toList();
       List<String> productAmts = products.map((p) {
         double price = double.tryParse(p.price ?? '0') ?? 0.0;
         return (price * p.quantity).toStringAsFixed(2);
       }).toList();
 
-      // Calculate total (optional)
+      // Calculate total amount
       int total = finalAmount.value.toInt();
 
-      // Submit the order as query parameters
+      // Prepare payment details
+      String paymentStatus = selectedPaymentStatus.value.isNotEmpty
+          ? selectedPaymentStatus.value
+          : 'Pending';
+      String paymentMethod = selectedPaymentMethod.value.isNotEmpty
+          ? selectedPaymentMethod.value
+          : 'Unknown';
+       String cheque_number = chequeNumber.value;
+       String cheque_date = chequeDate.value;
+      // String chequeDate = chequeDate.value.isNotEmpty ? chequeDate.value : '';
+
+      // Submit the order with payment details
       ApiResp response = await AddOrderSubmitServices.fetchUser(
         shop_id: shopId,
         total: total,
-        product_names: jsonEncode(productNames), // Convert to JSON string
-        product_qtys: jsonEncode(productQtys),   // Convert to JSON string
-        product_ids: jsonEncode(productIds),     // Convert to JSON string
-        product_amts: jsonEncode(productAmts),   // Convert to JSON string
+        product_names: jsonEncode(productNames),
+        product_qtys: jsonEncode(productQtys),
+        product_ids: jsonEncode(productIds),
+        product_amts: jsonEncode(productAmts),
+        payment_status: paymentStatus,
+        payment_method: paymentMethod,
+        cheque_number: cheque_number,
+        cheque_date: cheque_date,
       );
 
       // Handle the API response
       if (response.ok) {
-        var responseData = response.rdata; // Directly use the response data
-        String message = responseData["message"] ?? "Order submitted successfully";
-        Get.snackbar('Success', message, backgroundColor: MyTheme.appColor,
+        var responseData = response.rdata;
+        String message =
+            responseData["message"] ?? "Order submitted successfully";
+        Get.snackbar(
+          'Success',
+          message,
+          backgroundColor: Colors.green,
           colorText: Colors.white,
-          snackPosition: SnackPosition.TOP,);
+          snackPosition: SnackPosition.TOP,
+        );
 
-        // Clear the product list and reset the final amount
-        products.clear();
-        updateFinalAmount(); // Reset final amount to 0
-        products.refresh(); // Refresh the list to update the UI
+        // Clear inputs and refresh UI
+        //   products.clear();
+        updateFinalAmount(); // Reset final amount
+        //  products.refresh();
+        isOrderSubmitted.value = true;
+
+        // Show thank you dialog
+        // Get.dialog(
+        //   Dialog(
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(20),
+        //     ),
+        //     child: Padding(
+        //       padding: const EdgeInsets.all(20.0),
+        //       child: Column(
+        //         mainAxisSize: MainAxisSize.min,
+        //         children: [
+        //           Icon(
+        //             Icons.sentiment_satisfied_alt,
+        //             size: 80,
+        //             color: Colors.green,
+        //           ),
+        //           SizedBox(height: 20),
+        //           Text(
+        //             'Thank you for your order!',
+        //             textAlign: TextAlign.center,
+        //             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        //           ),
+        //           SizedBox(height: 20),
+        //           ElevatedButton(
+        //             style: ElevatedButton.styleFrom(
+        //               backgroundColor: Colors.red[900],
+        //             ),
+        //             onPressed: () {
+        //              Get.back(); // Close dialog
+        //               // Navigate to the Invoice Page directly after closing the dialog
+        //               Get.to(() => InvoicePage(
+        //                 products: products,
+        //                 totalQuantity: products.length, // Adjust accordingly
+        //                 finalAmount: finalAmount.value,
+        //                 shopName: shopName.value,
+        //                 customerName: customerName.value,
+        //                 customerData: customerData,
+        //               ));
+        //             },
+        //             child: Text('Generate Invoice'.toUpperCase()),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // );
+
       } else {
-        Get.snackbar('Error', 'Failed to submit order');
+        Get.snackbar('Error', response.message ?? 'Failed to submit order');
       }
     } catch (e) {
       print('Error during order submission: $e');
       Get.snackbar('Error', 'Something went wrong: $e');
     }
   }
-  void updateQuantity(ProductListing product, int newQuantity) {
-    if (newQuantity > 0) { // Ensure the quantity is a positive value
-      product.quantity = newQuantity;
-      updateFinalAmount(); // Update the final amount
-      products.refresh(); // Refresh the product list to update the UI
-    } else {
-      Get.snackbar('Invalid Quantity', 'Quantity must be greater than zero');
-    }
-  }
 
+  void clearOrderData() {
+    products.clear(); // Clear the product list
+    selectedPaymentStatus.value = '';
+    selectedPaymentMethod.value = '';
+    finalAmount.value = 0; // Reset the total amount
+    isOrderSubmitted.value = false; // Reset the order status
+    // Reset the total quantity
+  }
 }

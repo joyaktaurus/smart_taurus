@@ -3,8 +3,10 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/empdetails.dart';
+import '../../models/task_count_model.dart';
 import '../../models/task_listing_model.dart';
 import '../../models/task_notification_model.dart';
+import '../../services/task_count_services.dart';
 import '../../services/task_notif_services.dart';
 import '../../services/user_services.dart';
 import '../task_listing/task_list_controller.dart';
@@ -16,6 +18,7 @@ class DashboardController extends GetxController {
   //var notificationCount = 0.obs;
   var unseenTaskCount = 0.obs;
   final String unseenTaskCountKey = 'unseenTaskCount';
+  var totalTaskCount = 0.obs;
 
   // void resetUnseenCount() {
   //   unseenTaskCount.value = 0;
@@ -58,17 +61,42 @@ class DashboardController extends GetxController {
     super.onInit();
     fetchEmployeeDetails();
    // fetchUnseenTaskCount(); // Fetch unseen task count
-    loadUnseenTaskCount(); // Load unseen task count from local storage
+    loadUnseenTaskCount();
+    fetchTaskCount();// Load unseen task count from local storage
   }
-  void fetchUnseenTaskCount() {
-    final taskListingController = Get.find<TaskListingController>();
-    unseenTaskCount.value = taskListingController.unseenTaskCount.value;
 
-    // Update unseenTaskCount when it changes in TaskListingController
-    ever(taskListingController.unseenTaskCount, (count) {
-      unseenTaskCount.value = count as int;
-    });
+  var completedTaskCount = 0.obs; // Declare completedTaskCount as an observable
+
+  void fetchTaskCount() async {
+    try {
+      isLoading(true);
+      var response = await TaskCountServices.getTaskCount();
+      if (response.ok) {
+        var jsonData = response.rdata;
+        var taskCountData = TaskCountModel.fromJson(jsonData);
+
+        totalTaskCount.value = taskCountData.totalTaskCount ?? 0;
+        completedTaskCount.value = taskCountData.completedTaskCount ?? 0;
+      } else {
+        totalTaskCount.value = 0;
+        completedTaskCount.value = 0;
+      }
+    } catch (e) {
+      print("Error fetching task count: $e");
+    } finally {
+      isLoading(false);
+    }
   }
+
+  // void fetchUnseenTaskCount() {
+  //   final taskListingController = Get.find<TaskListingController>();
+  //   unseenTaskCount.value = taskListingController.unseenTaskCount.value;
+  //
+  //   // Update unseenTaskCount when it changes in TaskListingController
+  //   ever(taskListingController.unseenTaskCount, (count) {
+  //     unseenTaskCount.value = count as int;
+  //   });
+  // }
   // Fetch employee details from the API
   void fetchEmployeeDetails() async {
     try {

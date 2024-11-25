@@ -77,7 +77,7 @@ class CustomerDetailView extends GetView<CustomerDetailController> {
                   return Center(child: Text("No customer details available."));
                 } else {
                   // Show customer details when data is available
-                  Shop? customer = controller.customerDetails.value;
+                  Shopp? customer = controller.customerDetails.value;
 
                   return Column(children: [
                     Container(

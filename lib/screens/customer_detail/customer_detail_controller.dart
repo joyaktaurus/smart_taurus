@@ -10,7 +10,7 @@ import '../../services/customer_detail_services.dart';
 class CustomerDetailController extends GetxController {
 
   RxBool isScreenProgress = false.obs;
-  Rx<Shop?> customerDetails = Rx<Shop?>(null);
+  Rx<Shopp?> customerDetails = Rx<Shopp?>(null);
   int? shopId;
 
   CustomerDetailController(int i); // Define amcId property to hold the current amcId
@@ -51,7 +51,7 @@ class CustomerDetailController extends GetxController {
     } else {
       if (itemDetailsResp.rdata['shop'] != null) {
         // Parse the first shop from the list
-        customerDetails.value = Shop.fromJson(itemDetailsResp.rdata['shop'][0]);
+        customerDetails.value = Shopp.fromJson(itemDetailsResp.rdata['shop'][0]);
       } else {
         print('Error: Shop data is null');
       }

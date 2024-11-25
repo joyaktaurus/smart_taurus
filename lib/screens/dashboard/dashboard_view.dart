@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -103,131 +104,131 @@ class DashboardView extends GetView<DashboardController> {
             centerTitle: true, // Ensure the title is centered
           ),
           drawer: Drawer(
-              // backgroundColor: Colors.blue[100],
-              // Set your desired background color here
+            // backgroundColor: Colors.blue[100],
+            // Set your desired background color here
               child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              DrawerHeader(
-                decoration: BoxDecoration(
-                  color: MyTheme.appColor, // Header background color
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Obx(() {
-                      // Observe changes in the loading state and employee data
-                      if (controller.isLoading.value) {
-                        return Center(
-                            child: Padding(
-                          padding: const EdgeInsets.all(50.0),
-                          child: RoundedLoader(),
-                        )); // Show loader while fetching data
-                      }
-                      if (controller.employee.value.name == null) {
-                        return Center(child: Text("No data available"));
-                      }
-                      return Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Column(children: [
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Center(
-                                    child: Container(
-                                      height: 65,
-                                      width: 65,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        image: DecorationImage(
-                                          image: controller.employee.value
-                                                      .profilePic !=
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  DrawerHeader(
+                    decoration: BoxDecoration(
+                      color: MyTheme.appColor, // Header background color
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Obx(() {
+                          // Observe changes in the loading state and employee data
+                          if (controller.isLoading.value) {
+                            return Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(50.0),
+                                  child: RoundedLoader(),
+                                )); // Show loader while fetching data
+                          }
+                          if (controller.employee.value.name == null) {
+                            return Center(child: Text("No data available"));
+                          }
+                          return Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Column(children: [
+                                Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                        child: Container(
+                                          height: 65,
+                                          width: 65,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            image: DecorationImage(
+                                              image: controller.employee.value
+                                                  .profilePic !=
                                                   null
-                                              ? NetworkImage(
+                                                  ? NetworkImage(
                                                   '${controller.imagePath.value}/${controller.employee.value.profilePic}')
-                                              : AssetImage(
-                                                      "assets/images/img.png")
-                                                  as ImageProvider,
-                                          fit: BoxFit
-                                              .cover, // Ensures the image covers the circle area
+                                                  : AssetImage(
+                                                  "assets/images/img.png")
+                                              as ImageProvider,
+                                              fit: BoxFit
+                                                  .cover, // Ensures the image covers the circle area
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  ),
-                                  // SizedBox(
-                                  //     width: Get.width * 0.02),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 5.0),
-                                    child: Text(
-                                      controller.employee.value.email ?? '',
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.white),
-                                    ),
-                                  ),
-                                ])
-                          ]));
-                    })
-                  ],
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.dashboard),
-                title: Text('Home'),
-                onTap: () {
-                  // Navigate to Home or Dashboard
-                  Get.back(); // Close drawer
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.task),
-                title: Text('Tasks'),
-                onTap: () {
-                  Get.toNamed(
-                      Routes.taskListing); // Replace with your profile route
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.people_alt_outlined),
-                title: Text('Customers'),
-                onTap: () {
-                  Get.toNamed(
-                      Routes.customerList); // Replace with your settings route
-                },
-              ),
-              // ListTile(
-              //   leading: Icon(Icons.shopping_cart_outlined),
-              //   title: Text('Orders'),
-              //   onTap: () {
-              //     Get.toNamed(
-              //         Routes.addOrder); // Replace with your support route
-              //   },
-              // ),
-              // ListTile(
-              //   leading: Icon(Icons.add_task_outlined),
-              //   title: Text('Order Status'),
-              //   onTap: () {
-              //     Get.toNamed(
-              //         Routes.orderDetails); // Replace with your support route
-              //   },
-              // ),
-              ListTile(
-                leading: Icon(Icons.monetization_on_outlined),
-                title: Text('Expenses'),
-                onTap: () {
-                  Get.toNamed(
-                      Routes.expenses); // Replace with your support route
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.logout),
-                title: Text('Logout'),
-                onTap: () {
-                  LocalStore.clearData();
-                  Get.offNamed(Routes.login); // Navigate to login screen
-                },
-              ),
-            ],
-          )),
+                                      // SizedBox(
+                                      //     width: Get.width * 0.02),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5.0),
+                                        child: Text(
+                                          controller.employee.value.email ?? '',
+                                          style: TextStyle(
+                                              fontSize: 16, color: Colors.white),
+                                        ),
+                                      ),
+                                    ])
+                              ]));
+                        })
+                      ],
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.dashboard),
+                    title: Text('Home'),
+                    onTap: () {
+                      // Navigate to Home or Dashboard
+                      Get.back(); // Close drawer
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.task),
+                    title: Text('Tasks'),
+                    onTap: () {
+                      Get.toNamed(
+                          Routes.taskListing); // Replace with your profile route
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.people_alt_outlined),
+                    title: Text('Customers'),
+                    onTap: () {
+                      Get.toNamed(
+                          Routes.customerList); // Replace with your settings route
+                    },
+                  ),
+                  // ListTile(
+                  //   leading: Icon(Icons.shopping_cart_outlined),
+                  //   title: Text('Orders'),
+                  //   onTap: () {
+                  //     Get.toNamed(
+                  //         Routes.addOrder); // Replace with your support route
+                  //   },
+                  // ),
+                  // ListTile(
+                  //   leading: Icon(Icons.add_task_outlined),
+                  //   title: Text('Order Status'),
+                  //   onTap: () {
+                  //     Get.toNamed(
+                  //         Routes.orderDetails); // Replace with your support route
+                  //   },
+                  // ),
+                  ListTile(
+                    leading: Icon(Icons.monetization_on_outlined),
+                    title: Text('Expenses'),
+                    onTap: () {
+                      Get.toNamed(
+                          Routes.expenses); // Replace with your support route
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.logout),
+                    title: Text('Logout'),
+                    onTap: () {
+                      LocalStore.clearData();
+                      Get.offNamed(Routes.login); // Navigate to login screen
+                    },
+                  ),
+                ],
+              )),
           body: SingleChildScrollView(
             child: Column(
               children: [
@@ -250,9 +251,9 @@ class DashboardView extends GetView<DashboardController> {
                   if (controller.isLoading.value) {
                     return Center(
                         child: Padding(
-                      padding: const EdgeInsets.all(50.0),
-                      child: RoundedLoader(),
-                    )); // Show loader while fetching data
+                          padding: const EdgeInsets.all(50.0),
+                          child: RoundedLoader(),
+                        )); // Show loader while fetching data
                   }
                   if (controller.employee.value.name == null) {
                     return Center(child: Text("No data available"));
@@ -284,7 +285,7 @@ class DashboardView extends GetView<DashboardController> {
                                 children: [
                                   Row(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Container(
                                           height: 70,
@@ -303,13 +304,13 @@ class DashboardView extends GetView<DashboardController> {
                                                 shape: BoxShape.circle,
                                                 image: DecorationImage(
                                                   image: controller.employee.value
-                                                              .profilePic !=
-                                                          null
+                                                      .profilePic !=
+                                                      null
                                                       ? NetworkImage(
-                                                          '${controller.imagePath.value}/${controller.employee.value.profilePic}')
+                                                      '${controller.imagePath.value}/${controller.employee.value.profilePic}')
                                                       : AssetImage(
-                                                              "assets/images/img.png")
-                                                          as ImageProvider,
+                                                      "assets/images/img.png")
+                                                  as ImageProvider,
                                                   fit: BoxFit
                                                       .cover, // Ensures the image covers the circle area
                                                 ),
@@ -320,10 +321,10 @@ class DashboardView extends GetView<DashboardController> {
                                         SizedBox(width: Get.width * 0.02),
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(top: 15.0),
+                                          const EdgeInsets.only(top: 15.0),
                                           child: Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 "Hey, ${controller.employee.value.name}",
@@ -385,7 +386,7 @@ class DashboardView extends GetView<DashboardController> {
                                                   value: 50,
                                                   width: 8,
                                                   cornerStyle:
-                                                      CornerStyle.bothCurve,
+                                                  CornerStyle.bothCurve,
                                                   gradient: const SweepGradient(
                                                     colors: [
                                                       Color(0xFFFFFFFF),
@@ -416,7 +417,7 @@ class DashboardView extends GetView<DashboardController> {
                                                   ),
                                                   angle: 270,
                                                   positionFactor:
-                                                      0.1, // Adjusted to fit inside the smaller gauge
+                                                  0.1, // Adjusted to fit inside the smaller gauge
                                                 ),
                                               ],
                                             )
@@ -434,69 +435,74 @@ class DashboardView extends GetView<DashboardController> {
                                       )
                                     ],
                                   ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 80, // Decreased width
-                                        height: 80, // Decreased height
-                                        child: SfRadialGauge(
-                                          axes: [
-                                            RadialAxis(
-                                              pointers: [
-                                                RangePointer(
-                                                  value: 50,
-                                                  width: 8,
-                                                  cornerStyle:
-                                                      CornerStyle.bothCurve,
-                                                  gradient: const SweepGradient(
-                                                    colors: [
-                                                      Color(0xFFFFFFFF),
-                                                      Color(0xFFFFFFFF)
-                                                    ],
-                                                    stops: [0.1, 0.4],
-                                                  ),
-                                                )
-                                              ],
-                                              axisLineStyle: AxisLineStyle(
-                                                thickness: 8,
-                                                color: Colors.red[600],
-                                              ),
-                                              startAngle: 5,
-                                              endAngle: 5,
-                                              showLabels: false,
-                                              showTicks: false,
-                                              annotations: [
-                                                GaugeAnnotation(
-                                                  widget: Text(
-                                                    "2/7",
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      // Adjusted the font size for the text
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.bold,
+                                  Obx(() {
+                                    if (controller.isLoading.value) {
+                                      return Center(child: CircularProgressIndicator());
+                                    }
+
+                                    double progress = (controller.completedTaskCount.value /
+                                        (controller.totalTaskCount.value == 0
+                                            ? 1
+                                            : controller.totalTaskCount.value)) *
+                                        100;
+
+                                    return Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: 80,
+                                          height: 80,
+                                          child: SfRadialGauge(
+                                            axes: [
+                                              RadialAxis(
+                                                pointers: [
+                                                  RangePointer(
+                                                    value: progress,
+                                                    width: 8,
+                                                    cornerStyle: CornerStyle.bothCurve,
+                                                    gradient: const SweepGradient(
+                                                      colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF)],
+                                                      stops: [0.1, 0.4],
                                                     ),
-                                                  ),
-                                                  angle: 270,
-                                                  positionFactor:
-                                                      0.1, // Adjusted to fit inside the smaller gauge
+                                                  )
+                                                ],
+                                                axisLineStyle: AxisLineStyle(
+                                                  thickness: 8,
+                                                  color: Colors.red[600],
                                                 ),
-                                              ],
-                                            )
-                                          ],
+                                                startAngle: 5,
+                                                endAngle: 5,
+                                                showLabels: false,
+                                                showTicks: false,
+                                                annotations: [
+                                                  GaugeAnnotation(
+                                                    widget: Text(
+                                                      "${controller.completedTaskCount.value}/${controller.totalTaskCount.value}",
+                                                      style: TextStyle(
+                                                        fontSize: 20,
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                    angle: 270,
+                                                    positionFactor: 0.1,
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        "Daily Tasks",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          // Adjusted the font size for the text
-                                          color: Colors.white,
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                        SizedBox(height: 5),
+                                        Text(
+                                          "Daily Tasks",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.white,
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  })
                                 ],
                               ),
                             ),
@@ -643,124 +649,6 @@ class DashboardView extends GetView<DashboardController> {
                         Padding(
                           padding: const EdgeInsets.only(left: 18.0),
                           child: Text(
-                            "New Sales CRM",
-                            style: TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        SizedBox(height: Get.height * 0.02),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.productView);
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.production_quantity_limits,
-                                    color: MyTheme.appColor,
-                                    size: 30,
-                                  ),
-
-                                  // Image.asset(
-                                  //   "assets/images/products.png",
-                                  // ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Products",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: Get.width * 0.01),
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.orderTakeView,
-                                //     arguments: {
-                                //   'productName': '',
-                                //   // Default or placeholder value
-                                //   'finalAmount': 0.0,
-                                //   // Default value
-                                // }
-                                );
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.shopping_cart_outlined,
-                                    color: MyTheme.appColor,
-                                    size: 30,
-                                  ),
-
-                                  // Image.asset(
-                                  //   "assets/images/order.png",
-                                  // ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Order Take",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(width: Get.width * 0.0001),
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed(Routes.leadListing);
-                              },
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.add_task_outlined,
-                                    color: MyTheme.appColor,
-                                    size: 30,
-                                  ),
-
-                                  // Image.asset(
-                                  //   "assets/images/leadlisting.png",
-                                  // ),
-                                  SizedBox(height: 5),
-                                  Text(
-                                    "Order Status",
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    )),
-                SizedBox(height: Get.height * 0.001),
-                Container(
-                    width: double.infinity,
-                    height: Get.height * 0.15,
-                    margin: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 1,
-                          blurRadius: 5,
-                          offset: Offset(0, 3), // Shadow offset
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 18.0),
-                          child: Text(
                             "Sales CRM",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w600),
@@ -797,12 +685,14 @@ class DashboardView extends GetView<DashboardController> {
                             SizedBox(width: Get.width * 0.01),
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(Routes.addOrder, arguments: {
-                                  'productName': '',
-                                  // Default or placeholder value
-                                  'finalAmount': 0.0,
-                                  // Default value
-                                });
+                                Get.toNamed(Routes.orderTakeView,
+                                  //     arguments: {
+                                  //   'productName': '',
+                                  //   // Default or placeholder value
+                                  //   'finalAmount': 0.0,
+                                  //   // Default value
+                                  // }
+                                );
                               },
                               child: Column(
                                 children: [
@@ -854,6 +744,122 @@ class DashboardView extends GetView<DashboardController> {
                       ],
                     )),
                 SizedBox(height: Get.height * 0.001),
+                // Container(
+                //     width: double.infinity,
+                //     height: Get.height * 0.15,
+                //     margin: EdgeInsets.all(10),
+                //     decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(15),
+                //       color: Colors.white,
+                //       boxShadow: [
+                //         BoxShadow(
+                //           color: Colors.grey.withOpacity(0.3),
+                //           spreadRadius: 1,
+                //           blurRadius: 5,
+                //           offset: Offset(0, 3), // Shadow offset
+                //         ),
+                //       ],
+                //     ),
+                //     child: Column(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         Padding(
+                //           padding: const EdgeInsets.only(left: 18.0),
+                //           child: Text(
+                //             "Sales CRM",
+                //             style: TextStyle(
+                //                 fontSize: 16, fontWeight: FontWeight.w600),
+                //           ),
+                //         ),
+                //         SizedBox(height: Get.height * 0.02),
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //           children: [
+                //             GestureDetector(
+                //               onTap: () {
+                //                 Get.toNamed(Routes.productView);
+                //               },
+                //               child: Column(
+                //                 children: [
+                //                   Icon(
+                //                     Icons.production_quantity_limits,
+                //                     color: MyTheme.appColor,
+                //                     size: 30,
+                //                   ),
+                //
+                //                   // Image.asset(
+                //                   //   "assets/images/products.png",
+                //                   // ),
+                //                   SizedBox(height: 5),
+                //                   Text(
+                //                     "Products",
+                //                     style: TextStyle(
+                //                         fontSize: 16, color: Colors.grey[700]),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //             SizedBox(width: Get.width * 0.01),
+                //             GestureDetector(
+                //               onTap: () {
+                //                 Get.toNamed(Routes.addOrder, arguments: {
+                //                   'productName': '',
+                //                   // Default or placeholder value
+                //                   'finalAmount': 0.0,
+                //                   // Default value
+                //                 });
+                //               },
+                //               child: Column(
+                //                 children: [
+                //                   Icon(
+                //                     Icons.shopping_cart_outlined,
+                //                     color: MyTheme.appColor,
+                //                     size: 30,
+                //                   ),
+                //
+                //                   // Image.asset(
+                //                   //   "assets/images/order.png",
+                //                   // ),
+                //                   SizedBox(height: 5),
+                //                   Text(
+                //                     "Orders",
+                //                     style: TextStyle(
+                //                         fontSize: 16, color: Colors.grey[700]),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //             SizedBox(width: Get.width * 0.0001),
+                //             GestureDetector(
+                //               onTap: () {
+                //                 Get.toNamed(Routes.leadListing);
+                //               },
+                //               child: Column(
+                //                 children: [
+                //                   Icon(
+                //                     Icons.add_task_outlined,
+                //                     color: MyTheme.appColor,
+                //                     size: 30,
+                //                   ),
+                //
+                //                   // Image.asset(
+                //                   //   "assets/images/leadlisting.png",
+                //                   // ),
+                //                   SizedBox(height: 5),
+                //                   Text(
+                //                     "Order Status",
+                //                     style: TextStyle(
+                //                         fontSize: 16, color: Colors.grey[700]),
+                //                   ),
+                //                 ],
+                //               ),
+                //             ),
+                //           ],
+                //         )
+                //       ],
+                //     )),
+                // SizedBox(height: Get.height * 0.001),
                 Container(
                     width: double.infinity,
                     height: Get.height * 0.15,
