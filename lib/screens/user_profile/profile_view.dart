@@ -403,9 +403,10 @@ class ProfileView extends GetView<ProfileController> {
                             columnWidths: {
                               0: FlexColumnWidth(0.8),
                               // Adjust column width ratios
-                              1: FlexColumnWidth(2),
-                              2: FlexColumnWidth(2),
-                              3: FlexColumnWidth(2),
+                              1: FlexColumnWidth(1.6),
+                              2: FlexColumnWidth(1.6),
+                              3: FlexColumnWidth(1.6),
+                              3: FlexColumnWidth(1.6),
                             },
                             children: [
                               // Table Header
@@ -415,8 +416,9 @@ class ProfileView extends GetView<ProfileController> {
                                 children: [
                                   tableCell("No", isHeader: true),
                                   tableCell("Shop Name", isHeader: true),
-                                  tableCell("Invoice Number", isHeader: true),
+                                  tableCell("Invoice No", isHeader: true),
                                   tableCell("Sale Amount", isHeader: true),
+                                  tableCell("View", isHeader: true),
                                 ],
                               ),
                               // Example Data Rows
@@ -464,7 +466,22 @@ TableRow tableRowData(
       tableCell(shopName),
       tableCell(customerName),
       tableCell(orderCollected),
+      _buildIconCell(), // Replaces the 'Go' text
     ],
+  );
+}
+
+// Helper widget for the icon cell
+Widget _buildIconCell() {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Center(
+      child: Icon(
+        Icons.arrow_forward_ios_rounded,  // Use the back arrow icon
+        color: Colors.blue,        // Customize the icon color if needed
+        size: 20,                  // Adjust the size as necessary
+      ),
+    ),
   );
 }
 
