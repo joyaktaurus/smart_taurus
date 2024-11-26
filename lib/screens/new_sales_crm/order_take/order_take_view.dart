@@ -349,7 +349,6 @@ class OrderTakeView extends GetView<OrderTakeController> {
                   ),
                 ),
                 Container(
-                  height: 300,
                   width: 800,
                   color: Colors.grey[200],
                   child: Padding(
@@ -402,198 +401,187 @@ class OrderTakeView extends GetView<OrderTakeController> {
                                 ],
                               ),
                             ),
-                          Expanded(
-                            child: controller.products.isEmpty
-                                ? Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.image_outlined,
-                                          size: 100,
-                                          color: Colors.grey,
+                          controller.products.isEmpty
+                              ? Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.image_outlined,
+                                        size: 50,
+                                        color: Colors.grey,
+                                      ),
+                                      Text(
+                                        "Click below to add products",
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 16,
                                         ),
-                                        Text(
-                                          "Click below to add products",
-                                          style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : ListView.builder(
-                                    itemCount: controller.products.length,
-                                    itemBuilder: (context, index) {
-                                      final product =
-                                          controller.products[index];
-                                      double price = double.tryParse(
-                                              product.price ?? '0') ??
-                                          0.0;
-                                      double totalAmount =
-                                          price * product.quantity;
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : ListView.builder(
+                                  shrinkWrap:
+                                      true, // Important for dynamic height
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: controller.products.length,
+                                  itemBuilder: (context, index) {
+                                    final product = controller.products[index];
+                                    double price =
+                                        double.tryParse(product.price ?? '0') ??
+                                            0.0;
+                                    double totalAmount =
+                                        price * product.quantity;
 
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 0.0,
-                                          top: 8.0,
-                                          bottom: 8.0,
-                                          right: 8.0,
+                                    return Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 0.0,
+                                        top: 8.0,
+                                        bottom: 8.0,
+                                        right: 8.0,
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: Colors.white,
                                         ),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: Colors.white,
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 8.0,
-                                                right: 8.0,
-                                                top: 8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                    left: 8.0,
-                                                    top: 8.0,
-                                                    right: 10.0,
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                          product.productName ??
-                                                              ''),
-                                                      Container(
-                                                        height: 29,
-                                                        width: 90,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                            color: MyTheme
-                                                                .appColor,
-                                                            width: 2,
-                                                          ),
-                                                          shape: BoxShape
-                                                              .rectangle,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                        ),
-                                                        child: Center(
-                                                          child: Text(
-                                                              product.price ??
-                                                                  ""),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width: 80,
-                                                        height: 30,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, right: 8.0, top: 8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                  left: 8.0,
+                                                  top: 8.0,
+                                                  right: 10.0,
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Text(product.productName ??
+                                                        ''),
+                                                    Container(
+                                                      height: 29,
+                                                      width: 90,
+                                                      decoration: BoxDecoration(
+                                                        border: Border.all(
                                                           color:
                                                               MyTheme.appColor,
+                                                          width: 2,
                                                         ),
-                                                        child: Center(
-                                                          child: TextField(
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            controller: controller
-                                                                .getTextEditingController(
-                                                                    product),
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .number,
-                                                            decoration:
-                                                                InputDecoration(
-                                                              border:
-                                                                  InputBorder
-                                                                      .none,
-                                                            ),
-                                                            onChanged: (value) {
-                                                              int? newQuantity =
-                                                                  int.tryParse(
-                                                                      value);
-                                                              if (newQuantity !=
-                                                                      null &&
-                                                                  newQuantity >
-                                                                      0) {
-                                                                product.quantity =
-                                                                    newQuantity;
-                                                                // Automatically update the total amount
-                                                                controller
-                                                                    .updateFinalAmount();
-                                                                controller
-                                                                    .products
-                                                                    .refresh();
-                                                              } else {
-                                                                Get.snackbar(
-                                                                  'Invalid Quantity',
-                                                                  'Quantity must be greater than zero',
-                                                                );
-                                                              }
-                                                            },
+                                                        shape:
+                                                            BoxShape.rectangle,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                            product.price ??
+                                                                ""),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: 80,
+                                                      height: 30,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                        color: MyTheme.appColor,
+                                                      ),
+                                                      child: Center(
+                                                        child: TextField(
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          controller: controller
+                                                              .getTextEditingController(
+                                                                  product),
+                                                          style: TextStyle(
+                                                            color: Colors.white,
                                                           ),
+                                                          keyboardType:
+                                                              TextInputType
+                                                                  .number,
+                                                          decoration:
+                                                              InputDecoration(
+                                                            border: InputBorder
+                                                                .none,
+                                                          ),
+                                                          onChanged: (value) {
+                                                            int? newQuantity =
+                                                                int.tryParse(
+                                                                    value);
+                                                            if (newQuantity !=
+                                                                    null &&
+                                                                newQuantity >
+                                                                    0) {
+                                                              product.quantity =
+                                                                  newQuantity;
+                                                              // Automatically update the total amount
+                                                              controller
+                                                                  .updateFinalAmount();
+                                                              controller
+                                                                  .products
+                                                                  .refresh();
+                                                            } else {
+                                                              Get.snackbar(
+                                                                'Invalid Quantity',
+                                                                'Quantity must be greater than zero',
+                                                              );
+                                                            }
+                                                          },
                                                         ),
                                                       ),
-                                                      // Display the total amount for the product
-                                                      Text(
-                                                        '₹${(price * product.quantity).toStringAsFixed(2)}',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
+                                                    ),
+                                                    // Display the total amount for the product
+                                                    Text(
+                                                      '₹${(price * product.quantity).toStringAsFixed(2)}',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: 8.0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      IconButton(
-                                                        onPressed: () {
-                                                          controller
-                                                              .deleteProduct(
-                                                                  product);
-                                                        },
-                                                        icon: Icon(
-                                                          Icons
-                                                              .delete_outline_outlined,
-                                                          color:
-                                                              Colors.red[900],
-                                                          size: 25,
-                                                        ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    IconButton(
+                                                      onPressed: () {
+                                                        controller
+                                                            .deleteProduct(
+                                                                product);
+                                                      },
+                                                      icon: Icon(
+                                                        Icons
+                                                            .delete_outline_outlined,
+                                                        color: Colors.red[900],
+                                                        size: 25,
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      );
-                                    },
-                                  ),
-                          ),
+                                      ),
+                                    );
+                                  },
+                                ),
                         ],
                       );
                     }),
@@ -1451,7 +1439,6 @@ class ViewOrderPage extends StatelessWidget {
                           )
                         : SizedBox.shrink();
                   }),
-
                   SizedBox(height: Get.height * 0.02),
                   Obx(() {
                     if (controller.isOrderSubmitted.value) {
@@ -1473,10 +1460,13 @@ class ViewOrderPage extends StatelessWidget {
                                     color: Colors.green,
                                   ),
                                   SizedBox(height: 20),
-                                  Text("Thank You For Your Order..!",
+                                  Text(
+                                    "Thank You For Your Order..!",
                                     //controller.successMessage.value,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(height: 20),
                                   ElevatedButton(
@@ -1486,18 +1476,23 @@ class ViewOrderPage extends StatelessWidget {
                                     onPressed: () {
                                       Get.back(); // Close dialog
                                       Get.to(() => InvoicePage(
-                                        products: controller.products,
-                                        totalQuantity: controller.totalQuantity,
-                                        finalAmount: controller.finalAmount.value,
-                                        paymentStatus:controller.selectedPaymentStatus.value,
-                                        paymentMethod:controller.selectedPaymentMethod.value,
-                                        shopName: shopName,
-                                        customerName: customerName,
-                                        customerData: customerData,
-                                        addressLine1: addressLine1,
-                                      ));
+                                            products: controller.products,
+                                            totalQuantity:
+                                                controller.totalQuantity,
+                                            finalAmount:
+                                                controller.finalAmount.value,
+                                            paymentStatus: controller
+                                                .selectedPaymentStatus.value,
+                                            paymentMethod: controller
+                                                .selectedPaymentMethod.value,
+                                            shopName: shopName,
+                                            customerName: customerName,
+                                            customerData: customerData,
+                                            addressLine1: addressLine1,
+                                          ));
                                     },
-                                    child: Text('Generate Invoice'.toUpperCase()),
+                                    child:
+                                        Text('Generate Invoice'.toUpperCase()),
                                   ),
                                 ],
                               ),
@@ -1508,9 +1503,8 @@ class ViewOrderPage extends StatelessWidget {
                         controller.isOrderSubmitted.value = false;
                       });
                     }
-                    return SizedBox.shrink();  // No widget when not submitted
+                    return SizedBox.shrink(); // No widget when not submitted
                   }),
-
                 ],
               ),
             )
@@ -1671,7 +1665,7 @@ class InvoicePage extends StatelessWidget {
     required this.finalAmount,
     required this.shopName,
     required this.customerName,
-     required this.addressLine1,
+    required this.addressLine1,
     required this.customerData,
     required this.paymentStatus,
     required this.paymentMethod,
@@ -1731,10 +1725,16 @@ class InvoicePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 8.0, bottom: 20),
             child: Text(
-              paymentStatus == 'CashCarry' ? 'PAID' : paymentStatus == 'credit' ? 'UNPAID' : 'UNPAID',
+              paymentStatus == 'CashCarry'
+                  ? 'PAID'
+                  : paymentStatus == 'credit'
+                      ? 'UNPAID'
+                      : 'UNPAID',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
-                color: paymentStatus == 'CashCarry' ? Colors.green[900] : Colors.red[900], // Different colors for PAID and UNPAID
+                color: paymentStatus == 'CashCarry'
+                    ? Colors.green[900]
+                    : Colors.red[900], // Different colors for PAID and UNPAID
                 fontSize: 14,
               ),
             ),
@@ -1751,9 +1751,11 @@ class InvoicePage extends StatelessWidget {
                 ),
                 children: [
                   TextSpan(
-                    text: paymentStatus?.isNotEmpty == true ? paymentStatus : 'No status available',
+                    text: paymentStatus?.isNotEmpty == true
+                        ? paymentStatus
+                        : 'No status available',
                     style: TextStyle(
-                      color:MyTheme.appColor, // Different color for the value
+                      color: MyTheme.appColor, // Different color for the value
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -1775,7 +1777,9 @@ class InvoicePage extends StatelessWidget {
                   ),
                   children: [
                     TextSpan(
-                      text: paymentMethod?.isNotEmpty == true ? paymentMethod : 'No method available',
+                      text: paymentMethod?.isNotEmpty == true
+                          ? paymentMethod
+                          : 'No method available',
                       style: TextStyle(
                         color: MyTheme.appColor, // Base color for the label
                         fontWeight: FontWeight.w600,
@@ -1785,7 +1789,6 @@ class InvoicePage extends StatelessWidget {
                 ),
               ),
             ),
-
 
           Padding(
             padding: const EdgeInsets.only(right: 8.0, bottom: 4),
@@ -1817,7 +1820,9 @@ class InvoicePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 8.0, bottom: 4),
             child: Text(
-              addressLine1?.isNotEmpty == true ? addressLine1 : 'No status available',
+              addressLine1?.isNotEmpty == true
+                  ? addressLine1
+                  : 'No status available',
               //'$addressLine1',
               style: TextStyle(
                   fontWeight: FontWeight.w500,

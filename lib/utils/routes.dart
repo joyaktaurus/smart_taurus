@@ -36,6 +36,8 @@ import '../screens/product_list/product_list_bindings.dart';
 import '../screens/product_list/product_list_view.dart';
 import '../screens/product_view_list/product_view_binding.dart';
 import '../screens/product_view_list/product_view_page.dart';
+import '../screens/sales_report/sales_report_bindings.dart';
+import '../screens/sales_report/sales_report_view.dart';
 import '../screens/splash_screen.dart';
 import '../screens/task_listing/task_list_bindings.dart';
 import '../screens/task_listing/task_list_view.dart';
@@ -65,6 +67,7 @@ class Routes {
   static const orderTakeView = '/orderTakeView';
   static const categoryView = '/categoryView';
   static const viewOrder = '/viewOrder';
+  static const salesReport = '/salesReport';
 
   static final routes = [
     GetPage(
@@ -126,14 +129,14 @@ class Routes {
       name: expensesListing,
       page: () =>  ExpensesListingView(),
     ),
-    GetPage(
-      binding: AddOrderBindings(),
-      name: Routes.addOrder,
-      page: () => AddOrderView(
-        productName: Get.arguments['productName'],
-        finalAmount: Get.arguments['finalAmount'],
-      ),
-    ),
+    // GetPage(
+    //   binding: AddOrderBindings(),
+    //   name: Routes.addOrder,
+    //   page: () => AddOrderView(
+    //     productName: Get.arguments['productName'],
+    //     finalAmount: Get.arguments['finalAmount'],
+    //   ),
+    // ),
     GetPage(
       binding: NewLeadSubmitBindings(),
       name: newLead,
@@ -175,6 +178,12 @@ class Routes {
       name:viewOrder,
       page: () =>  ViewOrder(),
     ),
+    GetPage(
+      binding: SalesReportBindings(),
+      name:salesReport,
+      page: () =>  SalesReportView(),
+    ),
   ];
+
 
 }

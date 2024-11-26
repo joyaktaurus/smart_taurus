@@ -686,12 +686,6 @@ class DashboardView extends GetView<DashboardController> {
                             GestureDetector(
                               onTap: () {
                                 Get.toNamed(Routes.orderTakeView,
-                                  //     arguments: {
-                                  //   'productName': '',
-                                  //   // Default or placeholder value
-                                  //   'finalAmount': 0.0,
-                                  //   // Default value
-                                  // }
                                 );
                               },
                               child: Column(
@@ -701,10 +695,6 @@ class DashboardView extends GetView<DashboardController> {
                                     color: MyTheme.appColor,
                                     size: 30,
                                   ),
-
-                                  // Image.asset(
-                                  //   "assets/images/order.png",
-                                  // ),
                                   SizedBox(height: 5),
                                   Text(
                                     "Orders",
@@ -940,7 +930,7 @@ class DashboardView extends GetView<DashboardController> {
                               SizedBox(width: Get.width * 0.11),
                               GestureDetector(
                                 onTap: () {
-                                  //   Get.toNamed(Routes.expensesListing);
+                                     Get.toNamed(Routes.salesReport);
                                 },
                                 child: Column(
                                   children: [
