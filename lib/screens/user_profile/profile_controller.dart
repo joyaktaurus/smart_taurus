@@ -10,6 +10,25 @@ class ProfileController extends GetxController {
   var imagePath = ''.obs;
   var isLoading = true.obs;
 
+  List<String> months = [
+    "January 2024",
+    "February 2024",
+    "March 2024",
+    "April 2024",
+    "May 2024",
+    "June 2024",
+    "July 2024",
+    "August 2024",
+    "September 2024",
+    "October 2024",
+    "November 2024",
+    "December 2024",
+  ];
+
+  // Selected month (default value)
+  var selectedMonth = "November 2024".obs;
+
+
   @override
   void onInit() {
     super.onInit();
