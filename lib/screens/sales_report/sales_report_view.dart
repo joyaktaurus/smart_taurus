@@ -87,11 +87,12 @@ class SalesReportView extends GetView<SalesReportController> {
                                     Icon(
                                       Icons.monetization_on,
                                       size: 20,
+                                      color: Colors.blue[100],
                                     ),
                                     Text(" 10k",
                                         style: MyTheme.regularTextStyle(
                                             fontWeight: FontWeight.w500,
-                                            color: Colors.black,
+                                            color: Colors.blue[100],
                                             fontSize: 15)),
                                   ],
                                 ),
@@ -115,7 +116,7 @@ class SalesReportView extends GetView<SalesReportController> {
                                 Text("100",
                                     style: MyTheme.regularTextStyle(
                                         fontWeight: FontWeight.w500,
-                                        color: Colors.black,
+                                        color: Colors.blue[100],
                                         fontSize: 15)),
                               ],
                             )
@@ -220,11 +221,10 @@ class SalesReportView extends GetView<SalesReportController> {
                                 }
                               },
                               items: <String>[
-                                'Weeks',
-                                'Months'
-                              ] // The dropdown options
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
+                                'Weeks', // Existing option
+                                'Months', // Existing option
+                                'Year', // New item added to the dropdown
+                              ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
                                   child: Text(
@@ -286,178 +286,187 @@ class SalesReportView extends GetView<SalesReportController> {
                 ),
               ),
               SizedBox(
-                height: Get.height * 0.045,
+                height: Get.height * 0.025,
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: Get.width * 0.45,
-                      height: Get.height * 0.12,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: MyTheme.appColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.notifications_active_outlined,
-                            color: Colors.lightBlueAccent,
-                            size: 50,
-                          ),
-                          SizedBox(width: Get.width * 0.02),
-                          Column(
+              Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: Get.width * 0.45,
+                          height: Get.height * 0.12,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: MyTheme.appColor),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Total Order",
-                                style: MyTheme.regularTextStyle(
-                                    color: Colors.white70),
+                              Icon(
+                                Icons.notifications_active_outlined,
+                                color: Colors.lightBlueAccent,
+                                size: 50,
                               ),
-                              SizedBox(
-                                height: Get.height * 0.005,
-                              ),
-                              Text(
-                                "100",
-                                style: MyTheme.regularTextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 25),
-                              ),
+                              SizedBox(width: Get.width * 0.02),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Total Order",
+                                    style: MyTheme.regularTextStyle(
+                                        color: Colors.white70),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.005,
+                                  ),
+                                  Text(
+                                    "100",
+                                    style: MyTheme.regularTextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 25),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                        Container(
+                          width: Get.width * 0.45,
+                          height: Get.height * 0.12,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: MyTheme.appColor),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.local_fire_department_outlined,
+                                color: Colors.lightBlueAccent,
+                                size: 50,
+                              ),
+                              SizedBox(width: Get.width * 0.02),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Total Revenue",
+                                    style: MyTheme.regularTextStyle(
+                                        color: Colors.white70),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.005,
+                                  ),
+                                  Text(
+                                    "40,000",
+                                    style: MyTheme.regularTextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 25),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                    Container(
-                      width: Get.width * 0.45,
-                      height: Get.height * 0.12,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: MyTheme.appColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.local_fire_department_outlined,
-                            color: Colors.lightBlueAccent,
-                            size: 50,
-                          ),
-                          SizedBox(width: Get.width * 0.02),
-                          Column(
+                  ),
+                  SizedBox(height: Get.height * 0.02),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: Get.width * 0.45,
+                          height: Get.height * 0.12,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: MyTheme.appColor),
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Total Revenue",
-                                style: MyTheme.regularTextStyle(
-                                    color: Colors.white70),
+                              Icon(
+                                FontAwesomeIcons.bullseye,
+                                color: Colors.lightBlueAccent,
+                                size: 50,
                               ),
-                              SizedBox(
-                                height: Get.height * 0.005,
-                              ),
-                              Text(
-                                "40,000",
-                                style: MyTheme.regularTextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 25),
-                              ),
+                              SizedBox(width: Get.width * 0.02),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Sales Target",
+                                    style: MyTheme.regularTextStyle(
+                                        color: Colors.white70),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.005,
+                                  ),
+                                  Text(
+                                    "100",
+                                    style: MyTheme.regularTextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 25),
+                                  ),
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                          ),
+                        ),
+                        Container(
+                          width: Get.width * 0.45,
+                          height: Get.height * 0.12,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: MyTheme.appColor),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.emoji_events_outlined,
+                                color: Colors.lightBlueAccent,
+                                size: 50,
+                              ),
+                              SizedBox(width: Get.width * 0.02),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Acheived Target",
+                                    style: MyTheme.regularTextStyle(
+                                        color: Colors.white70),
+                                  ),
+                                  SizedBox(
+                                    height: Get.height * 0.005,
+                                  ),
+                                  Text(
+                                    "70 %",
+                                    style: MyTheme.regularTextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 25),
+                                  ),
+                                  Text(
+                                    "7/10",
+                                    style: MyTheme.regularTextStyle(
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 17),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
-              SizedBox(height: Get.height * 0.02),
-              Padding(
-                padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: Get.width * 0.45,
-                      height: Get.height * 0.12,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: MyTheme.appColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.bullseye,
-                            color: Colors.lightBlueAccent,
-                            size: 50,
-                          ),
-                          SizedBox(width: Get.width * 0.02),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Sales Target",
-                                style: MyTheme.regularTextStyle(
-                                    color: Colors.white70),
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.005,
-                              ),
-                              Text(
-                                "100",
-                                style: MyTheme.regularTextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 25),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: Get.width * 0.45,
-                      height: Get.height * 0.12,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: MyTheme.appColor),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.emoji_events_outlined,
-                            color: Colors.lightBlueAccent,
-                            size: 50,
-                          ),
-                          SizedBox(width: Get.width * 0.02),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Acheived Target",
-                                style: MyTheme.regularTextStyle(
-                                    color: Colors.white70),
-                              ),
-                              SizedBox(
-                                height: Get.height * 0.005,
-                              ),
-                              Text(
-                                "70 %",
-                                style: MyTheme.regularTextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 25),
-                              ),
-                              Text(
-                                "7/10",
-                                style: MyTheme.regularTextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 17),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              )
             ],
           ),
         ));

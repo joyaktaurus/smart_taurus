@@ -27,7 +27,10 @@ class LeadListingView extends GetView<LeadListingController> {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
           leading: IconButton(
-            icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
+            icon: Icon(
+              Icons.arrow_back,
+              color: MyTheme.appColor,
+            ),
             onPressed: () {
               Get.back();
             },
@@ -70,7 +73,6 @@ class LeadListingView extends GetView<LeadListingController> {
               ],
             ),
           ),
-
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(bottom: 10.0, top: 15),
@@ -82,8 +84,7 @@ class LeadListingView extends GetView<LeadListingController> {
                   return Center(
                     child: Padding(
                       padding: EdgeInsets.only(top: Get.height * 0.15),
-                      child:
-                          RoundedLoader(), // Replace with your RoundedLoader
+                      child: RoundedLoader(), // Replace with your RoundedLoader
                     ),
                   );
                 } else if (orderList.isEmpty) {
@@ -165,14 +166,14 @@ class LeadListingView extends GetView<LeadListingController> {
                                               fontSize: 15,
                                               fontWeight: FontWeight.w500,
                                             ),
-                                          ),
+                                          )
                                         ],
                                       ),
                                     ],
                                   ),
                                   Text(
                                     "${controller.orderListData[index].status}",
-                                 //   "New", // Show total or other details
+                                    //   "New", // Show total or other details
                                     style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 13,
@@ -184,9 +185,11 @@ class LeadListingView extends GetView<LeadListingController> {
                                 padding: const EdgeInsets.only(top: 18.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    Get.toNamed(Routes.orderDetails,
-                                      arguments: order.id,);
-                                    },
+                                    Get.toNamed(
+                                      Routes.orderDetails,
+                                      arguments: order.id,
+                                    );
+                                  },
                                   child: Container(
                                     width: Get.width * 0.25,
                                     height: Get.height * 0.045,

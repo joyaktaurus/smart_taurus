@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -50,7 +49,8 @@ class DashboardView extends GetView<DashboardController> {
                                 backgroundColor: Colors.red,
                                 child: Text(
                                   '${controller.unseenTaskCount.value}',
-                                  style: TextStyle(color: Colors.white, fontSize: 12),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
                                 ),
                               ),
                             ),
@@ -58,8 +58,10 @@ class DashboardView extends GetView<DashboardController> {
                       ),
                       onPressed: () {
                         Get.toNamed(Routes.taskListing)?.then((_) {
-                          final taskListingController = Get.find<TaskListingController>();
-                          taskListingController.onViewTasks(); // Reset count when viewed
+                          final taskListingController =
+                              Get.find<TaskListingController>();
+                          taskListingController
+                              .onViewTasks(); // Reset count when viewed
                         });
                       },
                     ),
@@ -104,131 +106,146 @@ class DashboardView extends GetView<DashboardController> {
             centerTitle: true, // Ensure the title is centered
           ),
           drawer: Drawer(
-            // backgroundColor: Colors.blue[100],
-            // Set your desired background color here
+              // backgroundColor: Colors.blue[100],
+              // Set your desired background color here
               child: ListView(
-                padding: EdgeInsets.zero,
-                children: <Widget>[
-                  DrawerHeader(
-                    decoration: BoxDecoration(
-                      color: MyTheme.appColor, // Header background color
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Obx(() {
-                          // Observe changes in the loading state and employee data
-                          if (controller.isLoading.value) {
-                            return Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(50.0),
-                                  child: RoundedLoader(),
-                                )); // Show loader while fetching data
-                          }
-                          if (controller.employee.value.name == null) {
-                            return Center(child: Text("No data available"));
-                          }
-                          return Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Column(children: [
-                                Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Center(
-                                        child: Container(
-                                          height: 65,
-                                          width: 65,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            image: DecorationImage(
-                                              image: controller.employee.value
-                                                  .profilePic !=
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: MyTheme.appColor, // Header background color
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Obx(() {
+                      // Observe changes in the loading state and employee data
+                      if (controller.isLoading.value) {
+                        return Center(
+                            child: Padding(
+                          padding: const EdgeInsets.all(50.0),
+                          child: RoundedLoader(),
+                        )); // Show loader while fetching data
+                      }
+                      if (controller.employee.value.name == null) {
+                        return Center(child: Text("No data available"));
+                      }
+                      return Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Column(children: [
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    child: Container(
+                                      height: 65,
+                                      width: 65,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          image: controller.employee.value
+                                                      .profilePic !=
                                                   null
-                                                  ? NetworkImage(
+                                              ? NetworkImage(
                                                   '${controller.imagePath.value}/${controller.employee.value.profilePic}')
-                                                  : AssetImage(
-                                                  "assets/images/img.png")
-                                              as ImageProvider,
-                                              fit: BoxFit
-                                                  .cover, // Ensures the image covers the circle area
-                                            ),
-                                          ),
+                                              : AssetImage(
+                                                      "assets/images/img.png")
+                                                  as ImageProvider,
+                                          fit: BoxFit
+                                              .cover, // Ensures the image covers the circle area
                                         ),
                                       ),
-                                      // SizedBox(
-                                      //     width: Get.width * 0.02),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5.0),
-                                        child: Text(
-                                          controller.employee.value.email ?? '',
-                                          style: TextStyle(
-                                              fontSize: 16, color: Colors.white),
-                                        ),
-                                      ),
-                                    ])
-                              ]));
-                        })
-                      ],
-                    ),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.dashboard),
-                    title: Text('Home'),
-                    onTap: () {
-                      // Navigate to Home or Dashboard
-                      Get.back(); // Close drawer
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.task),
-                    title: Text('Tasks'),
-                    onTap: () {
-                      Get.toNamed(
-                          Routes.taskListing); // Replace with your profile route
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.people_alt_outlined),
-                    title: Text('Customers'),
-                    onTap: () {
-                      Get.toNamed(
-                          Routes.customerList); // Replace with your settings route
-                    },
-                  ),
-                  // ListTile(
-                  //   leading: Icon(Icons.shopping_cart_outlined),
-                  //   title: Text('Orders'),
-                  //   onTap: () {
-                  //     Get.toNamed(
-                  //         Routes.addOrder); // Replace with your support route
-                  //   },
-                  // ),
-                  // ListTile(
-                  //   leading: Icon(Icons.add_task_outlined),
-                  //   title: Text('Order Status'),
-                  //   onTap: () {
-                  //     Get.toNamed(
-                  //         Routes.orderDetails); // Replace with your support route
-                  //   },
-                  // ),
-                  ListTile(
-                    leading: Icon(Icons.monetization_on_outlined),
-                    title: Text('Expenses'),
-                    onTap: () {
-                      Get.toNamed(
-                          Routes.expenses); // Replace with your support route
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.logout),
-                    title: Text('Logout'),
-                    onTap: () {
-                      LocalStore.clearData();
-                      Get.offNamed(Routes.login); // Navigate to login screen
-                    },
-                  ),
-                ],
-              )),
+                                    ),
+                                  ),
+                                  // SizedBox(
+                                  //     width: Get.width * 0.02),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 5.0),
+                                    child: Text(
+                                      controller.employee.value.email ?? '',
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.white),
+                                    ),
+                                  ),
+                                ])
+                          ]));
+                    })
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.dashboard,
+                  color: MyTheme.appColor,
+                ),
+                title: Text('Home'),
+                onTap: () {
+                  // Navigate to Home or Dashboard
+                  Get.back(); // Close drawer
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.task,
+                  color: MyTheme.appColor,
+                ),
+                title: Text('Tasks'),
+                onTap: () {
+                  Get.toNamed(
+                      Routes.taskListing); // Replace with your profile route
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.people_alt_outlined,
+                  color: MyTheme.appColor,
+                ),
+                title: Text('Customers'),
+                onTap: () {
+                  Get.toNamed(
+                      Routes.customerList); // Replace with your settings route
+                },
+              ),
+              // ListTile(
+              //   leading: Icon(Icons.shopping_cart_outlined),
+              //   title: Text('Orders'),
+              //   onTap: () {
+              //     Get.toNamed(
+              //         Routes.addOrder); // Replace with your support route
+              //   },
+              // ),
+              // ListTile(
+              //   leading: Icon(Icons.add_task_outlined),
+              //   title: Text('Order Status'),
+              //   onTap: () {
+              //     Get.toNamed(
+              //         Routes.orderDetails); // Replace with your support route
+              //   },
+              // ),
+              ListTile(
+                leading: Icon(
+                  Icons.monetization_on_outlined,
+                  color: MyTheme.appColor,
+                ),
+                title: Text('Expenses'),
+                onTap: () {
+                  Get.toNamed(
+                      Routes.expenses); // Replace with your support route
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.logout,
+                  color: MyTheme.appColor,
+                ),
+                title: Text('Logout'),
+                onTap: () {
+                  LocalStore.clearData();
+                  Get.offNamed(Routes.login); // Navigate to login screen
+                },
+              ),
+            ],
+          )),
           body: SingleChildScrollView(
             child: Column(
               children: [
@@ -251,9 +268,9 @@ class DashboardView extends GetView<DashboardController> {
                   if (controller.isLoading.value) {
                     return Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(50.0),
-                          child: RoundedLoader(),
-                        )); // Show loader while fetching data
+                      padding: const EdgeInsets.all(50.0),
+                      child: RoundedLoader(),
+                    )); // Show loader while fetching data
                   }
                   if (controller.employee.value.name == null) {
                     return Center(child: Text("No data available"));
@@ -262,101 +279,111 @@ class DashboardView extends GetView<DashboardController> {
                     padding: const EdgeInsets.only(top: 10.0),
                     child: Column(
                       children: [
-                        Container(
-                            width: double.infinity,
-                            margin: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                  offset: Offset(0, 3), // Shadow offset
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(10.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Row(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          height: 70,
-                                          width: 70,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                                color: Colors
-                                                    .black12), // Grey border
-                                          ),
-                                          child: Center(
-                                            child: Container(
-                                              height: 65,
-                                              width: 65,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                  image: controller.employee.value
-                                                      .profilePic !=
-                                                      null
-                                                      ? NetworkImage(
-                                                      '${controller.imagePath.value}/${controller.employee.value.profilePic}')
-                                                      : AssetImage(
-                                                      "assets/images/img.png")
-                                                  as ImageProvider,
-                                                  fit: BoxFit
-                                                      .cover, // Ensures the image covers the circle area
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed(Routes.profileView);
+                          },
+                          child: Container(
+                              width: double.infinity,
+                              margin: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    spreadRadius: 1,
+                                    blurRadius: 5,
+                                    offset: Offset(0, 3), // Shadow offset
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.all(10.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 70,
+                                            width: 70,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: Colors
+                                                      .black12), // Grey border
+                                            ),
+                                            child: Center(
+                                              child: Container(
+                                                height: 65,
+                                                width: 65,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    image: controller
+                                                                .employee
+                                                                .value
+                                                                .profilePic !=
+                                                            null
+                                                        ? NetworkImage(
+                                                            '${controller.imagePath.value}/${controller.employee.value.profilePic}')
+                                                        : AssetImage(
+                                                                "assets/images/img.png")
+                                                            as ImageProvider,
+                                                    fit: BoxFit
+                                                        .cover, // Ensures the image covers the circle area
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(width: Get.width * 0.02),
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.only(top: 15.0),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "Hey, ${controller.employee.value.name}",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 17),
-                                              ),
-                                              Text(
-                                                controller.employee.value.job ??
-                                                    '',
-                                                style: TextStyle(
-                                                    fontSize: 17,
-                                                    color: Colors.grey),
-                                              ),
-                                            ],
+                                          SizedBox(width: Get.width * 0.02),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 15.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "Hey, ${controller.employee.value.name}",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 17),
+                                                ),
+                                                Text(
+                                                  controller
+                                                          .employee.value.job ??
+                                                      '',
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      color: Colors.grey),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      ]),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Get.toNamed(Routes.profileView);
-                                    },
-                                    child: Text(
-                                      "....",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
+                                        ]),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Get.toNamed(Routes.profileView);
+                                      },
+                                      child: Text(
+                                        "....",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )),
+                                  ],
+                                ),
+                              )),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
@@ -370,7 +397,8 @@ class DashboardView extends GetView<DashboardController> {
                             ),
                             child: Center(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -386,7 +414,7 @@ class DashboardView extends GetView<DashboardController> {
                                                   value: 50,
                                                   width: 8,
                                                   cornerStyle:
-                                                  CornerStyle.bothCurve,
+                                                      CornerStyle.bothCurve,
                                                   gradient: const SweepGradient(
                                                     colors: [
                                                       Color(0xFFFFFFFF),
@@ -412,12 +440,13 @@ class DashboardView extends GetView<DashboardController> {
                                                       fontSize: 20,
                                                       // Adjusted the font size for the text
                                                       color: Colors.white,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                   angle: 270,
                                                   positionFactor:
-                                                  0.1, // Adjusted to fit inside the smaller gauge
+                                                      0.1, // Adjusted to fit inside the smaller gauge
                                                 ),
                                               ],
                                             )
@@ -437,17 +466,22 @@ class DashboardView extends GetView<DashboardController> {
                                   ),
                                   Obx(() {
                                     if (controller.isLoading.value) {
-                                      return Center(child: CircularProgressIndicator());
+                                      return Center(
+                                          child: CircularProgressIndicator());
                                     }
 
-                                    double progress = (controller.completedTaskCount.value /
-                                        (controller.totalTaskCount.value == 0
-                                            ? 1
-                                            : controller.totalTaskCount.value)) *
+                                    double progress = (controller
+                                                .completedTaskCount.value /
+                                            (controller.totalTaskCount.value ==
+                                                    0
+                                                ? 1
+                                                : controller
+                                                    .totalTaskCount.value)) *
                                         100;
 
                                     return Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         SizedBox(
                                           width: 80,
@@ -459,9 +493,14 @@ class DashboardView extends GetView<DashboardController> {
                                                   RangePointer(
                                                     value: progress,
                                                     width: 8,
-                                                    cornerStyle: CornerStyle.bothCurve,
-                                                    gradient: const SweepGradient(
-                                                      colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF)],
+                                                    cornerStyle:
+                                                        CornerStyle.bothCurve,
+                                                    gradient:
+                                                        const SweepGradient(
+                                                      colors: [
+                                                        Color(0xFFFFFFFF),
+                                                        Color(0xFFFFFFFF)
+                                                      ],
                                                       stops: [0.1, 0.4],
                                                     ),
                                                   )
@@ -481,7 +520,8 @@ class DashboardView extends GetView<DashboardController> {
                                                       style: TextStyle(
                                                         fontSize: 20,
                                                         color: Colors.white,
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                       ),
                                                     ),
                                                     angle: 270,
@@ -561,7 +601,8 @@ class DashboardView extends GetView<DashboardController> {
                                     Text(
                                       "Tasks",
                                       style: TextStyle(
-                                          fontSize: 16, color: Colors.grey[700]),
+                                          fontSize: 16,
+                                          color: Colors.grey[700]),
                                     ),
                                   ],
                                 ),
@@ -588,7 +629,8 @@ class DashboardView extends GetView<DashboardController> {
                                     Text(
                                       "Lead/Visits",
                                       style: TextStyle(
-                                          fontSize: 16, color: Colors.grey[700]),
+                                          fontSize: 16,
+                                          color: Colors.grey[700]),
                                     ),
                                   ],
                                 ),
@@ -615,7 +657,8 @@ class DashboardView extends GetView<DashboardController> {
                                     Text(
                                       "Customers",
                                       style: TextStyle(
-                                          fontSize: 16, color: Colors.grey[700]),
+                                          fontSize: 16,
+                                          color: Colors.grey[700]),
                                     ),
                                   ],
                                 ),
@@ -675,7 +718,7 @@ class DashboardView extends GetView<DashboardController> {
                                   // ),
                                   SizedBox(height: 5),
                                   Text(
-                                    "Products",
+                                    "Products  ",
                                     style: TextStyle(
                                         fontSize: 16, color: Colors.grey[700]),
                                   ),
@@ -685,7 +728,8 @@ class DashboardView extends GetView<DashboardController> {
                             SizedBox(width: Get.width * 0.01),
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed(Routes.orderTakeView,
+                                Get.toNamed(
+                                  Routes.orderTakeView,
                                 );
                               },
                               child: Column(
@@ -875,7 +919,8 @@ class DashboardView extends GetView<DashboardController> {
                           Padding(
                             padding: const EdgeInsets.only(left: 18.0, top: 10),
                             child: Text(
-                              "Expenses",
+                              "Reports"
+                              "",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w600),
                             ),
@@ -902,7 +947,33 @@ class DashboardView extends GetView<DashboardController> {
                               //     ],
                               //   ),
                               // ),
-                              SizedBox(width: 26),
+                              SizedBox(width: 10),
+                              GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(Routes.salesReport);
+                                },
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.document_scanner_outlined,
+                                      color: MyTheme.appColor,
+                                      size: 30,
+                                    ),
+                                    // Image.asset(
+                                    //   "assets/images/products.png",
+                                    // ),
+                                    SizedBox(height: 5),
+                                    Text(
+                                      "Sales Report",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.grey[700]),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              SizedBox(width: Get.width * 0.11),
                               GestureDetector(
                                 onTap: () {
                                   Get.toNamed(Routes.expenses);
@@ -922,31 +993,8 @@ class DashboardView extends GetView<DashboardController> {
                                     Text(
                                       "Expenses",
                                       style: TextStyle(
-                                          fontSize: 16, color: Colors.grey[700]),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: Get.width * 0.11),
-                              GestureDetector(
-                                onTap: () {
-                                     Get.toNamed(Routes.salesReport);
-                                },
-                                child: Column(
-                                  children: [
-                                    Icon(
-                                      Icons.document_scanner_outlined,
-                                      color: MyTheme.appColor,
-                                      size: 30,
-                                    ),
-                                    // Image.asset(
-                                    //   "assets/images/products.png",
-                                    // ),
-                                    SizedBox(height: 5),
-                                    Text(
-                                      "Sales Report",
-                                      style: TextStyle(
-                                          fontSize: 16, color: Colors.grey[700]),
+                                          fontSize: 16,
+                                          color: Colors.grey[700]),
                                     ),
                                   ],
                                 ),

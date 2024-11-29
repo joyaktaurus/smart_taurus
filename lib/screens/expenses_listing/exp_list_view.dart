@@ -12,6 +12,16 @@ import 'exp_list_controller.dart';
 class ExpensesListingView extends GetView<ExpenseListingController> {
   const ExpensesListingView({Key? key}) : super(key: key);
 
+  String capitalizeWords(String input) {
+    if (input.isEmpty) return input; // Check if input is empty
+    return input
+        .split(' ') // Split the string into a list of words
+        .map((word) => word.isNotEmpty
+            ? '${word[0].toUpperCase()}${word.substring(1)}'
+            : '') // Capitalize first letter
+        .join(' '); // Join the words back into a single string
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -25,7 +35,10 @@ class ExpensesListingView extends GetView<ExpenseListingController> {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
           leading: IconButton(
-            icon:  Icon(Icons.arrow_back, color: MyTheme.appColor,),
+            icon: Icon(
+              Icons.arrow_back,
+              color: MyTheme.appColor,
+            ),
             onPressed: () {
               Get.back();
             },
@@ -51,8 +64,8 @@ class ExpensesListingView extends GetView<ExpenseListingController> {
           centerTitle: true, // Ensure the title is centered
         ),
         drawer: Drawer(
-          // Add a drawer if needed
-        ),
+            // Add a drawer if needed
+            ),
         body: Column(children: [
           Container(
             height: 0.3, // Height of the grey divider
@@ -68,12 +81,10 @@ class ExpensesListingView extends GetView<ExpenseListingController> {
               ],
             ),
           ),
-
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(bottom: 10.0, top: 15),
-              child:
-              Obx(() {
+              child: Obx(() {
                 bool isLoading = controller.isScreenProgress.value;
                 final orderList = controller.expListData;
 
@@ -81,27 +92,27 @@ class ExpensesListingView extends GetView<ExpenseListingController> {
                   return Center(
                     child: Padding(
                       padding: EdgeInsets.only(top: Get.height * 0.1),
-                      child:
-                      RoundedLoader(), // Replace with your RoundedLoader
+                      child: RoundedLoader(), // Replace with your RoundedLoader
                     ),
                   );
                 } else if (orderList.isEmpty) {
                   return Center(
                     child:
-                    Text('No Orders Found', style: TextStyle(fontSize: 16)),
+                        Text('No Orders Found', style: TextStyle(fontSize: 16)),
                   );
                 } else {
-                  return
-                    ListView.builder(
+                  return ListView.builder(
                     itemCount: controller.expListData.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final expList = controller.expListData[index]; // Get the Order object
+                      final expList =
+                          controller.expListData[index]; // Get the Order object
                       return Container(
                         width: double.infinity,
                         margin: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           color: Colors.white,
+                          border: Border.all(color: Colors.green, width: .5),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.grey.withOpacity(0.3),
@@ -118,51 +129,143 @@ class ExpensesListingView extends GetView<ExpenseListingController> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Travel From : "),
-                                  Text("${controller.expListData[index].travelFrom}")
+                                  Text(
+                                    "Travel Date",
+                                    style: MyTheme.regularTextStyle(
+                                        color: Colors.green[900],
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14),
+                                  ),
+                                  Text(
+                                    "${capitalizeWords(controller.expListData[index].travelDate.toString())}",
+                                    style: MyTheme.regularTextStyle(
+                                      color: Colors.green[900],
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                    ),
+                                  )
                                 ],
                               ),
                               SizedBox(height: Get.height * 0.01),
                               Row(
                                 children: [
-                                  Text("Travel To : "),
-                                  Text("${controller.expListData[index].travelTo}")
+                                  Text(
+                                    "Travel From  : ",
+                                    style: MyTheme.regularTextStyle(
+                                        color: MyTheme.appColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
+                                  ),
+                                  Text(
+                                    "${capitalizeWords(controller.expListData[index].travelFrom.toString())}",
+                                    style: MyTheme.regularTextStyle(
+                                      color: Colors.grey[800],
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                    ),
+                                  )
                                 ],
                               ),
                               SizedBox(height: Get.height * 0.01),
                               Row(
                                 children: [
-                                  Text("Travel Date : "),
-                                  Text("${controller.expListData[index].travelDate}")
+                                  Text("Travel To       : ",
+                                      style: MyTheme.regularTextStyle(
+                                          color: MyTheme.appColor,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14)),
+                                  Text(
+                                    "${capitalizeWords(controller.expListData[index].travelTo.toString())}",
+                                    style: MyTheme.regularTextStyle(
+                                      color: Colors.grey[800],
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                    ),
+                                  )
                                 ],
                               ),
                               SizedBox(height: Get.height * 0.01),
                               Row(
                                 children: [
-                                  Text("Travel Type : "),
-                                  Text("${controller.expListData[index].travelType}")
+                                  Text(
+                                    "Travel Type   : ",
+                                    style: MyTheme.regularTextStyle(
+                                        color: MyTheme.appColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
+                                  ),
+                                  Text(
+                                    "${capitalizeWords(controller.expListData[index].travelType.toString())}",
+                                    style: MyTheme.regularTextStyle(
+                                      color: Colors.grey[800],
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                    ),
+                                  )
                                 ],
                               ),
                               SizedBox(height: Get.height * 0.01),
                               Row(
                                 children: [
-                                  Text("Purpose : "),
-                                  Text("${controller.expListData[index].purpose}")
+                                  Text(
+                                    "Purpose         : ",
+                                    style: MyTheme.regularTextStyle(
+                                        color: MyTheme.appColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
+                                  ),
+                                  Text(
+                                    "${capitalizeWords(controller.expListData[index].purpose.toString())}",
+                                    style: MyTheme.regularTextStyle(
+                                      color: Colors.grey[800],
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                    ),
+                                  )
                                 ],
                               ),
                               SizedBox(height: Get.height * 0.01),
                               Row(
                                 children: [
-                                  Text("Amount : "),
-                                  Text("${controller.expListData[index].amount}")
+                                  Text(
+                                    "Other Expenses : ",
+                                    style: MyTheme.regularTextStyle(
+                                        color: MyTheme.appColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
+                                  ),
+                                  Text(
+                                    "${capitalizeWords(controller.expListData[index].otherExpenses.toString())}",
+                                    style: MyTheme.regularTextStyle(
+                                      color: Colors.grey[800],
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14,
+                                    ),
+                                  )
                                 ],
                               ),
                               SizedBox(height: Get.height * 0.01),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("Other Expenses : "),
-                                  Text("${controller.expListData[index].otherExpenses}")
+                                  Text(
+                                    "Amount : ",
+                                    style: MyTheme.regularTextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14),
+                                  ),
+                                  Text(
+                                    "${capitalizeWords(controller.expListData[index].amount.toString())}",
+                                    style: MyTheme.regularTextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                    ),
+                                  )
                                 ],
                               ),
                             ],
